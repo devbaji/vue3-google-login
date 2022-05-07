@@ -44,7 +44,16 @@ export const data = {
       ]
     }
   ],
-  "git": {},
+  "git": {
+    "updatedTime": 1651905543000,
+    "contributors": [
+      {
+        "name": "Ananthakrishnan",
+        "email": "ananthakrishnan.b7@gmail.com",
+        "commits": 1
+      }
+    ]
+  },
   "filePathRelative": "README.md"
 }
 
