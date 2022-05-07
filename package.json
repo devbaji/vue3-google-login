@@ -1,0 +1,39 @@
+{
+  "name": "vue3-google-login",
+  "version": "0.0.6",
+  "description": "Add Sign In With Google feature to your Vue 3 application",
+  "main": "dist/library.js",
+  "files": [
+    "dist/*"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "rollup -c",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.1",
+    "vue": "^3.2.25",
+    "vite": "^2.9.7",
+    "rollup": "^2.72.0",
+    "rollup-plugin-import-css": "^3.0.3",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-vue": "^6.0.0",
+    "vuepress": "^2.0.0-beta.43",
+    "rollup-plugin-terser": "^7.0.2"
+  },
+  "keywords": [
+    "vue",
+    "google",
+    "sign in with google",
+    "google identity",
+    "login",
+    "oauth2",
+    "lightweight",
+    "customizable"
+  ]
+}
