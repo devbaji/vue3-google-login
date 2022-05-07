@@ -1,6 +1,6 @@
 {
   "name": "vue3-google-login",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "Add Sign In With Google feature to your Vue 3 application",
   "main": "dist/library.js",
   "files": [
