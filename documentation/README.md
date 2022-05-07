@@ -63,11 +63,11 @@ const callback = (response) => {
 </template>
 ```
 
->  You can omit `client-id` if it is <a href="#user-content-initialize-the-plugin">initialized in main.js</a>
+>  You can omit `client-id` if it is <a href="#initialize-the-plugin">initialized in main.js</a>
 
 ### Options
 
-These options can be either used at <a href="#user-content-initialize-the-plugin">initializing in main.js</a> or as prop values in <a href="#user-content-googlelogin-component">GoogleLogin component</a>
+These options can be either used at <a href="#initialize-the-plugin">initializing in main.js</a> or as prop values in <a href="#googlelogin-component">GoogleLogin component</a>
 
 | Prop            |  Type   |                                                                                                                                                                                                                    Description |
 | --------------- | :-----: | -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |

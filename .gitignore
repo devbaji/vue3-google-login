@@ -9,7 +9,7 @@ lerna-debug.log*
 
 node_modules
 dist
-documentation
 dist-ssr
 *.local
-docs/.vuepress
+documentation/.vuepress/.cache
+documentation/.vuepress/.temp
