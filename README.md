@@ -59,5 +59,5 @@ const callback = (response) => {
 </template>
 ```
 
-You can omit `client-id` if it is initialized in <a href="#initialization-in-main-js">main.js</a>
+You can omit `client-id` if it is initialized in <a href="#user-content-initialization-in-mainjs">main.js</a>
 
