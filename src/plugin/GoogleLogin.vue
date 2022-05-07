@@ -24,22 +24,22 @@ const props = defineProps({
 
 const options = mergeWithGlobalOptions(props)
 
-const IdConfiguration = {
+const idConfiguration = {
   client_id: options.clientId,
   callback: options.callback,
   ...options.idConfiguration
 }
 
 const buttonId = `g-btn-${uuidv4()}`
-console.log(">>",options);
+
 onMounted(() => {
   if (!window.google) {
     watch(() => state.apiLoaded, (loaded) => {
-      loaded && renderLoginButton(window.google, IdConfiguration, buttonId, options.buttonConfig, options.prompt, hasSlot)
+      loaded && renderLoginButton(window.google, idConfiguration, buttonId, options.buttonConfig, options.prompt, hasSlot)
     }
     )
   } else {
-    renderLoginButton(window.google, IdConfiguration, buttonId, options.buttonConfig, options.prompt, hasSlot)
+    renderLoginButton(window.google, idConfiguration, buttonId, options.buttonConfig, options.prompt, hasSlot)
   }
 })
 </script>

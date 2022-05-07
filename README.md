@@ -45,7 +45,7 @@ app.use(vue3GoogleLogin, {
 app.mount('#app')
 ```
 
-### Using GoogleLogin component
+### GoogleLogin component
 
 ```vue
 <script setup>
@@ -55,9 +55,9 @@ const callback = (response) => {
 </script>
 
 <template>
-  <GoogleLoginVue client-id="YOUR_GOOGLE_CLIENT_ID" :callback="callback"/>
+  <GoogleLogin client-id="YOUR_GOOGLE_CLIENT_ID" :callback="callback"/>
 </template>
 ```
 
-You can omit `client-id` if it is initialized in <a href="#user-content-initialization-in-mainjs">main.js</a>
+:information_source: You can omit `client-id` if it is initialized in <a href="#user-content-initialization-in-main-js">main.js</a>
 

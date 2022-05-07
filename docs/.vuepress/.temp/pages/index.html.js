@@ -37,8 +37,14 @@ export const data = {
         },
         {
           "level": 3,
-          "title": "Using GoogleLogin component",
-          "slug": "using-googlelogin-component",
+          "title": "GoogleLogin component",
+          "slug": "googlelogin-component",
+          "children": []
+        },
+        {
+          "level": 3,
+          "title": "Options",
+          "slug": "options",
           "children": []
         }
       ]

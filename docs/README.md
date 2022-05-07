@@ -45,7 +45,7 @@ app.use(vue3GoogleLogin, {
 app.mount('#app')
 ```
 
-### Using GoogleLogin component
+### GoogleLogin component
 
 ```vue
 <script setup>
@@ -55,9 +55,18 @@ const callback = (response) => {
 </script>
 
 <template>
-  <GoogleLoginVue client-id="YOUR_GOOGLE_CLIENT_ID" :callback="callback"/>
+  <GoogleLogin client-id="YOUR_GOOGLE_CLIENT_ID" :callback="callback"/>
 </template>
 ```
 
-You can omit `client-id` if it is initialized in <a href="#initialization-in-main-js">main.js</a>
+>  You can omit `client-id` if it is <a href="#initialization-in-main-js">initialized in main.js</a>
 
+### Options
+
+These options can be either used at <a href="#initialization-in-main-js">initializing in main.js</a> or as prop values in <a href="#googlelogin-component">GoogleLogin component</a>
+
+| Prop          |   Type   |                                    Description |
+| ------------- | :------: | ---------------------------------------------: |
+| clientId      |  String  |                           Google API client ID |
+| prompt        | Boolean  | Set this to true to display the One Tap prompt |
+| idConfiguration | are neat |                                             $1 |

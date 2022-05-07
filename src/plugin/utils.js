@@ -16,8 +16,9 @@ export const uuidv4 = () => {
   );
 }
 
-export const renderLoginButton = (google, IdConfiguration, buttonId, buttonConfig, prompt = false, hasSlot) => {
-  google.accounts.id.initialize(IdConfiguration);
+export const renderLoginButton = (google, idConfiguration, buttonId, buttonConfig, prompt = false, hasSlot) => {idConfiguration
+  console.log(idConfiguration);
+  google.accounts.id.initialize(idConfiguration);
   !hasSlot && google.accounts.id.renderButton(
     document.getElementById(buttonId),
     buttonConfig
@@ -33,14 +34,14 @@ export const openPopup = (props) => {
         client_id: props.clientId || state.clientId,
         scope: 'email profile',
         ux_mode: 'popup',
-        callback: props.callback,
+        ...props
       }).requestCode()
     } else {
       window.google.accounts.oauth2.initTokenClient({
         client_id: props.clientId || state.clientId,
         scope: 'email profile',
         ux_mode: 'popup',
-        callback: props.callback,
+        ...props
       }).requestAccessToken()
     }
   }
@@ -59,12 +60,13 @@ export const mergeWithGlobalOptions = (props) => {
 
 export const initOptions = (options) => {
   if (options.clientId) {
-    const IdConfiguration = {
+    const idConfiguration = {
       client_id: options.clientId,
       callback: options.callback,
       ...options.idConfiguration
     }
-    google.accounts.id.initialize(IdConfiguration)
+    console.log(idConfiguration);
+    google.accounts.id.initialize(idConfiguration)
     options.prompt && window.google.accounts.id.prompt()
   }
 }
