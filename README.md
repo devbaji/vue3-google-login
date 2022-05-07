@@ -31,7 +31,7 @@ npm install vue3-google-login
 
 ### Initialize the plugin
 
-Install the vue3-google-login plugin in main.js
+Initialize the vue3-google-login plugin in main.js
 
 ```javascript
 import { createApp } from 'vue'

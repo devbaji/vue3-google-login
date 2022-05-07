@@ -1,10 +1,17 @@
 <script setup>
+import { useLibraryLoaded, gLoginPopup } from './plugin'
+
+const gLibraryLoaded = useLibraryLoaded()
+
 const callback = (response) => {
-  console.log("Server call to handle the", response);
+  console.log("Server call to handle the", response)
+}
+
+const onButtonClick = () => {
+  gLoginPopup({ callback })
 }
 </script>
 
 <template>
-  <GoogleLogin :idConfiguration="{ cancel_on_tap_outside: true }" :prompt="true" :callback="callback">
-  </GoogleLogin>
+  <button @click="onButtonClick" :disabled="!gLibraryLoaded">Login Using Google</button>
 </template>

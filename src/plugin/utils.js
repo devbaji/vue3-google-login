@@ -16,8 +16,7 @@ export const uuidv4 = () => {
   );
 }
 
-export const renderLoginButton = (google, idConfiguration, buttonId, buttonConfig, prompt = false, hasSlot) => {idConfiguration
-  console.log(idConfiguration);
+export const renderLoginButton = (google, idConfiguration, buttonId, buttonConfig, prompt = false, hasSlot) => {  
   google.accounts.id.initialize(idConfiguration);
   !hasSlot && google.accounts.id.renderButton(
     document.getElementById(buttonId),
@@ -65,7 +64,6 @@ export const initOptions = (options) => {
       callback: options.callback,
       ...options.idConfiguration
     }
-    console.log(idConfiguration);
     google.accounts.id.initialize(idConfiguration)
     options.prompt && window.google.accounts.id.prompt()
   }
