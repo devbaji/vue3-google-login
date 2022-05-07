@@ -9,8 +9,8 @@
   "scripts": {
     "dev": "vite",
     "build": "rollup -c",
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:dev": "vuepress dev documentation",
+    "docs:build": "vuepress build documentation"
   },
   "peerDependencies": {
     "vue": "^3.0.3"
