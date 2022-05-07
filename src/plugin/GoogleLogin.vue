@@ -17,6 +17,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  autoLogin: {
+    type: Boolean,
+    default: false
+  },
   idConfiguration: Object,
   buttonConfig: Object,
   callback: Function
@@ -26,6 +30,7 @@ const options = mergeWithGlobalOptions(props)
 
 const idConfiguration = {
   client_id: options.clientId,
+  auto_select: options.autoLogin,
   callback: options.callback,
   ...options.idConfiguration
 }

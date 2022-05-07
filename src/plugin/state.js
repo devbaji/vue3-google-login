@@ -6,6 +6,7 @@ const state = reactive({
   clientId: null,
   popupType: 'code',
   prompt: false,
+  autoLogin: false,
   idConfiguration: null,
   buttonConfig: config.defaultButtonConfig,
   callback: null
@@ -17,6 +18,7 @@ export const setState = (options) => {
   options.clientId && (state.clientId = options.clientId)
   options.popupType && (state.popupType = options.popupType)
   options.prompt != undefined && (state.prompt = options.prompt)
+  options.autoLogin != undefined && (state.autoLogin = options.autoLogin)
   options.idConfiguration && (state.idConfiguration = options.idConfiguration)
   options.buttonConfig && (state.buttonConfig = options.buttonConfig)
   options.callback && (state.callback = options.callback)

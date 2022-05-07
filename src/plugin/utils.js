@@ -51,6 +51,7 @@ export const mergeWithGlobalOptions = (props) => {
   props.clientId || (mergedOptions.clientId = state.clientId)
   props.popupType || (mergedOptions.popupType = state.popupType)
   props.prompt || (mergedOptions.prompt = state.prompt)
+  props.autoLogin || (mergedOptions.autoLogin = state.autoLogin)
   props.idConfiguration || (mergedOptions.idConfiguration = state.idConfiguration)
   props.buttonConfig || (mergedOptions.buttonConfig = state.buttonConfig)
   props.callback || (mergedOptions.callback = state.callback)
@@ -61,6 +62,7 @@ export const initOptions = (options) => {
   if (options.clientId) {
     const idConfiguration = {
       client_id: options.clientId,
+      auto_select: options.autoLogin === true,
       callback: options.callback,
       ...options.idConfiguration
     }

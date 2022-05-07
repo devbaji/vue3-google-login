@@ -1,10 +1,18 @@
-# How to use
+# Vue 3 Google Login
 
 This plugin helps you to add Sign In With Google feature to your Vue 3 application
+
 <p>
-  <a href="https://npm-stat.com/charts.html?package=vue3-google-login"><img src="https://img.shields.io/npm/dm/vue3-google-login.svg" alt="npm"/></a>&nbsp;
-  <a href="https://www.npmjs.com/package/vue3-google-login"><img src="https://img.shields.io/npm/v/vue3-google-login.svg" alt="npm"/></a>
+  <a href="https://npm-stat.com/charts.html?package=vue3-google-login" target="_blank">
+    <img src="https://img.shields.io/npm/dm/vue3-google-login.svg" alt="npm"/></a>&nbsp;
+  <a href="https://www.npmjs.com/package/vue3-google-login" target="_blank">
+    <img src="https://img.shields.io/npm/v/vue3-google-login.svg" alt="npm"/>
+  </a>
 </p>
+
+<!-- ## Documentation
+
+<a href="https://yobaji.github.io/vue3-google-login/" target="_blank">https://yobaji.github.io/vue3-google-login/</a> -->
 
 ## Overview
 
@@ -14,6 +22,7 @@ This allows you to implement the following features
 
 - Sign in with Google button
 - Sign in using One Tap prompt
+- Automatic Sign in without any user interaction
 - Sign in with Google using a custom button
 
 ## Prerequisites
@@ -58,7 +67,7 @@ Once the plugin is installed you can use the component `GoogleLogin` anywhere in
 const callback = (response) => {
   /* This callback will be triggered when user selects or login to
      his google account from the popup */
-  console.log("Server call to handle the response", response)
+  console.log("Handle the response", response)
 }
 </script>
 
@@ -77,7 +86,7 @@ Here is an image showing sign in button rendered by google
 
 ### One Tap prompt
 
-For this feature set the prop `prompt` to true, this will open a prompt on page load with the list of logged in google accounts of the user, now user can just tap on these accounts to easily login to our application
+For this feature set the prop `prompt` to true, this will open a prompt with the list of logged in google accounts of the user, now user can just tap on his prefered account to easily login to our application
 
 ```vue
 <script setup>
@@ -85,7 +94,7 @@ const callback = (response) => {
   // This callback will be triggered when user click on the One Tap prompt
   /* This callback will be also triggered when user click on login button and selects or login to
      his google account from the popup */
-  console.log("Server call to handle the response", response)
+  console.log("Handle the response", response)
 }
 </script>
 
@@ -95,9 +104,34 @@ const callback = (response) => {
 ```
 
 Here is an image showing One Tap prompt 
+
 <p align="center">
   <img 
-    src="/images/one-tap-prompt.png"
+    src="/images/one-tap-prompt.gif"
+  >
+</p>
+
+### Automatic Login
+For this feature set the prop `autoLogin` to true, this will automatically detects whether only one google account is logged in, if yes then prompt will automatically log in and will trigger the callback without any user interactions, to make this work `prompt` must be set to true
+
+```vue
+<script setup>
+const callback = (response) => {
+  // This callback will be triggered automatically if only one google account is logged in
+  console.log("Handle the response", response)
+}
+</script>
+
+<template>
+  <GoogleLogin client-id="YOUR_GOOGLE_CLIENT_ID" :callback="callback" :prompt="true" :autoLogin="true"/>
+</template>
+```
+
+Here is an image showing the prompt automatically detects the logged in Google account and logs in automatically
+
+<p align="center">
+  <img 
+    src="/images/auto-login.gif"
   >
 </p>
 
@@ -105,18 +139,19 @@ Here is an image showing One Tap prompt
 
 These options can be either used at <a href="#initialize-the-plugin">initializing in main.js</a> or as prop values in <a href="#googlelogin-component">GoogleLogin component</a>
 
-| Prop            |   Type   |                                                                                                                                                                                                                        Description |
-| --------------- | :------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| clientId        |  String  |                                                                                                                                                                                                               Google API client ID |
-| prompt          | Boolean  |                                                                                                                                                                                     Set this to true to display the One Tap prompt |
-| callback        | Function |                                                                                                                                     The callback function which will be trigger with a response object once the login is completed |
-| idConfiguration |  Object  |     IdConfiguration object for initializing, <a href="https://developers.google.com/identity/gsi/web/reference/js-reference#IdConfiguration" target="_blank"> see list of  fields and descriptions of the IdConfiguration here</a> |
-| buttonConfig    |  Object  | Configuration of the login button rendered by google, <a href="https://developers.google.com/identity/gsi/web/reference/js-reference#GsiButtonConfiguration">see list of  fields and descriptions of these configurations here</a> |
+| Prop            |   Type   |                                                                                                                                                                                                                                                                                                                                                               Description |
+| --------------- | :------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| clientId        |  String  |                                                                                                                                                                                                                                                                                                                                                      Google API client ID |
+| prompt          | Boolean  |                                                       Set this to true to display the One Tap prompt<br/><br/>Setting this value as a prop of <a href="#googlelogin-component">GoogleLogin component</a> will be ignored if this is set as option on <a href="#initialize-the-plugin">initializing the plugin</a> |
+| autoLogin       | Boolean  | Setting this value to true will make the prompt to automatically log in without any user interactions<br/><br/>For this to work `prompt` must be set to true<br/><br/>Setting this value as a prop of <a href="#googlelogin-component">GoogleLogin component</a> will be ignored if this is set as option on <a href="#initialize-the-plugin">initializing the plugin</a> |
+| callback        | Function |                                                                                                                                                                                                                                                                            The callback function which will be trigger with a response object once the login is completed |
+| idConfiguration |  Object  |                                                                                                                                            IdConfiguration object for initializing, <a href="https://developers.google.com/identity/gsi/web/reference/js-reference#IdConfiguration" target="_blank"> see list of  fields and descriptions of the IdConfiguration here</a> |
+| buttonConfig    |  Object  |                                                                                                                                        Configuration of the login button rendered by Google, <a href="https://developers.google.com/identity/gsi/web/reference/js-reference#GsiButtonConfiguration" target="_blank">see list of  fields and descriptions of these configurations here</a> |
 
 
 ## Custom Sign In Button
 
-Some times you may not need the default button rendered by google, you can create your own button and can make it behave like a login with Google button
+Some times you may not need the default button rendered by Google, you can create your own button and can make it behave like a login with Google button
 
 Here is an image showing how a custom button opens the Google login popup 
 <p align="center">
@@ -134,7 +169,7 @@ Create your own button component and wrap it around <a href="#googlelogin-compon
 ```vue
 <script setup>
 const callback = (response) => {
-  console.log("Server call to handle the response", response)
+  console.log("Handle the response", response)
 }
 </script>
 
@@ -156,7 +191,7 @@ import { useLibraryLoaded, gLoginPopup } from 'vue3-google-login'
 const gLibraryLoaded = useLibraryLoaded()
 
 const callback = (response) => {
-  console.log("Server call to handle the", response)
+  console.log("Handle the", response)
 }
 
 const onButtonClick = () => {
