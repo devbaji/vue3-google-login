@@ -167,7 +167,7 @@ Here is an image showing how a custom button opens the Google login popup
 This can be done in two ways
 
 
->  :warning: For custom buttons this plugin use `google.accounts.oauth2.initTokenClient` under the hoods which gives an <a href="https://developers.google.com/identity/oauth2/web/guides/use-code-model#auth_code_handling" target="_blank">OAuth2 authorization code</a> in the callback response, but Google rendered login button and One Tap prompt gives a <a href="https://developers.google.com/identity/gsi/web/reference/js-reference#CredentialResponse" target="_blank">CredentialResponse</a> with a JWT credential field, so if you are using a combination of these, validating your callback response on server-side ca be a little tricky, this is more explained <a href="#user-content-server-side-validation">here</a>
+>  :warning: For custom buttons this plugin use `google.accounts.oauth2.initTokenClient` under the hoods which gives an <a href="https://developers.google.com/identity/oauth2/web/guides/use-code-model#auth_code_handling" target="_blank">OAuth2 authorization code</a> in the callback response, but Google rendered login button and One Tap prompt gives a <a href="https://developers.google.com/identity/gsi/web/reference/js-reference#CredentialResponse" target="_blank">CredentialResponse</a> with a JWT credential field, so if you are using a combination of these, validating your callback response on server-side can be a little tricky, this is more explained <a href="#user-content-server-side-validation">here</a>
 
 ### Wrap around GoogleLogin
 
