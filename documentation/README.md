@@ -4,10 +4,14 @@ This plugin helps you to add Login With Google feature to your Vue 3 application
 
 <p>
   <a href="https://npm-stat.com/charts.html?package=vue3-google-login" target="_blank">
-    <img src="https://img.shields.io/npm/dm/vue3-google-login.svg" alt="npm"/></a>&nbsp;
+    <img src="https://img.shields.io/npm/dm/vue3-google-login.svg" alt="npm"/>
+  </a>&nbsp;
   <a href="https://www.npmjs.com/package/vue3-google-login" target="_blank">
     <img src="https://img.shields.io/npm/v/vue3-google-login.svg" alt="npm"/>
-  </a>
+  </a>&nbsp;
+  <a href="https://bundlephobia.com/package/vue3-google-login" target="_blank">
+    <img src="https://img.shields.io/bundlephobia/minzip/vue3-google-login.svg" alt="npm"/>
+  </a>&nbsp;
 </p>
 
 <!-- ## Documentation
