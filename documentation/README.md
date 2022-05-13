@@ -1,7 +1,5 @@
 # Vue 3 Google Login Docs
 
-This plugin helps you to add Login With Google feature to your Vue 3 application
-
 <p>
   <a href="https://npm-stat.com/charts.html?package=vue3-google-login" target="_blank">
     <img src="https://img.shields.io/npm/dm/vue3-google-login.svg" alt="npm"/>
@@ -18,9 +16,12 @@ This plugin helps you to add Login With Google feature to your Vue 3 application
 
 <a href="https://yobaji.github.io/vue3-google-login/" target="_blank">https://yobaji.github.io/vue3-google-login/</a> -->
 
+This plugin helps you to add Login With Google feature to your Vue 3 application
+
+
 ## Overview
 
-This is a lightweigh plugin for implementing log-in and sign-up flows using <a href="https://developers.google.com/identity/oauth2/web" target="_blank"> Google Identity Services</a> with the help of <a href="https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library" target="_blank">Google 3P Authorization JavaScript Library</a>
+This is a lightweigh plugin for implementing log-in and sign-up flows using [Google Identity Services](https://developers.google.com/identity/oauth2/web) with the help of [Google 3P Authorization JavaScript Library](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library)
 
 This allows you to implement the following features
 
@@ -32,7 +33,7 @@ This allows you to implement the following features
 ## Prerequisites
 
 - This plugin needs vue version 3.0.3 or above to work properly
-- To enable Login With Google on your website, you first need to set up your Google API client ID. To do so, <a href="https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid" target="_blank">follow these steps</a>
+- To enable Login With Google on your website, you first need to set up your Google API client ID. To do so, [follow these steps](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid)
 
 ## Basic Setup
 
@@ -80,7 +81,7 @@ const callback = (response) => {
 </template>
 ```
 
->  :information_source: You can omit `client-id` prop if it is <a href="#initialize-the-plugin">initialized in main.js</a>
+>  :information_source: You can omit `client-id` prop if it is [initialized in main.js](#initialize-the-plugin)
 
 Here is an image showing log in button rendered by google
 <p align="center">
@@ -108,7 +109,7 @@ const callback = (response) => {
 </template>
 ```
 
-> :information_source: If the user closes the One Tap prompt manually, the One Tap prompt is suppressed, see <a href="https://developers.google.com/identity/gsi/web/guides/features#exponential_cooldown" target="_blank">here</a> for more info
+> :information_source: If the user closes the One Tap prompt manually, the One Tap prompt is suppressed, see [here](https://developers.google.com/identity/gsi/web/guides/features#exponential_cooldown) for more info
 
 
 Here is an image showing One Tap prompt 
@@ -167,16 +168,16 @@ const callback = (response) => {
 
 ### Options
 
-These options can be either used at <a href="#initialize-the-plugin">initializing in main.js</a> or as prop values in <a href="#googlelogin-component">GoogleLogin component</a>
+These options can be either used at [initializing in main.js](#initialize-the-plugin) or as prop values in [GoogleLogin component](#googlelogin-component)
 
-| Prop            |   Type   |                                                                                                                                                                                                                                                                                                                                                               Description |
-| --------------- | :------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| clientId        |  String  |                                                                                                                                                                                                                                                                                                                                                      Google API client ID |
-| prompt          | Boolean  |                                                       Set this to true to display the One Tap prompt<br/><br/>Setting this value as a prop of <a href="#googlelogin-component">GoogleLogin component</a> will be ignored if this is set as option on <a href="#initialize-the-plugin">initializing the plugin</a> |
-| autoLogin       | Boolean  | Setting this value to true will make the prompt to automatically log in without any user interactions<br/><br/>For this to work `prompt` must be set to true<br/><br/>Setting this value as a prop of <a href="#googlelogin-component">GoogleLogin component</a> will be ignored if this is set as option on <a href="#initialize-the-plugin">initializing the plugin</a> |
-| callback        | Function |                                                                                                                                                                                                                                                                            The callback function which will be trigger with a response object once the login is completed |
-| idConfiguration |  Object  |                                                                                                                                            IdConfiguration object for initializing, <a href="https://developers.google.com/identity/gsi/web/reference/js-reference#IdConfiguration" target="_blank"> see list of  fields and descriptions of the IdConfiguration here</a> |
-| buttonConfig    |  Object  |                                                                                                                                        Configuration of the login button rendered by Google, <a href="https://developers.google.com/identity/gsi/web/reference/js-reference#GsiButtonConfiguration" target="_blank">see list of  fields and descriptions of these configurations here</a> |
+| Prop            |   Type   | Description                                                                                                                                                                                                                                                                                                                                         |
+| --------------- | :------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| clientId        |  String  | Google API client ID                                                                                                                                                                                                                                                                                                                                |
+| prompt          | Boolean  | Set this to true to display the One Tap prompt<br/><br/>Setting this value as a prop of [GoogleLogin component](#googlelogin-component) will be ignored if this is set as option on [initializing the plugin](#initialize-the-plugin)                                                                                                               |
+| autoLogin       | Boolean  | Setting this value to true will make the prompt to automatically log in without any user interactions<br/><br/>For this to work `prompt` must be set to true<br/><br/>Setting this value as a prop of [GoogleLogin component](#googlelogin-component) will be ignored if this is set as option on [initializing the plugin](#initialize-the-plugin) |
+| callback        | Function | The callback function which will be trigger with a response object once the login is completed                                                                                                                                                                                                                                                      |
+| idConfiguration |  Object  | IdConfiguration object for initializing, see list of  fields and descriptions of the IdConfiguration [here](https://developers.google.com/identity/gsi/web/reference/js-reference#IdConfiguration)                                                                                                                       |
+| buttonConfig    |  Object  | Configuration of the login button rendered by Google, see list of  fields and descriptions of these configurations [here](https://developers.google.com/identity/gsi/web/reference/js-reference#GsiButtonConfiguration)                                                                                                  |
 
 
 ## Custom Login Button
@@ -193,11 +194,11 @@ Here is an image showing how a custom button opens the Google login popup
 This can be done in two ways
 
 
->  :warning: For custom buttons this plugin use `google.accounts.oauth2.initTokenClient` under the hoods which gives an <a href="https://developers.google.com/identity/oauth2/web/guides/use-code-model#auth_code_handling" target="_blank">OAuth2 authorization code</a> in the callback response, but Google rendered login button and One Tap prompt gives a <a href="https://developers.google.com/identity/gsi/web/reference/js-reference#CredentialResponse" target="_blank">CredentialResponse</a> with a JWT credential field, so if you are using a combination of these, validating your callback response on server-side can be a little tricky, this is more explained <a href="#server-side-validation">here</a>
+>  :warning: For custom buttons this plugin use `google.accounts.oauth2.initTokenClient` under the hoods which gives an [OAuth2 authorization code](https://developers.google.com/identity/oauth2/web/guides/use-code-model#auth_code_handling) in the callback response, but Google rendered login button and One Tap prompt gives a [CredentialResponse](https://developers.google.com/identity/gsi/web/reference/js-reference#CredentialResponse) with a JWT credential field, so if you are using a combination of these, validating your callback response on server-side can be a little tricky, this is more explained [here](#server-side-validation)
 
 ### Wrap around GoogleLogin
 
-Create your own button component and wrap it around <a href="#googlelogin-component">GoogleLogin component</a>, default slot content of this component is considered as a custom login button and it will act as a login with Google button 
+Create your own button component and wrap it around [GoogleLogin component](#googlelogin-component), default slot content of this component is considered as a custom login button and it will act as a login with Google button 
 
 ```vue
 <script setup>
@@ -215,7 +216,7 @@ const callback = (response) => {
 
 ### gLoginPopup function
 
-You can use `gLoginPopup` function to dynamically trigger the opening of login popup, also you can use `useLibraryLoaded`  composable function get a boolean state showing whether the <a href="https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library" target="_blank">Google 3P Authorization JavaScript Library</a> is loaded or not
+You can use `gLoginPopup` function to dynamically trigger the opening of login popup, also you can use `useLibraryLoaded`  composable function get a boolean state showing whether the [Google 3P Authorization JavaScript Library](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library) is loaded or not
 
 ```vue
 <script setup>
@@ -239,7 +240,7 @@ const onButtonClick = () => {
 
 ### Sign-In JavaScript API
 
-Once the <a href="https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library" target="_blank">Google 3P Authorization JavaScript Library</a> is loaded, Sign-In JavaScript API will be available in window scope and it can be accessed using `window.google`, see <a href="https://developers.google.com/identity/gsi/web/reference/js-reference" target="_blank">Sign-In JavaScript API</a> and <a href="https://developers.google.com/identity/oauth2/web/guides/use-token-model" target="_blank">Token model</a> for more info on Sign-In JavaScript API
+Once the [Google 3P Authorization JavaScript Library](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library) is loaded, Sign-In JavaScript API will be available in window scope and it can be accessed using `window.google`, see [Sign-In JavaScript API](https://developers.google.com/identity/gsi/web/reference/js-reference) and [Token model](https://developers.google.com/identity/oauth2/web/guides/use-token-model) for more info on Sign-In JavaScript API
 
 Here is how we can use this Sign-In JavaScript API to create a custom login button
 
@@ -275,7 +276,7 @@ Once the callback is triggered you need to validate the callback response using 
 
 ### Google rendered login button/One Tap prompts
 
-Callback will be triggered with a <a href="https://developers.google.com/identity/gsi/web/reference/js-reference#CredentialResponse" target="_blank">CredentialResponse</a> with a JWT credential string
+Callback will be triggered with a [CredentialResponse](https://developers.google.com/identity/gsi/web/reference/js-reference#CredentialResponse) with a JWT credential string
 
 Here is a sample Node.js code snippet for validating the JWT credential string
 
@@ -301,7 +302,7 @@ verifyCredentials('JWT_CREDENTIAL_STRING_FROM_CLIENT_SIDE').then((userInfo) => {
 
 ### Custom Login Button
 
-Callback will be triggered with a response containing an <a href="https://developers.google.com/identity/oauth2/web/guides/use-code-model#auth_code_handling" target="_blank">OAuth2 authorization code</a>
+Callback will be triggered with a response containing an [OAuth2 authorization code](https://developers.google.com/identity/oauth2/web/guides/use-code-model#auth_code_handling)
 
 Here is a sample Node.js code snippet for validating the OAuth2 authorization code
 
