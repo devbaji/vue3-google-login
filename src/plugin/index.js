@@ -1,9 +1,11 @@
 import { ref, watch } from 'vue'
 import GoogleLogin from './GoogleLogin.vue'
 import state, { setState } from './state'
-import { loadGApi, initOptions, openPopup } from './utils'
+import { loadGApi, initOptions, openPopup, parseJwt } from './utils'
 
 export const gLoginPopup = openPopup
+
+export const decodeCredential = parseJwt
 
 export const useLibraryLoaded = () => {
   const loaded = ref(false)

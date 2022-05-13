@@ -143,6 +143,28 @@ Here is an image showing the prompt automatically detects the logged in Google a
   >
 </p>
 
+### Get User Data
+
+In the triggered callback after login you will get a JWT credential string which can be decoded using decodeCredential function to retrive users basic data
+
+```vue
+<script setup>
+import { decodeCredential } from 'vue3-google-login'
+const callback = (response) => {
+  // decodeCredential will retrive the JWT payload from the credential
+  const userData = decodeCredential(response.credential)
+  console.log("Handle the userData", userData)
+}
+</script>
+
+<template>
+  <GoogleLogin :callback="callback" :prompt="true" :autoLogin="true"/>
+</template>
+```
+
+> :warning: You cannot use decodeCredential function to retrive user data when you are using [Custom Login Button](#custom-login-button), because it doesn't give a JWT credential, instead it gives an authorization code, [see here for more info](#combination-of-one-tap-prompt-and-custom-button)
+
+
 ### Options
 
 These options can be either used at <a href="#initialize-the-plugin">initializing in main.js</a> or as prop values in <a href="#googlelogin-component">GoogleLogin component</a>
