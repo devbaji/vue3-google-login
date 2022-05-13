@@ -86,7 +86,7 @@ const callback = (response) => {
 Here is an image showing log in button rendered by google
 <p align="center">
   <img 
-    src="/images/google-rendered-button.png"
+    src="https://yobaji.github.io/vue3-google-login/images/google-rendered-button.png"
   >
 </p>
 
@@ -116,7 +116,7 @@ Here is an image showing One Tap prompt
 
 <p align="center">
   <img 
-    src="/images/one-tap-prompt.gif"
+    src="https://yobaji.github.io/vue3-google-login/images/one-tap-prompt.gif"
   >
 </p>
 
@@ -140,7 +140,7 @@ Here is an image showing the prompt automatically detects the logged in Google a
 
 <p align="center">
   <img 
-    src="/images/auto-login.gif"
+    src="https://yobaji.github.io/vue3-google-login/images/auto-login.gif"
   >
 </p>
 
@@ -188,7 +188,7 @@ Here is an image showing how a custom button opens the Google login popup
 <p align="center">
   <img 
     width="300"
-    src="/images/custom-login-button.gif"
+    src="https://yobaji.github.io/vue3-google-login/images/custom-login-button.gif"
   >
 </p>
 This can be done in two ways
