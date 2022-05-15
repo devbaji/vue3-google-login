@@ -1,4 +1,4 @@
-import { App, Ref, ref, watch } from "vue";
+import { App, Ref, ref, watch, Component } from "vue";
 import * as types from "./types";
 import * as utils from "./utils";
 import { setState, libraryState } from "./state";
@@ -12,7 +12,7 @@ export const openPrompt = utils.prompt;
 
 export const decodeCredential = utils.parseJwt;
 
-export const GoogleLogin = GoogleLoginComponent;
+export const GoogleLogin: Component = GoogleLoginComponent;
 
 /**
  * A composable function to get a boolean state showing whether the google [client library](https://developers.google.com/identity/gsi/web/guides/client-library) is loaded or not
