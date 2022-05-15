@@ -1,11 +1,12 @@
 {
   "name": "vue3-google-login",
-  "version": "1.0.9",
+  "version": "2.0.0-beta.1",
   "description": "Add Login With Google feature to your Vue 3 application using Google Identity Services",
   "license": "MIT",
   "author": "Ananthakrishnan Baji <ananthakrishnan.b7@gmail.com>",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/*"
   ],

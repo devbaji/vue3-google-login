@@ -8,6 +8,12 @@ export const gLoginPopup = utils.openPopup;
 
 export const decodeCredential = utils.parseJwt;
 
+export const openPrompt = utils.prompt;
+
+/**
+ * A composable function to get a boolean state showing whether the google [client library](https://developers.google.com/identity/gsi/web/guides/client-library) is loaded or not
+ * @returns a boolean state which changes to true once google [client library](https://developers.google.com/identity/gsi/web/guides/client-library) is loaded
+ */
 export const useLibraryLoaded = (): Ref<boolean> => {
   const loaded = ref(false);
   watch(

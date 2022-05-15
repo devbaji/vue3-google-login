@@ -46,6 +46,8 @@ export const loadGApi = new Promise((resolve) => {
     resolve(true);
   });
   script.src = config.library;
+  script.async = true;
+  script.defer = true;
   document.head.appendChild(script);
 });
 
@@ -120,30 +122,102 @@ export const onMount = (
   }
 };
 
-export const openPopup = (options: types.popupOptions): void => {
-  if (!options.clientId) {
+/**
+ * A helper function to trigger login popup using google.accounts.oauth2.initCodeClient and google.accounts.oauth2.initTokenClient functions under the hoods
+ * @param options To see available options check [here](https://developers.google.com/identity/oauth2/web/guides/use-code-model)
+ * @param popupType Popup reponse type, should be either 'code' or 'token'
+ */
+export const openPopup: types.openPopup = (
+  options: types.popupOptions = {},
+  popupType: types.popupTypes = "code"
+) => {
+  if (!options?.clientId && !state?.clientId) {
     throw new Error("clientId is required");
   }
-  const type = options.popupType || 'code';
-  if (window.google) {
-    if (type === 'code') {
+  if (!window.google) {
+    throw new Error(
+      "Client library is not loaded, use useLibraryLoaded composible function to check if it is loaded before calling this function"
+    );
+  }
+
+  if (popupType === "code") {
+    return new Promise((resolve) => {
       window.google.accounts.oauth2
         .initCodeClient({
-          client_id: options.clientId || state.clientId,
+          client_id: options?.clientId || state.clientId,
           scope: "email profile",
           ux_mode: "popup",
-          ...options,
+          callback: (response: types.codePopupResponse) => {
+            options?.callback && options.callback(response);
+            resolve(response);
+          },
         })
         .requestCode();
-    } else {
+    });
+  } else {
+    return new Promise((resolve) => {
       window.google.accounts.oauth2
         .initTokenClient({
-          client_id: options.clientId || state.clientId,
+          client_id: options?.clientId || state.clientId,
           scope: "email profile",
           ux_mode: "popup",
-          ...options,
+          callback: (response: types.tokenPopupResponse) => {
+            options?.callback && options.callback(response);
+            resolve(response);
+          },
         })
         .requestAccessToken();
-    }
+    });
   }
+};
+
+export const prompt = (
+  options: types.promptOptions = {}
+): Promise<types.credentialPopupResponse> => {
+  if (!options?.clientId && !state?.clientId) {
+    throw new Error("clientId is required");
+  }
+  if (!window.google) {
+    throw new Error(
+      "Client library is not loaded, use useLibraryLoaded composible function to check if it is loaded before calling this function"
+    );
+  }
+
+  const initOptions: types.idConfiguration = {};
+  options.clientId && (initOptions.client_id = options.clientId);
+  !options.clientId &&
+    state.clientId &&
+    (initOptions.client_id = state.clientId);
+  options.context && (initOptions.context = options.context);
+  options.autoLogin && (initOptions.auto_select = options.autoLogin);
+  options.cancelOnTapOutside &&
+    (initOptions.cancel_on_tap_outside = options.cancelOnTapOutside);
+
+  return new Promise((resolve, reject) => {
+    initOptions.callback = (response) => {
+      resolve(response);
+    };
+    window.google.accounts.id.initialize(initOptions);
+    window.google.accounts.id.prompt(
+      (notification: types.promptNotification) => {
+        options.onNotification && options.onNotification(notification);
+        if (notification.isNotDisplayed()) {
+          if (notification.getNotDisplayedReason() === "suppressed_by_user") {
+            reject(
+              `Prompt was suppressed by user'. Refer https://developers.google.com/identity/gsi/web/guides/features#exponential_cooldown for more info`
+            );
+          } else {
+            reject(
+              `Prompt was not displayed, reason for not displaying:${notification.getNotDisplayedReason()}, you see more`
+            );
+          }
+        }
+        if (notification.isSkippedMoment()) {
+          reject(
+            `Prompt was skipped, reason for skipping:${notification.getSkippedReason()}, you see more`
+          );
+        }
+      }
+    );
+  });
 };
