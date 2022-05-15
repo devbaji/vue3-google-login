@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import {gLoginPopup} from './plugin'
 const callback = (response: any) => {
   console.log(response);
 };
-
+gLoginPopup({clientId:'ssd'},'code')
 </script>
 
 <template>

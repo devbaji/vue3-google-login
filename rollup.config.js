@@ -11,7 +11,7 @@ export default [
     output: [
       {
         format: "esm",
-        file: "dist/index.mjs",
+        file: "dist/index.esm.js",
         plugins: [terser()],
       },
       {

@@ -9,18 +9,25 @@ const hasSlot: boolean = slots.default ? true : false;
 
 const props = withDefaults(
   defineProps<{
+    /**Your Google API client ID, to create one [follow these steps](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid)*/
     clientId?: types.clientId;
+    /** To show the One-tap and Automatic-Login prompt */
     prompt?: boolean;
+    /** Boolean value showing whether the  google client library is loaded or not */
     autoLogin?: boolean;
+    /** Type of popup, if set to 'code' will give an Auth code in the popup call back and if set to 'token' the popup callback will give as an access token */
     popupType?: types.popupTypes;
-    idConfiguration?: types.idConfiguration | null;
+    /** IdConfiguration object for initializing, see list of fields and descriptions of the IdConfiguration [here](https://developers.google.com/identity/gsi/web/reference/js-reference#IdConfiguration) */
+    idConfiguration?: types.idConfiguration;
+    /** Configuration of the login button rendered by Google, see list of fields and descriptions of these configurations [here](https://developers.google.com/identity/gsi/web/reference/js-reference#GsiButtonConfiguration) */
     buttonConfig?: types.buttonConfig;
+    /** Callback function to triggered on successfull login */
     callback?: types.callback;
   }>(),
   {
     prompt: false,
     autoLogin: false,
-    popupType: 'code',
+    popupType: "code",
   }
 );
 
@@ -41,8 +48,7 @@ onMounted(() => {
 
 const popupOptions: types.popupOptions = {
   clientId: options.clientId || null,
-  popupType: options.popupType,
-  callback: options.callback
+  callback: options.callback,
 };
 </script>
 
@@ -50,7 +56,7 @@ const popupOptions: types.popupOptions = {
   <div
     class="g-btn-wrapper"
     :class="[!state.apiLoaded && 'api-loading']"
-    @click="hasSlot && utils.openPopup(popupOptions)"
+    @click="hasSlot && utils.openPopup(popupOptions, options.popupType || 'code')"
   >
     <span v-if="!hasSlot" :id="buttonId" class="g-btn"></span>
     <slot></slot>
