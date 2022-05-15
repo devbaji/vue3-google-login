@@ -2,7 +2,7 @@
 import { onMounted, useSlots } from "vue";
 import * as types from "./types";
 import * as utils from "./utils";
-import state from "./state";
+import state, { libraryState } from "./state";
 
 const slots = useSlots();
 const hasSlot: boolean = slots.default ? true : false;
@@ -55,8 +55,10 @@ const popupOptions: types.popupOptions = {
 <template>
   <div
     class="g-btn-wrapper"
-    :class="[!state.apiLoaded && 'api-loading']"
-    @click="hasSlot && utils.openPopup(popupOptions, options.popupType || 'code')"
+    :class="[!libraryState.apiLoaded && 'api-loading']"
+    @click="
+      hasSlot && utils.openPopup(popupOptions, options.popupType || 'code')
+    "
   >
     <span v-if="!hasSlot" :id="buttonId" class="g-btn"></span>
     <slot></slot>

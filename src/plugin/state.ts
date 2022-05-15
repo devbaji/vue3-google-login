@@ -3,7 +3,6 @@ import * as types from "./types";
 import config from "./config";
 
 const state: types.options = reactive({
-  apiLoaded: false,
   clientId: null,
   popupType: 'code',
   prompt: false,
@@ -14,6 +13,12 @@ const state: types.options = reactive({
 });
 
 export default state;
+
+export const libraryState: types.libraryState = reactive({
+  apiLoaded: false,
+  apiLoadIntitited: false
+})
+
 
 export const setState = (options: types.options): void => {
   options.clientId && (state.clientId = options.clientId);

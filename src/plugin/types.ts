@@ -7,6 +7,9 @@ export type callback = (response: credentialPopupResponse) => void;
 export type tokenCallback = (response: tokenPopupResponse) => void;
 export type codeCallback = (response: codePopupResponse) => void;
 
+/** Actions to be performed after library is loaded */
+export type actionOnLibraryLoad = (google: google) => void;
+export type libraryLoaded = (action: actionOnLibraryLoad) => void;
 export interface buttonConfig {
   /** The button [type](https://developers.google.com/identity/gsi/web/reference/js-reference#type): icon, or standard button */
   type?: "standard" | "icon";
@@ -76,11 +79,15 @@ export interface options {
   clientId?: clientId;
   prompt?: boolean;
   autoLogin?: boolean;
-  apiLoaded: boolean;
   popupType?: popupTypes;
   idConfiguration: idConfiguration | null;
   buttonConfig: buttonConfig;
   callback: callback;
+}
+
+export interface libraryState {
+  apiLoaded: boolean;
+  apiLoadIntitited: boolean;
 }
 
 export interface popupOptions {
@@ -190,4 +197,208 @@ export interface promptOptions {
   cancelOnTapOutside?: boolean;
   /** A callback triggered on recieving notifications on the prompt UI status  */
   onNotification?: onPromptNotification;
+}
+
+interface TokenClientConfig {
+  /**
+   *  The client ID for your application. You can find this value in the
+   *  [API Console](https://console.cloud.google.com/apis/dashboard)
+   */
+  client_id: clientId;
+
+  /**
+   * A space-delimited list of scopes that identify the resources
+   * that your application could access on the user's behalf.
+   * These values inform the consent screen that Google displays to the user
+   */
+  scope: string;
+
+  /**
+   * Required for popup UX. The JavaScript function name that handles returned code response
+   * The property will be ignored by the redirect UX
+   */
+  callback?: (response: tokenPopupResponse) => void;
+
+  /**
+   * Optional, defaults to 'select_account'. A space-delimited, case-sensitive list of prompts to present the user
+   */
+  prompt?: "" | "none" | "consent" | "select_account";
+
+  /**
+   * 	Optional, defaults to true. If set to false,
+   * [more granular Google Account permissions](https://developers.googleblog.com/2018/10/more-granular-google-account.html)
+   * will be disabled for clients created before 2019. No effect for newer clients,
+   * since more granular permissions is always enabled for them.
+   */
+  enable_serial_consent?: boolean;
+
+  /**
+   * Optional. If your application knows which user should authorize the request,
+   * it can use this property to provide a hint to Google.
+   * The email address for the target user. For more information,
+   * see the [login_hint](https://developers.google.com/identity/protocols/oauth2/openid-connect#authenticationuriparameters) field in the OpenID Connect docs.
+   */
+  hint?: string;
+
+  /**
+   * Optional. If your application knows the Workspace domain the user belongs to,
+   * use this to provide a hint to Google. For more information,
+   * see the [hd](https://developers.google.com/identity/protocols/oauth2/openid-connect#authenticationuriparameters)
+   * field in the OpenID Connect docs.
+   */
+  hosted_domain?: string;
+
+  /**
+   * Optional. Not recommended. Specifies any string value that
+   * your application uses to maintain state between your authorization
+   * request and the authorization server's response.
+   */
+  state?: string;
+}
+
+export interface OverridableTokenClientConfig {
+  /**
+   * Optional. A space-delimited, case-sensitive list of prompts to present the user.
+   */
+  prompt?: string;
+
+  /**
+   * Optional. If set to false,
+   * [more granular Google Account permissions](https://developers.googleblog.com/2018/10/more-granular-google-account.html)
+   * will be disabled for clients created before 2019.
+   * No effect for newer clients, since more granular permissions is always enabled for them.
+   */
+  enable_serial_consent?: boolean;
+
+  /**
+   * Optional. If your application knows which user should authorize the request,
+   * it can use this property to provide a hint to Google.
+   *  The email address for the target user. For more information,
+   * see the [login_hint](https://developers.google.com/identity/protocols/oauth2/openid-connect#authenticationuriparameters) field in the OpenID Connect docs.
+   */
+  hint?: string;
+
+  /**
+   * Optional. Not recommended. Specifies any string value that your
+   * application uses to maintain state between your authorization request
+   * and the authorization server's response.
+   */
+  state?: string;
+}
+
+export interface CodeClientConfig {
+  /**
+   * Required. The client ID for your application. You can find this value in the
+   * [API Console](https://console.developers.google.com/)
+   */
+  client_id: clientId;
+
+  /**
+   * Required. A space-delimited list of scopes that identify
+   * the resources that your application could access on the user's behalf.
+   * These values inform the consent screen that Google displays to the user
+   */
+  scope: string;
+
+  /**
+   * Required for redirect UX. Determines where the API server redirects
+   * the user after the user completes the authorization flow.
+   * The value must exactly match one of the authorized redirect URIs for the OAuth 2.0 client,
+   *  which you configured in the API Console and must conform to our
+   * [Redirect URI validation](https://developers.google.com/identity/protocols/oauth2/web-server#uri-validation) rules. The property will be ignored by the popup UX
+   */
+  redirect_uri?: string;
+
+  /**
+   * Required for popup UX. The JavaScript function name that handles
+   * returned code response. The property will be ignored by the redirect UX
+   */
+  callback?: (codeResponse: codePopupResponse) => void;
+
+  /**
+   * Optional. Recommended for redirect UX. Specifies any string value that
+   *  your application uses to maintain state between your authorization request and the authorization server's response
+   */
+  state?: string;
+
+  /**
+   * Optional, defaults to true. If set to false,
+   * [more granular Google Account permissions](https://developers.googleblog.com/2018/10/more-granular-google-account.html)
+   * will be disabled for clients created before 2019. No effect for newer clients, since
+   * more granular permissions is always enabled for them
+   */
+  enable_serial_consent?: boolean;
+
+  /**
+   * Optional. If your application knows which user should authorize the request,
+   * it can use this property to provide a hint to Google.
+   * The email address for the target user. For more information,
+   * see the [login_hint](https://developers.google.com/identity/protocols/oauth2/openid-connect#authenticationuriparameters) field in the OpenID Connect docs
+   */
+  hint?: string;
+
+  /**
+   * Optional. If your application knows the Workspace domain
+   * the user belongs to, use this to provide a hint to Google.
+   * For more information, see the [hd](https://developers.google.com/identity/protocols/oauth2/openid-connect#authenticationuriparameters) field in the OpenID Connect docs
+   */
+  hosted_domain?: string;
+
+  /**
+   * 	Optional. The UX mode to use for the authorization flow.
+   * By default, it will open the consent flow in a popup. Valid values are popup and redirect
+   */
+  ux_mode?: "popup" | "redirect";
+
+  /**
+   * Optional, defaults to 'false'. Boolean value to prompt the user to select an account
+   */
+  select_account?: boolean;
+}
+
+/** This variable holds an access to google client SDK */
+export interface google {
+    accounts: {
+      id: {
+        initialize: (input: idConfiguration) => void;
+        prompt: Function
+        renderButton: (
+          parent: HTMLElement,
+          options: buttonConfig,
+          clickHandler?: () => void
+        ) => void;
+        disableAutoSelect: () => void;
+        storeCredential: (
+          credential: { id: string; password: string },
+          callback?: () => void
+        ) => void;
+        cancel: () => void;
+        onGoogleLibraryLoad: Function;
+        revoke: (accessToken: string, done: () => void) => void;
+      };
+      oauth2: {
+        initTokenClient: (config: TokenClientConfig) => {
+          requestAccessToken: (
+            overridableClientConfig?: OverridableTokenClientConfig
+          ) => void;
+        };
+        initCodeClient: (config: CodeClientConfig) => {
+          requestCode: () => void;
+        };
+        hasGrantedAnyScope: (
+          tokenRsponse: tokenPopupResponse,
+          firstScope: string,
+          ...restScopes: string[]
+        ) => boolean;
+        hasGrantedAllScopes: (
+          tokenRsponse: tokenPopupResponse,
+          firstScope: string,
+          ...restScopes: string[]
+        ) => boolean;
+        revoke: (accessToken: string, done?: () => void) => void;
+      };
+    };
+  }
+export interface Window {
+  google: google
 }
