@@ -1,12 +1,10 @@
 import { watch } from "vue";
 import config from "./config";
 import * as types from "./types";
-import state from "./state";
+import state, { libraryState } from "./state";
 
 declare global {
-  interface Window {
-    google: any;
-  }
+  interface Window extends types.Window {}
 }
 
 export const uuidv4 = (): string => {
@@ -18,7 +16,7 @@ export const uuidv4 = (): string => {
 };
 
 /**
- *  For retriving the JWT payload from the credential
+ * For retriving the JWT payload from the credential
  * @param token JWT credential string
  * @returns Decoded payload from the JWT credential string
  */
@@ -40,15 +38,19 @@ export const parseJwt = (token: string) => {
   }
 };
 
-export const loadGApi = new Promise((resolve) => {
-  const script = document.createElement("script");
-  script.addEventListener("load", () => {
-    resolve(true);
-  });
-  script.src = config.library;
-  script.async = true;
-  script.defer = true;
-  document.head.appendChild(script);
+export const loadGApi = new Promise<types.google>((resolve) => {
+  if (!libraryState.apiLoadIntitited) {
+    const script = document.createElement("script");
+    libraryState.apiLoadIntitited = true;
+    script.addEventListener("load", () => {
+      libraryState.apiLoaded = true;
+      resolve(window.google);
+    });
+    script.src = config.library;
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+  }
 });
 
 export const initOptions = (options: types.options): void => {
@@ -80,12 +82,33 @@ export const renderLoginButton = (
   hasSlot: boolean
 ) => {
   window.google.accounts.id.initialize(idConfiguration);
-  !hasSlot &&
-    window.google.accounts.id.renderButton(
-      document.getElementById(buttonId),
-      buttonConfig
-    );
+  const button = document.getElementById(buttonId);
+  if (!button) {
+    throw new Error(`Button with id ${buttonId} was not found`);
+  }
+  !hasSlot && window.google.accounts.id.renderButton(button, buttonConfig);
   prompt && window.google.accounts.id.prompt();
+};
+
+/**
+ * A wrapper function which makes sure google Client Library is loaded and then give an access to the SDK api
+ * @param action A function to execute some actions only after google Client Library is loaded
+ */
+export const libraryLoaded: types.libraryLoaded = (action) => {
+  if (!libraryState.apiLoadIntitited) {
+    loadGApi.then((google) => {
+      action(google);
+    });
+  } else if (!libraryState.apiLoaded) {
+    watch(
+      () => libraryState.apiLoaded,
+      (loaded) => {
+        loaded && action(window.google);
+      }
+    );
+  } else {
+    action(window.google);
+  }
 };
 
 export const onMount = (
@@ -97,21 +120,7 @@ export const onMount = (
   if (!idConfiguration?.client_id) {
     throw new Error("A valid Google API client ID must be provided");
   }
-  if (!window.google) {
-    watch(
-      () => state.apiLoaded,
-      (loaded) => {
-        loaded &&
-          renderLoginButton(
-            idConfiguration,
-            buttonId,
-            options.buttonConfig,
-            options.prompt,
-            hasSlot
-          );
-      }
-    );
-  } else {
+  libraryLoaded(() => {
     renderLoginButton(
       idConfiguration,
       buttonId,
@@ -119,7 +128,7 @@ export const onMount = (
       options.prompt,
       hasSlot
     );
-  }
+  });
 };
 
 /**
@@ -131,56 +140,48 @@ export const openPopup: types.openPopup = (
   options: types.popupOptions = {},
   popupType: types.popupTypes = "code"
 ) => {
-  if (!options?.clientId && !state?.clientId) {
-    throw new Error("clientId is required");
-  }
-  if (!window.google) {
-    throw new Error(
-      "Client library is not loaded, use useLibraryLoaded composible function to check if it is loaded before calling this function"
-    );
-  }
-
-  if (popupType === "code") {
-    return new Promise((resolve) => {
-      window.google.accounts.oauth2
-        .initCodeClient({
-          client_id: options?.clientId || state.clientId,
-          scope: "email profile",
-          ux_mode: "popup",
-          callback: (response: types.codePopupResponse) => {
-            options?.callback && options.callback(response);
-            resolve(response);
-          },
-        })
-        .requestCode();
+  return new Promise((resolve) => {
+    libraryLoaded((google) => {
+      if (!options?.clientId && !state?.clientId) {
+        throw new Error("clientId is required");
+      }
+      if (popupType === "code") {
+        google.accounts.oauth2
+          .initCodeClient({
+            client_id: options?.clientId || state.clientId || "",
+            scope: "email profile",
+            ux_mode: "popup",
+            callback: (response: types.codePopupResponse) => {
+              options?.callback && options.callback(response);
+              resolve(response);
+            },
+          })
+          .requestCode();
+      } else {
+        google.accounts.oauth2
+          .initTokenClient({
+            client_id: options?.clientId || state.clientId || "",
+            scope: "email profile",
+            callback: (response: types.tokenPopupResponse) => {
+              options?.callback && options.callback(response);
+              resolve(response);
+            },
+          })
+          .requestAccessToken();
+      }
     });
-  } else {
-    return new Promise((resolve) => {
-      window.google.accounts.oauth2
-        .initTokenClient({
-          client_id: options?.clientId || state.clientId,
-          scope: "email profile",
-          ux_mode: "popup",
-          callback: (response: types.tokenPopupResponse) => {
-            options?.callback && options.callback(response);
-            resolve(response);
-          },
-        })
-        .requestAccessToken();
-    });
-  }
+  });
 };
 
+/**
+ * A function open one-tap and automatic log-in prompt
+ * @returns A promise which get resolved once user login through the popup
+ */
 export const prompt = (
   options: types.promptOptions = {}
 ): Promise<types.credentialPopupResponse> => {
   if (!options?.clientId && !state?.clientId) {
     throw new Error("clientId is required");
-  }
-  if (!window.google) {
-    throw new Error(
-      "Client library is not loaded, use useLibraryLoaded composible function to check if it is loaded before calling this function"
-    );
   }
 
   const initOptions: types.idConfiguration = {};
@@ -197,9 +198,9 @@ export const prompt = (
     initOptions.callback = (response) => {
       resolve(response);
     };
-    window.google.accounts.id.initialize(initOptions);
-    window.google.accounts.id.prompt(
-      (notification: types.promptNotification) => {
+    libraryLoaded((google) => {
+      google.accounts.id.initialize(initOptions);
+      google.accounts.id.prompt((notification: types.promptNotification) => {
         options.onNotification && options.onNotification(notification);
         if (notification.isNotDisplayed()) {
           if (notification.getNotDisplayedReason() === "suppressed_by_user") {
@@ -217,7 +218,7 @@ export const prompt = (
             `Prompt was skipped, reason for skipping:${notification.getSkippedReason()}, you see more`
           );
         }
-      }
-    );
+      });
+    });
   });
 };
