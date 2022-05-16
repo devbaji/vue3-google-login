@@ -46,7 +46,7 @@ onMounted(() => {
   utils.onMount(idConfiguration, buttonId, options, hasSlot);
 });
 
-const popupOptions: types.popupOptions = {
+const popupOptions: types.loginConfig = {
   clientId: options.clientId || null,
   callback: options.callback,
 };
@@ -57,7 +57,7 @@ const popupOptions: types.popupOptions = {
     class="g-btn-wrapper"
     :class="[!libraryState.apiLoaded && 'api-loading']"
     @click="
-      hasSlot && utils.openPopup(popupOptions, options.popupType || 'code')
+      hasSlot && (options.popupType === 'token'? utils.openToken(popupOptions) : utils.openCode(popupOptions) )
     "
   >
     <span v-if="!hasSlot" :id="buttonId" class="g-btn"></span>
