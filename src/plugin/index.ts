@@ -6,11 +6,13 @@ import GoogleLoginComponent from "./GoogleLogin.vue";
 
 export const googleSdkLoaded = utils.libraryLoaded;
 
-export const openCodeLogin = utils.openCode;
+export const googleAuthCodeLogin = utils.openCode;
 
-export const openTokenLogin = utils.openToken;
+export const googleTokenLogin = utils.openToken;
 
-export const openPrompt = utils.prompt;
+export const googleOneTap = utils.prompt;
+
+export const googleLogout = utils.logout;
 
 export const decodeCredential = utils.parseJwt;
 

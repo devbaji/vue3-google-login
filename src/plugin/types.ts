@@ -90,7 +90,7 @@ export interface libraryState {
   apiLoadIntitited: boolean;
 }
 
-export interface popupOptions {
+export interface loginConfig {
   /**Your Google API client ID */
   clientId?: clientId;
   /**Callback to be triggered on user selects account from popup */
@@ -125,7 +125,7 @@ export interface credentialPopupResponse {
   clientId?: string;
   /** JWT credential string */
   credential?: string;
-  /** This field sets how the credential is selected */
+  /** This field shows how the credential is selected */
   select_by?:
     | "auto"
     | "user"
@@ -139,13 +139,13 @@ export interface credentialPopupResponse {
 
 export interface openCode {
   (
-    options: popupOptions
+    options: loginConfig
   ): Promise<codePopupResponse>;
 }
 
 export interface openToken {
   (
-    options: popupOptions
+    options: loginConfig
   ): Promise<tokenPopupResponse>;
 }
 export interface promptNotification {

@@ -198,8 +198,9 @@ export const prompt = (
     state.clientId &&
     (initOptions.client_id = state.clientId);
   options.context && (initOptions.context = options.context);
-  options.autoLogin && (initOptions.auto_select = options.autoLogin);
-  options.cancelOnTapOutside &&
+  options.autoLogin != undefined &&
+    (initOptions.auto_select = options.autoLogin);
+  options.cancelOnTapOutside != undefined &&
     (initOptions.cancel_on_tap_outside = options.cancelOnTapOutside);
 
   return new Promise((resolve, reject) => {
@@ -223,10 +224,19 @@ export const prompt = (
         }
         if (notification.isSkippedMoment()) {
           reject(
-            `Prompt was skipped, reason for skipping:${notification.getSkippedReason()}, you see more`
+            `Prompt was skipped, reason for skipping: ${notification.getSkippedReason()}, you see more`
           );
         }
       });
     });
+  });
+};
+
+/**
+ * This will make user to login and select account again by disabling auto select
+ */
+export const logout = (): void => {
+  libraryLoaded((google) => {
+    google.accounts.id.disableAutoSelect();
   });
 };
