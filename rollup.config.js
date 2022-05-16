@@ -4,6 +4,7 @@ import postcss from "rollup-plugin-postcss";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import { terser } from "rollup-plugin-terser";
 import del from "rollup-plugin-delete";
+import dts from "rollup-plugin-dts";
 
 export default [
   {
@@ -22,19 +23,29 @@ export default [
     ],
     plugins: [
       vue(),
+      peerDepsExternal(),
       typescript({
         check: false,
         tsconfigOverride: {
           compilerOptions: {
-            sourceMap: true,
             declaration: true,
-            declarationMap: true,
           },
         },
       }),
       postcss(),
-      peerDepsExternal(),
       del({ targets: "dist/*" }),
+    ],
+  },
+  {
+    input: "dist/index.d.ts",
+    output: [{ file: "dist/index.d.ts", format: "es" }],
+    plugins: [
+      dts(),
+      del({
+        hook: "buildEnd",
+        targets: ["./dist/**/*.d.ts"],
+        ignore: ["./dist/index.d.ts"],
+      }),
     ],
   },
 ];

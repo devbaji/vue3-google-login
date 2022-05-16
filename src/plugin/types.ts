@@ -93,7 +93,7 @@ export interface libraryState {
 export interface popupOptions {
   /**Your Google API client ID */
   clientId?: clientId;
-  /**Callback to be triggered on user selects accopunt from popup */
+  /**Callback to be triggered on user selects account from popup */
   callback?: Function;
 }
 
@@ -137,14 +137,16 @@ export interface credentialPopupResponse {
     | "btn_confirm_add_session";
 }
 
-type openPopupResponse<T extends popupTypeCode | popupTypeToken> =
-  T extends popupTypeCode ? codePopupResponse : tokenPopupResponse;
+export interface openCode {
+  (
+    options: popupOptions
+  ): Promise<codePopupResponse>;
+}
 
-export interface openPopup {
-  <T extends popupTypeCode | popupTypeToken>(
-    options?: popupOptions,
-    popupType?: T
-  ): Promise<openPopupResponse<T>>;
+export interface openToken {
+  (
+    options: popupOptions
+  ): Promise<tokenPopupResponse>;
 }
 export interface promptNotification {
   /** Is this notification for a display moment? */

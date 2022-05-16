@@ -83,10 +83,9 @@ export const renderLoginButton = (
 ) => {
   window.google.accounts.id.initialize(idConfiguration);
   const button = document.getElementById(buttonId);
-  if (!button) {
-    throw new Error(`Button with id ${buttonId} was not found`);
+  if (button) {
+    !hasSlot && window.google.accounts.id.renderButton(button, buttonConfig);
   }
-  !hasSlot && window.google.accounts.id.renderButton(button, buttonConfig);
   prompt && window.google.accounts.id.prompt();
 };
 
@@ -117,7 +116,7 @@ export const onMount = (
   options: types.options,
   hasSlot: boolean
 ): void => {
-  if (!idConfiguration?.client_id) {
+  if (!idConfiguration.client_id) {
     throw new Error("A valid Google API client ID must be provided");
   }
   libraryLoaded(() => {
@@ -132,55 +131,64 @@ export const onMount = (
 };
 
 /**
- * A helper function to trigger login popup using google.accounts.oauth2.initCodeClient and google.accounts.oauth2.initTokenClient functions under the hoods
+ * A helper function to trigger login popup using google.accounts.oauth2.initCodeClient function under the hoods
  * @param options To see available options check [here](https://developers.google.com/identity/oauth2/web/guides/use-code-model)
- * @param popupType Popup reponse type, should be either 'code' or 'token'
+ * @returns A promise which get resolved with an auth code once user login through the popup
  */
-export const openPopup: types.openPopup = (
-  options: types.popupOptions = {},
-  popupType: types.popupTypes = "code"
-) => {
+export const openCode: types.openCode = (options = {}) => {
   return new Promise((resolve) => {
     libraryLoaded((google) => {
-      if (!options?.clientId && !state?.clientId) {
+      if (!options.clientId && !state.clientId) {
         throw new Error("clientId is required");
       }
-      if (popupType === "code") {
-        google.accounts.oauth2
-          .initCodeClient({
-            client_id: options?.clientId || state.clientId || "",
-            scope: "email profile",
-            ux_mode: "popup",
-            callback: (response: types.codePopupResponse) => {
-              options?.callback && options.callback(response);
-              resolve(response);
-            },
-          })
-          .requestCode();
-      } else {
-        google.accounts.oauth2
-          .initTokenClient({
-            client_id: options?.clientId || state.clientId || "",
-            scope: "email profile",
-            callback: (response: types.tokenPopupResponse) => {
-              options?.callback && options.callback(response);
-              resolve(response);
-            },
-          })
-          .requestAccessToken();
+      google.accounts.oauth2
+        .initCodeClient({
+          client_id: options.clientId || state.clientId || "",
+          scope: "email profile",
+          ux_mode: "popup",
+          callback: (response: types.codePopupResponse) => {
+            options.callback && options.callback(response);
+            resolve(response);
+          },
+        })
+        .requestCode();
+    });
+  });
+};
+
+/**
+ * A helper function to trigger login popup using google.accounts.oauth2.initTokenClient function under the hoods
+ * @param options To see available options check [here](https://developers.google.com/identity/oauth2/web/guides/use-code-model)
+ * @returns A promise which get resolved with an access token once user login through the popup
+ */
+export const openToken: types.openToken = (options = {}) => {
+  return new Promise((resolve) => {
+    libraryLoaded((google) => {
+      if (!options.clientId && !state.clientId) {
+        throw new Error("clientId is required");
       }
+      google.accounts.oauth2
+        .initTokenClient({
+          client_id: options.clientId || state.clientId || "",
+          scope: "email profile",
+          callback: (response: types.tokenPopupResponse) => {
+            options.callback && options.callback(response);
+            resolve(response);
+          },
+        })
+        .requestAccessToken();
     });
   });
 };
 
 /**
  * A function open one-tap and automatic log-in prompt
- * @returns A promise which get resolved once user login through the popup
+ * @returns A promise which get resolved once user login through the prompt
  */
 export const prompt = (
   options: types.promptOptions = {}
 ): Promise<types.credentialPopupResponse> => {
-  if (!options?.clientId && !state?.clientId) {
+  if (!options.clientId && !state.clientId) {
     throw new Error("clientId is required");
   }
 
