@@ -39,12 +39,15 @@ This allows you to implement the following features
 
 ### Installation
 
-First step is to install it using `npm`
+First step is to install it using npm
 
 ```bash
 npm install vue3-google-login
 ```
-
+Or using yarn
+```bash
+yarn add vue3-google-login
+```
 ### Initialize the plugin
 
 Initialize the vue3-google-login plugin in main.js
