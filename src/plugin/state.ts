@@ -4,7 +4,7 @@ import config from "./config";
 
 const state: types.options = reactive({
   clientId: null,
-  popupType: 'code',
+  popupType: "code",
   prompt: false,
   autoLogin: false,
   idConfiguration: null,
@@ -16,9 +16,8 @@ export default state;
 
 export const libraryState: types.libraryState = reactive({
   apiLoaded: false,
-  apiLoadIntitited: false
-})
-
+  apiLoadIntitited: false,
+});
 
 export const setState = (options: types.options): void => {
   options.clientId && (state.clientId = options.clientId);

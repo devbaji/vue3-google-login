@@ -4,19 +4,19 @@ import * as utils from "./utils";
 import { setState, libraryState } from "./state";
 import GoogleLoginComponent from "./GoogleLogin.vue";
 
-export const googleSdkLoaded = utils.libraryLoaded;
+export const googleSdkLoaded: types.libraryLoaded = utils.libraryLoaded;
 
-export const googleAuthCodeLogin = utils.openCode;
+export const googleAuthCodeLogin: types.openCode = utils.openCode;
 
-export const googleTokenLogin = utils.openToken;
+export const googleTokenLogin: types.openToken = utils.openToken;
 
-export const googleOneTap = utils.prompt;
+export const googleOneTap: types.prompt = utils.prompt;
 
-export const googleLogout = utils.logout;
+export const googleLogout: types.logout = utils.logout;
 
-export const decodeCredential = utils.parseJwt;
+export const decodeCredential: types.parseJWT = utils.parseJwt;
 
-export const GoogleLogin: Component = GoogleLoginComponent;
+export const GoogleLogin: Component<types.props> = GoogleLoginComponent;
 
 /**
  * A composable function to get a boolean state showing whether the google [client library](https://developers.google.com/identity/gsi/web/guides/client-library) is loaded or not
@@ -39,6 +39,6 @@ export default {
     utils.loadGApi.then(() => {
       options && utils.initOptions(options);
     });
-    app.component("GoogleLogin", GoogleLoginComponent);
+    app.component("GoogleLogin", GoogleLogin);
   },
 };

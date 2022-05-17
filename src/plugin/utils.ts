@@ -15,12 +15,7 @@ export const uuidv4 = (): string => {
   });
 };
 
-/**
- * For retriving the JWT payload from the credential
- * @param token JWT credential string
- * @returns Decoded payload from the JWT credential string
- */
-export const parseJwt = (token: string) => {
+export const parseJwt: types.parseJWT = (token: string): object => {
   try {
     const base64Url = token.split(".")[1];
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -89,10 +84,6 @@ export const renderLoginButton = (
   prompt && window.google.accounts.id.prompt();
 };
 
-/**
- * A wrapper function which makes sure google Client Library is loaded and then give an access to the SDK api
- * @param action A function to execute some actions only after google Client Library is loaded
- */
 export const libraryLoaded: types.libraryLoaded = (action) => {
   if (!libraryState.apiLoadIntitited) {
     loadGApi.then((google) => {
@@ -130,11 +121,6 @@ export const onMount = (
   });
 };
 
-/**
- * A helper function to trigger login popup using google.accounts.oauth2.initCodeClient function under the hoods
- * @param options To see available options check [here](https://developers.google.com/identity/oauth2/web/guides/use-code-model)
- * @returns A promise which get resolved with an auth code once user login through the popup
- */
 export const openCode: types.openCode = (options = {}) => {
   return new Promise((resolve) => {
     libraryLoaded((google) => {
@@ -156,11 +142,6 @@ export const openCode: types.openCode = (options = {}) => {
   });
 };
 
-/**
- * A helper function to trigger login popup using google.accounts.oauth2.initTokenClient function under the hoods
- * @param options To see available options check [here](https://developers.google.com/identity/oauth2/web/guides/use-code-model)
- * @returns A promise which get resolved with an access token once user login through the popup
- */
 export const openToken: types.openToken = (options = {}) => {
   return new Promise((resolve) => {
     libraryLoaded((google) => {
@@ -181,11 +162,7 @@ export const openToken: types.openToken = (options = {}) => {
   });
 };
 
-/**
- * A function open one-tap and automatic log-in prompt
- * @returns A promise which get resolved once user login through the prompt
- */
-export const prompt = (
+export const prompt: types.prompt = (
   options: types.promptOptions = {}
 ): Promise<types.credentialPopupResponse> => {
   if (!options.clientId && !state.clientId) {
@@ -232,10 +209,7 @@ export const prompt = (
   });
 };
 
-/**
- * This will make user to login and select account again by disabling auto select
- */
-export const logout = (): void => {
+export const logout: types.logout = (): void => {
   libraryLoaded((google) => {
     google.accounts.id.disableAutoSelect();
   });
