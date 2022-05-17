@@ -59,8 +59,8 @@ const popupOptions: types.loginConfig<types.popupTypeCode> = {
     @click="
       hasSlot &&
         (options.popupType === 'token'
-          ? utils.openToken(popupOptions)
-          : utils.openCode(popupOptions))
+          ? utils.googleAuthCodeLogin(popupOptions)
+          : utils.googleTokenLogin(popupOptions))
     "
   >
     <span v-if="!hasSlot" :id="buttonId" class="g-btn"></span>

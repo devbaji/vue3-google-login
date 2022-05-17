@@ -4,7 +4,7 @@ import * as types from "./types";
 import state, { libraryState } from "./state";
 
 declare global {
-  interface Window extends types.Window {}
+  interface Window extends types._window {}
 }
 
 export const uuidv4 = (): string => {
@@ -15,7 +15,12 @@ export const uuidv4 = (): string => {
   });
 };
 
-export const parseJwt: types.parseJWT = (token: string): object => {
+/**
+ * For retriving the JWT payload from the credential
+ * @param token JWT credential string
+ * @returns Decoded payload from the JWT credential string
+ */
+export const decodeCredential: types.jwtDecode = (token: string): object => {
   try {
     const base64Url = token.split(".")[1];
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -84,7 +89,11 @@ export const renderLoginButton = (
   prompt && window.google.accounts.id.prompt();
 };
 
-export const libraryLoaded: types.libraryLoaded = (action) => {
+/**
+ * A wrapper function which makes sure google Client Library is loaded and then give an access to the SDK api
+ * @param action A function to execute some actions only after google Client Library is loaded
+ */
+export const googleSdkLoaded: types.libraryLoaded = (action) => {
   if (!libraryState.apiLoadIntitited) {
     loadGApi.then((google) => {
       action(google);
@@ -110,7 +119,7 @@ export const onMount = (
   if (!idConfiguration.client_id) {
     throw new Error("A valid Google API client ID must be provided");
   }
-  libraryLoaded(() => {
+  googleSdkLoaded(() => {
     renderLoginButton(
       idConfiguration,
       buttonId,
@@ -121,9 +130,15 @@ export const onMount = (
   });
 };
 
-export const openCode: types.openCode = (options = {}) => {
+/**
+ * A helper function to trigger login popup using google.accounts.oauth2.initCodeClient function under the hoods
+ * @param options Optionally you can add clientId in this option if not initialized on plugin install
+ * @returns A promise which get resolved with an auth code once user login through the popup
+ */
+export const googleAuthCodeLogin: types.openCode = (options?) => {
   return new Promise((resolve, reject) => {
-    libraryLoaded((google) => {
+    googleSdkLoaded((google) => {
+      !options && (options = {});
       if (!options.clientId && !state.clientId) {
         throw new Error(
           "clientId is required since the plugin is not initialized with a Client Id"
@@ -135,7 +150,7 @@ export const openCode: types.openCode = (options = {}) => {
           scope: "email profile",
           ux_mode: "popup",
           callback: (response: types.codePopupResponse) => {
-            options.callback && options.callback(response);
+            options && options.callback && options.callback(response);
             if (response.code) {
               resolve(response);
             } else {
@@ -148,9 +163,15 @@ export const openCode: types.openCode = (options = {}) => {
   });
 };
 
-export const openToken: types.openToken = (options = {}) => {
+/**
+ * A helper function to trigger login popup using google.accounts.oauth2.initTokenClient function under the hoods
+ * @param options Optionally you can add clientId in this option if not initialized on plugin install
+ * @returns A promise which get resolved with an access token once user login through the popup
+ */
+export const googleTokenLogin: types.openToken = (options?) => {
   return new Promise((resolve, reject) => {
-    libraryLoaded((google) => {
+    googleSdkLoaded((google) => {
+      !options && (options = {});
       if (!options.clientId && !state.clientId) {
         throw new Error(
           "clientId is required since the plugin is not initialized with a Client Id"
@@ -161,7 +182,7 @@ export const openToken: types.openToken = (options = {}) => {
           client_id: options.clientId || state.clientId || "",
           scope: "email profile",
           callback: (response: types.tokenPopupResponse) => {
-            options.callback && options.callback(response);
+            options && options.callback && options.callback(response);
             if (response.access_token) {
               resolve(response);
             } else {
@@ -174,9 +195,15 @@ export const openToken: types.openToken = (options = {}) => {
   });
 };
 
-export const prompt: types.prompt = (
-  options: types.promptOptions = {}
+/**
+ * A function to open one-tap and automatic log-in prompt
+ * @param options Options to customise the behavior of one-tap and automatic log-in prompt
+ * @returns A promise which get resolved once user login through the prompt
+ */
+export const googleOneTap: types.oneTapPrompt = (
+  options?: types.oneTapOptions
 ): Promise<types.credentialPopupResponse> => {
+  !options && (options = {});
   if (!options.clientId && !state.clientId) {
     throw new Error("clientId is required");
   }
@@ -194,17 +221,19 @@ export const prompt: types.prompt = (
 
   return new Promise((resolve, reject) => {
     initOptions.callback = (response) => {
-      options.callback && options.callback(response);
-      if(response.credential) {
+      options && options.callback && options.callback(response);
+      if (response.credential) {
         resolve(response);
       } else {
         reject(response);
       }
     };
-    libraryLoaded((google) => {
+    googleSdkLoaded((google) => {
       google.accounts.id.initialize(initOptions);
       google.accounts.id.prompt((notification: types.promptNotification) => {
-        options.onNotification && options.onNotification(notification);
+        options &&
+          options.onNotification &&
+          options.onNotification(notification);
         if (notification.isNotDisplayed()) {
           if (notification.getNotDisplayedReason() === "suppressed_by_user") {
             reject(
@@ -212,13 +241,13 @@ export const prompt: types.prompt = (
             );
           } else {
             reject(
-              `Prompt was not displayed, reason for not displaying:${notification.getNotDisplayedReason()}, you see more`
+              `Prompt was not displayed, reason for not displaying:${notification.getNotDisplayedReason()}`
             );
           }
         }
         if (notification.isSkippedMoment()) {
           reject(
-            `Prompt was skipped, reason for skipping: ${notification.getSkippedReason()}, you see more`
+            `Prompt was skipped, reason for skipping: ${notification.getSkippedReason()}`
           );
         }
       });
@@ -226,8 +255,11 @@ export const prompt: types.prompt = (
   });
 };
 
-export const logout: types.logout = (): void => {
-  libraryLoaded((google) => {
+/**
+ * This will make user to login and select account again by disabling auto select
+ */
+export const googleLogout: types.logout = (): void => {
+  googleSdkLoaded((google) => {
     google.accounts.id.disableAutoSelect();
   });
 };
