@@ -122,10 +122,12 @@ export const onMount = (
 };
 
 export const openCode: types.openCode = (options = {}) => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     libraryLoaded((google) => {
       if (!options.clientId && !state.clientId) {
-        throw new Error("clientId is required");
+        throw new Error(
+          "clientId is required since the plugin is not initialized with a Client Id"
+        );
       }
       google.accounts.oauth2
         .initCodeClient({
@@ -134,7 +136,11 @@ export const openCode: types.openCode = (options = {}) => {
           ux_mode: "popup",
           callback: (response: types.codePopupResponse) => {
             options.callback && options.callback(response);
-            resolve(response);
+            if (response.code) {
+              resolve(response);
+            } else {
+              reject(response);
+            }
           },
         })
         .requestCode();
@@ -143,10 +149,12 @@ export const openCode: types.openCode = (options = {}) => {
 };
 
 export const openToken: types.openToken = (options = {}) => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     libraryLoaded((google) => {
       if (!options.clientId && !state.clientId) {
-        throw new Error("clientId is required");
+        throw new Error(
+          "clientId is required since the plugin is not initialized with a Client Id"
+        );
       }
       google.accounts.oauth2
         .initTokenClient({
@@ -154,7 +162,11 @@ export const openToken: types.openToken = (options = {}) => {
           scope: "email profile",
           callback: (response: types.tokenPopupResponse) => {
             options.callback && options.callback(response);
-            resolve(response);
+            if (response.access_token) {
+              resolve(response);
+            } else {
+              reject(response);
+            }
           },
         })
         .requestAccessToken();
@@ -182,7 +194,12 @@ export const prompt: types.prompt = (
 
   return new Promise((resolve, reject) => {
     initOptions.callback = (response) => {
-      resolve(response);
+      options.callback && options.callback(response);
+      if(response.credential) {
+        resolve(response);
+      } else {
+        reject(response);
+      }
     };
     libraryLoaded((google) => {
       google.accounts.id.initialize(initOptions);

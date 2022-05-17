@@ -105,18 +105,23 @@ export type props = {
   buttonConfig?: buttonConfig;
   /** Callback function to triggered on successfull login */
   callback?: callback;
-}
+};
 
 export interface libraryState {
   apiLoaded: boolean;
   apiLoadIntitited: boolean;
 }
 
-export interface loginConfig {
+export type codeResponseCallback = (response: codePopupResponse) => void;
+export type tokenResponseCallback = (response: tokenPopupResponse) => void;
+
+export interface loginConfig<T> {
   /**Your Google API client ID */
   clientId?: clientId;
   /**Callback to be triggered on user selects account from popup */
-  callback?: Function;
+  callback?: T extends popupTypeCode
+    ? codeResponseCallback
+    : tokenResponseCallback;
 }
 
 export interface codePopupResponse {
@@ -172,7 +177,7 @@ export type parseJWT = (token: string) => object;
  * @returns A promise which get resolved with an auth code once user login through the popup
  */
 export interface openCode {
-  (options: loginConfig): Promise<codePopupResponse>;
+  (options: loginConfig<popupTypeCode>): Promise<codePopupResponse>;
 }
 
 /**
@@ -181,7 +186,7 @@ export interface openCode {
  * @returns A promise which get resolved with an access token once user login through the popup
  */
 export interface openToken {
-  (options: loginConfig): Promise<tokenPopupResponse>;
+  (options: loginConfig<popupTypeToken>): Promise<tokenPopupResponse>;
 }
 export interface promptNotification {
   /** Is this notification for a display moment? */
@@ -234,6 +239,8 @@ export interface promptOptions {
   cancelOnTapOutside?: boolean;
   /** A callback triggered on recieving notifications on the prompt UI status  */
   onNotification?: onPromptNotification;
+  /** Callback function to triggered on successfull login */
+  callback?: callback;
 }
 
 /**
