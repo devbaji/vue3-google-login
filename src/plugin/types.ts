@@ -10,10 +10,6 @@ export type codeCallback = (response: codePopupResponse) => void;
 /** Actions to be performed after library is loaded */
 export type actionOnLibraryLoad = (google: google) => void;
 
-/**
- * A wrapper function which makes sure google Client Library is loaded and then give an access to the SDK api
- * @param action A function to execute some actions only after google Client Library is loaded
- */
 export type libraryLoaded = (action: actionOnLibraryLoad) => void;
 export interface buttonConfig {
   /** The button [type](https://developers.google.com/identity/gsi/web/reference/js-reference#type): icon, or standard button */
@@ -164,29 +160,14 @@ export interface credentialPopupResponse {
     | "btn_confirm_add_session";
 }
 
-/**
- * For retriving the JWT payload from the credential
- * @param token JWT credential string
- * @returns Decoded payload from the JWT credential string
- */
-export type parseJWT = (token: string) => object;
+export type jwtDecode = (token: string) => object;
 
-/**
- * A helper function to trigger login popup using google.accounts.oauth2.initCodeClient function under the hoods
- * @param options To see available options check [here](https://developers.google.com/identity/oauth2/web/guides/use-code-model)
- * @returns A promise which get resolved with an auth code once user login through the popup
- */
 export interface openCode {
-  (options: loginConfig<popupTypeCode>): Promise<codePopupResponse>;
+  (options?: loginConfig<popupTypeCode>): Promise<codePopupResponse>;
 }
 
-/**
- * A helper function to trigger login popup using google.accounts.oauth2.initTokenClient function under the hoods
- * @param options To see available options check [here](https://developers.google.com/identity/oauth2/web/guides/use-code-model)
- * @returns A promise which get resolved with an access token once user login through the popup
- */
 export interface openToken {
-  (options: loginConfig<popupTypeToken>): Promise<tokenPopupResponse>;
+  (options?: loginConfig<popupTypeToken>): Promise<tokenPopupResponse>;
 }
 export interface promptNotification {
   /** Is this notification for a display moment? */
@@ -228,7 +209,7 @@ export type onPromptNotification = (
   promptNotification: promptNotification
 ) => void;
 
-export interface promptOptions {
+export interface oneTapOptions {
   /**Your Google API client ID */
   clientId?: clientId;
   /** The title and words in the One Tap prompt */
@@ -243,17 +224,10 @@ export interface promptOptions {
   callback?: callback;
 }
 
-/**
- * A function to open one-tap and automatic log-in prompt
- * @returns A promise which get resolved once user login through the prompt
- */
-export type prompt = (
-  options: promptOptions
+export type oneTapPrompt = (
+  options?: oneTapOptions
 ) => Promise<credentialPopupResponse>;
 
-/**
- * This will make user to login and select account again by disabling auto select
- */
 export type logout = () => void;
 interface TokenClientConfig {
   /**
@@ -455,6 +429,6 @@ export interface google {
     };
   };
 }
-export interface Window {
+export interface _window {
   google: google;
 }
