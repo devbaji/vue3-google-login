@@ -9,6 +9,11 @@ export type codeCallback = (response: codePopupResponse) => void;
 
 /** Actions to be performed after library is loaded */
 export type actionOnLibraryLoad = (google: google) => void;
+
+/**
+ * A wrapper function which makes sure google Client Library is loaded and then give an access to the SDK api
+ * @param action A function to execute some actions only after google Client Library is loaded
+ */
 export type libraryLoaded = (action: actionOnLibraryLoad) => void;
 export interface buttonConfig {
   /** The button [type](https://developers.google.com/identity/gsi/web/reference/js-reference#type): icon, or standard button */
@@ -85,6 +90,23 @@ export interface options {
   callback: callback;
 }
 
+export type props = {
+  /**Your Google API client ID, to create one [follow these steps](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid)*/
+  clientId?: clientId;
+  /** To show the One-tap and Automatic-Login prompt */
+  prompt?: boolean;
+  /** Boolean value showing whether the  google client library is loaded or not */
+  autoLogin?: boolean;
+  /** Type of popup, if set to 'code' will give an Auth code in the popup call back and if set to 'token' the popup callback will give as an access token */
+  popupType?: popupTypes;
+  /** IdConfiguration object for initializing, see list of fields and descriptions of the IdConfiguration [here](https://developers.google.com/identity/gsi/web/reference/js-reference#IdConfiguration) */
+  idConfiguration?: idConfiguration;
+  /** Configuration of the login button rendered by Google, see list of fields and descriptions of these configurations [here](https://developers.google.com/identity/gsi/web/reference/js-reference#GsiButtonConfiguration) */
+  buttonConfig?: buttonConfig;
+  /** Callback function to triggered on successfull login */
+  callback?: callback;
+}
+
 export interface libraryState {
   apiLoaded: boolean;
   apiLoadIntitited: boolean;
@@ -137,16 +159,29 @@ export interface credentialPopupResponse {
     | "btn_confirm_add_session";
 }
 
+/**
+ * For retriving the JWT payload from the credential
+ * @param token JWT credential string
+ * @returns Decoded payload from the JWT credential string
+ */
+export type parseJWT = (token: string) => object;
+
+/**
+ * A helper function to trigger login popup using google.accounts.oauth2.initCodeClient function under the hoods
+ * @param options To see available options check [here](https://developers.google.com/identity/oauth2/web/guides/use-code-model)
+ * @returns A promise which get resolved with an auth code once user login through the popup
+ */
 export interface openCode {
-  (
-    options: loginConfig
-  ): Promise<codePopupResponse>;
+  (options: loginConfig): Promise<codePopupResponse>;
 }
 
+/**
+ * A helper function to trigger login popup using google.accounts.oauth2.initTokenClient function under the hoods
+ * @param options To see available options check [here](https://developers.google.com/identity/oauth2/web/guides/use-code-model)
+ * @returns A promise which get resolved with an access token once user login through the popup
+ */
 export interface openToken {
-  (
-    options: loginConfig
-  ): Promise<tokenPopupResponse>;
+  (options: loginConfig): Promise<tokenPopupResponse>;
 }
 export interface promptNotification {
   /** Is this notification for a display moment? */
@@ -201,6 +236,18 @@ export interface promptOptions {
   onNotification?: onPromptNotification;
 }
 
+/**
+ * A function to open one-tap and automatic log-in prompt
+ * @returns A promise which get resolved once user login through the prompt
+ */
+export type prompt = (
+  options: promptOptions
+) => Promise<credentialPopupResponse>;
+
+/**
+ * This will make user to login and select account again by disabling auto select
+ */
+export type logout = () => void;
 interface TokenClientConfig {
   /**
    *  The client ID for your application. You can find this value in the
@@ -360,47 +407,47 @@ export interface CodeClientConfig {
 
 /** This variable holds an access to google client SDK */
 export interface google {
-    accounts: {
-      id: {
-        initialize: (input: idConfiguration) => void;
-        prompt: Function
-        renderButton: (
-          parent: HTMLElement,
-          options: buttonConfig,
-          clickHandler?: () => void
-        ) => void;
-        disableAutoSelect: () => void;
-        storeCredential: (
-          credential: { id: string; password: string },
-          callback?: () => void
-        ) => void;
-        cancel: () => void;
-        onGoogleLibraryLoad: Function;
-        revoke: (accessToken: string, done: () => void) => void;
-      };
-      oauth2: {
-        initTokenClient: (config: TokenClientConfig) => {
-          requestAccessToken: (
-            overridableClientConfig?: OverridableTokenClientConfig
-          ) => void;
-        };
-        initCodeClient: (config: CodeClientConfig) => {
-          requestCode: () => void;
-        };
-        hasGrantedAnyScope: (
-          tokenRsponse: tokenPopupResponse,
-          firstScope: string,
-          ...restScopes: string[]
-        ) => boolean;
-        hasGrantedAllScopes: (
-          tokenRsponse: tokenPopupResponse,
-          firstScope: string,
-          ...restScopes: string[]
-        ) => boolean;
-        revoke: (accessToken: string, done?: () => void) => void;
-      };
+  accounts: {
+    id: {
+      initialize: (input: idConfiguration) => void;
+      prompt: Function;
+      renderButton: (
+        parent: HTMLElement,
+        options: buttonConfig,
+        clickHandler?: () => void
+      ) => void;
+      disableAutoSelect: () => void;
+      storeCredential: (
+        credential: { id: string; password: string },
+        callback?: () => void
+      ) => void;
+      cancel: () => void;
+      onGoogleLibraryLoad: Function;
+      revoke: (accessToken: string, done: () => void) => void;
     };
-  }
+    oauth2: {
+      initTokenClient: (config: TokenClientConfig) => {
+        requestAccessToken: (
+          overridableClientConfig?: OverridableTokenClientConfig
+        ) => void;
+      };
+      initCodeClient: (config: CodeClientConfig) => {
+        requestCode: () => void;
+      };
+      hasGrantedAnyScope: (
+        tokenRsponse: tokenPopupResponse,
+        firstScope: string,
+        ...restScopes: string[]
+      ) => boolean;
+      hasGrantedAllScopes: (
+        tokenRsponse: tokenPopupResponse,
+        firstScope: string,
+        ...restScopes: string[]
+      ) => boolean;
+      revoke: (accessToken: string, done?: () => void) => void;
+    };
+  };
+}
 export interface Window {
-  google: google
+  google: google;
 }
