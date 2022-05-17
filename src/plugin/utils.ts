@@ -69,7 +69,9 @@ export const initOptions = (options: types.options): void => {
 export const mergeObjects = (obj1: any, obj2: any): types.options => {
   const mergedObj = { ...obj1 };
   for (const key in obj2) {
-    obj2[key] !== undefined && (mergedObj[key] = obj2[key]);
+    obj2[key] !== undefined &&
+      obj2[key] !== null &&
+      (mergedObj[key] = obj2[key]);
   }
   return mergedObj;
 };

@@ -18,16 +18,20 @@ const props = withDefaults(
     /** Type of popup, if set to 'code' will give an Auth code in the popup call back and if set to 'token' the popup callback will give as an access token */
     popupType?: types.popupTypes;
     /** IdConfiguration object for initializing, see list of fields and descriptions of the IdConfiguration [here](https://developers.google.com/identity/gsi/web/reference/js-reference#IdConfiguration) */
-    idConfiguration?: types.idConfiguration;
+    idConfiguration?: types.idConfiguration | undefined;
     /** Configuration of the login button rendered by Google, see list of fields and descriptions of these configurations [here](https://developers.google.com/identity/gsi/web/reference/js-reference#GsiButtonConfiguration) */
-    buttonConfig?: types.buttonConfig;
+    buttonConfig?: types.buttonConfig | undefined;
     /** Callback function to triggered on successfull login */
     callback?: types.callback;
   }>(),
   {
+    clientId: null,
     prompt: false,
     autoLogin: false,
     popupType: "code",
+    idConfiguration: undefined,
+    buttonConfig: undefined,
+    callback: () => {},
   }
 );
 
@@ -59,8 +63,8 @@ const popupOptions: types.loginConfig<types.popupTypeCode> = {
     @click="
       hasSlot &&
         (options.popupType === 'token'
-          ? utils.googleAuthCodeLogin(popupOptions)
-          : utils.googleTokenLogin(popupOptions))
+          ? utils.googleTokenLogin(popupOptions)
+          : utils.googleAuthCodeLogin(popupOptions))
     "
   >
     <span v-if="!hasSlot" :id="buttonId" class="g-btn"></span>
