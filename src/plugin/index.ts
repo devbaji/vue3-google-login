@@ -1,7 +1,9 @@
-import { App, Ref, ref, watch, Component } from "vue";
-import * as types from "./types";
-import * as utils from "./utils";
+import { App, Ref, ref, watch } from "vue";
+import { Options } from "./types";
+import * as CallbackTypes from "./callbackTypes";
 import {
+  loadGApi,
+  initOptions,
   decodeCredential,
   googleOneTap,
   googleLogout,
@@ -14,6 +16,7 @@ import GoogleLogin from "./GoogleLogin.vue";
 
 export {
   GoogleLogin,
+  CallbackTypes,
   decodeCredential,
   googleOneTap,
   googleLogout,
@@ -38,10 +41,10 @@ export const useGoogleSdkLoaded = (): Ref<boolean> => {
 };
 
 export default {
-  install: (app: App, options: types.options) => {
+  install: (app: App, options: Options) => {
     options && setState(options);
-    utils.loadGApi.then(() => {
-      options && utils.initOptions(options);
+    loadGApi.then(() => {
+      options && initOptions(options);
     });
     app.component("GoogleLogin", GoogleLogin);
   },

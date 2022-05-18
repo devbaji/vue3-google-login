@@ -2,6 +2,7 @@
 import { onMounted, useSlots } from "vue";
 import * as types from "./types";
 import * as utils from "./utils";
+import { CredentialCallback } from "./callbackTypes";
 import state, { libraryState } from "./state";
 
 const slots = useSlots();
@@ -16,7 +17,7 @@ const props = withDefaults(
     /** Boolean value showing whether the  google client library is loaded or not */
     autoLogin?: boolean;
     /** Type of popup, if set to 'code' will give an Auth code in the popup call back and if set to 'token' the popup callback will give as an access token */
-    popupType?: "code" | "token";
+    popupType?: "CODE" | "TOKEN";
     /** IdConfiguration object for initializing, see list of fields and descriptions of the IdConfiguration [here](https://developers.google.com/identity/gsi/web/reference/js-reference#IdConfiguration) */
     idConfiguration?: object;
     /** Configuration of the login button rendered by Google, see list of fields and descriptions of these configurations [here](https://developers.google.com/identity/gsi/web/reference/js-reference#GsiButtonConfiguration) */
@@ -27,41 +28,43 @@ const props = withDefaults(
   {
     prompt: false,
     autoLogin: false,
-    popupType: "code",
+    popupType: "CODE",
   }
 );
 
-const options: types.options = utils.mergeObjects(state, props);
+const options: types.Options = utils.mergeObjects(state, props);
 
-const idConfiguration: types.idConfiguration = {
+const idConfiguration: types.IdConfiguration = {
   client_id: options.clientId || null,
   auto_select: options.autoLogin || false,
-  callback: options.callback,
+  callback: options.callback as CredentialCallback,
   ...options.idConfiguration,
 };
 
-const buttonId: types.buttonId = `g-btn-${utils.uuidv4()}`;
+const buttonId: types.ButtonId = `g-btn-${utils.uuidv4()}`;
+
+const openPopup = (type?: types.PopupTypes) => {
+  if (type === "TOKEN") {
+    utils.googleTokenLogin(options.clientId).then((response) => {
+      options.callback && options.callback(response);
+    });
+  } else {
+    utils.googleAuthCodeLogin(options.clientId).then((response) => {
+      options.callback && options.callback(response);
+    });
+  }
+};
 
 onMounted(() => {
   utils.onMount(idConfiguration, buttonId, options, hasSlot);
 });
-
-const popupOptions: types.loginConfig<types.popupTypeCode> = {
-  clientId: options.clientId || null,
-  callback: options.callback as types.codeCallback | types.tokenCallback,
-};
 </script>
 
 <template>
   <div
     class="g-btn-wrapper"
     :class="[!libraryState.apiLoaded && 'api-loading']"
-    @click="
-      hasSlot &&
-        (options.popupType === 'token'
-          ? utils.googleTokenLogin(popupOptions)
-          : utils.googleAuthCodeLogin(popupOptions))
-    "
+    @click="hasSlot && openPopup(options.popupType)"
   >
     <span v-if="!hasSlot" :id="buttonId" class="g-btn"></span>
     <slot></slot>

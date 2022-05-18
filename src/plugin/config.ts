@@ -1,8 +1,9 @@
-import { buttonConfig } from "./types";
+import { ButtonConfig } from "./types";
 
-const defaultButtonConfig: buttonConfig = { theme: "outline", size: "large" };
+const defaultButtonConfig: ButtonConfig = { theme: "outline", size: "large" };
 
 export default {
   library: "https://accounts.google.com/gsi/client",
   defaultButtonConfig: defaultButtonConfig,
+  scopes: "email profile openid",
 };
