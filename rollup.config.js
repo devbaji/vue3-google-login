@@ -45,8 +45,8 @@ export default [
       dts(),
       del({
         hook: "buildEnd",
-        targets: ["./dist/**/*.d.ts"],
-        ignore: ["./dist/index.d.ts"],
+        targets: ["./dist/**/*.d.ts", "./dist/**/*.d.ts.map"],
+        ignore: ["./dist/index.d.ts", "./dist/index.d.ts.map"],
       }),
     ],
   },
