@@ -10,28 +10,24 @@ const hasSlot: boolean = slots.default ? true : false;
 const props = withDefaults(
   defineProps<{
     /**Your Google API client ID, to create one [follow these steps](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid)*/
-    clientId?: types.clientId;
+    clientId?: string;
     /** To show the One-tap and Automatic-Login prompt */
     prompt?: boolean;
     /** Boolean value showing whether the  google client library is loaded or not */
     autoLogin?: boolean;
     /** Type of popup, if set to 'code' will give an Auth code in the popup call back and if set to 'token' the popup callback will give as an access token */
-    popupType?: types.popupTypes;
+    popupType?: "code" | "token";
     /** IdConfiguration object for initializing, see list of fields and descriptions of the IdConfiguration [here](https://developers.google.com/identity/gsi/web/reference/js-reference#IdConfiguration) */
-    idConfiguration?: types.idConfiguration | undefined;
+    idConfiguration?: object;
     /** Configuration of the login button rendered by Google, see list of fields and descriptions of these configurations [here](https://developers.google.com/identity/gsi/web/reference/js-reference#GsiButtonConfiguration) */
-    buttonConfig?: types.buttonConfig | undefined;
+    buttonConfig?: object;
     /** Callback function to triggered on successfull login */
-    callback?: types.callback;
+    callback?: Function;
   }>(),
   {
-    clientId: null,
     prompt: false,
     autoLogin: false,
     popupType: "code",
-    idConfiguration: undefined,
-    buttonConfig: undefined,
-    callback: () => {},
   }
 );
 
