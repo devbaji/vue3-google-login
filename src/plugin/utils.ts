@@ -1,10 +1,11 @@
 import { watch } from "vue";
 import config from "./config";
 import * as types from "./types";
+import * as callbackTypes from "./callbackTypes";
 import state, { libraryState } from "./state";
 
 declare global {
-  interface Window extends types._window {}
+  interface Window extends types._Window {}
 }
 
 export const uuidv4 = (): string => {
@@ -20,7 +21,7 @@ export const uuidv4 = (): string => {
  * @param token JWT credential string
  * @returns Decoded payload from the JWT credential string
  */
-export const decodeCredential: types.jwtDecode = (token: string): object => {
+export const decodeCredential: types.DecodeCredential = (token: string): object => {
   try {
     const base64Url = token.split(".")[1];
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -38,7 +39,7 @@ export const decodeCredential: types.jwtDecode = (token: string): object => {
   }
 };
 
-export const loadGApi = new Promise<types.google>((resolve) => {
+export const loadGApi = new Promise<types.Google>((resolve) => {
   if (!libraryState.apiLoadIntitited) {
     const script = document.createElement("script");
     libraryState.apiLoadIntitited = true;
@@ -53,7 +54,7 @@ export const loadGApi = new Promise<types.google>((resolve) => {
   }
 });
 
-export const initOptions = (options: types.options): void => {
+export const initOptions = (options: types.Options): void => {
   if (options.clientId) {
     const idConfiguration = {
       client_id: options.clientId,
@@ -66,7 +67,7 @@ export const initOptions = (options: types.options): void => {
   }
 };
 
-export const mergeObjects = (obj1: any, obj2: any): types.options => {
+export const mergeObjects = (obj1: any, obj2: any): types.Options => {
   const mergedObj = { ...obj1 };
   for (const key in obj2) {
     obj2[key] !== undefined &&
@@ -77,9 +78,9 @@ export const mergeObjects = (obj1: any, obj2: any): types.options => {
 };
 
 export const renderLoginButton = (
-  idConfiguration: types.idConfiguration,
-  buttonId: types.buttonId,
-  buttonConfig: types.buttonConfig,
+  idConfiguration: types.IdConfiguration,
+  buttonId: types.ButtonId,
+  buttonConfig: types.ButtonConfig,
   prompt: boolean = false,
   hasSlot: boolean
 ) => {
@@ -95,7 +96,7 @@ export const renderLoginButton = (
  * A wrapper function which makes sure google Client Library is loaded and then give an access to the SDK api
  * @param action A function to execute some actions only after google Client Library is loaded
  */
-export const googleSdkLoaded: types.libraryLoaded = (action) => {
+export const googleSdkLoaded: types.GoogleSdkLoaded = (action) => {
   if (!libraryState.apiLoadIntitited) {
     loadGApi.then((google) => {
       action(google);
@@ -113,9 +114,9 @@ export const googleSdkLoaded: types.libraryLoaded = (action) => {
 };
 
 export const onMount = (
-  idConfiguration: types.idConfiguration,
-  buttonId: types.buttonId,
-  options: types.options,
+  idConfiguration: types.IdConfiguration,
+  buttonId: types.ButtonId,
+  options: types.Options,
   hasSlot: boolean
 ): void => {
   if (!idConfiguration.client_id) {
@@ -137,22 +138,20 @@ export const onMount = (
  * @param options Optionally you can add clientId in this option if not initialized on plugin install
  * @returns A promise which get resolved with an auth code once user login through the popup
  */
-export const googleAuthCodeLogin: types.openCode = (options?) => {
+export const googleAuthCodeLogin: types.GoogleAuthCodeLogin = (clientId?) => {
   return new Promise((resolve, reject) => {
     googleSdkLoaded((google) => {
-      !options && (options = {});
-      if (!options.clientId && !state.clientId) {
+      if (!clientId && !state.clientId) {
         throw new Error(
           "clientId is required since the plugin is not initialized with a Client Id"
         );
       }
       google.accounts.oauth2
         .initCodeClient({
-          client_id: options.clientId || state.clientId || "",
-          scope: "email profile",
+          client_id: clientId || state.clientId || "",
+          scope: config.scopes,
           ux_mode: "popup",
-          callback: (response: types.codePopupResponse) => {
-            options && options.callback && options.callback(response);
+          callback: (response: callbackTypes.CodePopupResponse) => {
             if (response.code) {
               resolve(response);
             } else {
@@ -170,21 +169,19 @@ export const googleAuthCodeLogin: types.openCode = (options?) => {
  * @param options Optionally you can add clientId in this option if not initialized on plugin install
  * @returns A promise which get resolved with an access token once user login through the popup
  */
-export const googleTokenLogin: types.openToken = (options?) => {
+export const googleTokenLogin: types.GoogleTokenLogin = (clientId) => {
   return new Promise((resolve, reject) => {
     googleSdkLoaded((google) => {
-      !options && (options = {});
-      if (!options.clientId && !state.clientId) {
+      if (!clientId && !state.clientId) {
         throw new Error(
           "clientId is required since the plugin is not initialized with a Client Id"
         );
       }
       google.accounts.oauth2
         .initTokenClient({
-          client_id: options.clientId || state.clientId || "",
-          scope: "email profile",
-          callback: (response: types.tokenPopupResponse) => {
-            options && options.callback && options.callback(response);
+          client_id: clientId || state.clientId || "",
+          scope: config.scopes,
+          callback: (response: callbackTypes.TokenPopupResponse) => {
             if (response.access_token) {
               resolve(response);
             } else {
@@ -202,15 +199,15 @@ export const googleTokenLogin: types.openToken = (options?) => {
  * @param options Options to customise the behavior of one-tap and automatic log-in prompt
  * @returns A promise which get resolved once user login through the prompt
  */
-export const googleOneTap: types.oneTapPrompt = (
-  options?: types.oneTapOptions
-): Promise<types.credentialPopupResponse> => {
+export const googleOneTap: types.GoogleOneTap = (
+  options?: types.OneTapOptions
+): Promise<callbackTypes.CredentialPopupResponse> => {
   !options && (options = {});
   if (!options.clientId && !state.clientId) {
     throw new Error("clientId is required");
   }
 
-  const initOptions: types.idConfiguration = {};
+  const initOptions: types.IdConfiguration = {};
   options.clientId && (initOptions.client_id = options.clientId);
   !options.clientId &&
     state.clientId &&
@@ -222,7 +219,7 @@ export const googleOneTap: types.oneTapPrompt = (
     (initOptions.cancel_on_tap_outside = options.cancelOnTapOutside);
 
   return new Promise((resolve, reject) => {
-    initOptions.callback = (response) => {
+    initOptions.callback = (response: callbackTypes.CredentialPopupResponse) => {
       options && options.callback && options.callback(response);
       if (response.credential) {
         resolve(response);
@@ -232,7 +229,7 @@ export const googleOneTap: types.oneTapPrompt = (
     };
     googleSdkLoaded((google) => {
       google.accounts.id.initialize(initOptions);
-      google.accounts.id.prompt((notification: types.promptNotification) => {
+      google.accounts.id.prompt((notification: types.PromptNotification) => {
         options &&
           options.onNotification &&
           options.onNotification(notification);
@@ -260,7 +257,7 @@ export const googleOneTap: types.oneTapPrompt = (
 /**
  * This will make user to login and select account again by disabling auto select
  */
-export const googleLogout: types.logout = (): void => {
+export const googleLogout: types.Logout = (): void => {
   googleSdkLoaded((google) => {
     google.accounts.id.disableAutoSelect();
   });

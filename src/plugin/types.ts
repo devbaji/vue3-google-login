@@ -1,17 +1,18 @@
-export type popupTypeCode = "code";
-export type popupTypeToken = "token";
+import * as callbackTypes from "./callbackTypes"
 
-export type popupTypes = popupTypeCode | popupTypeToken;
+export type PopupTypeCode = "CODE";
+export type PopupTypeToken = "TOKEN";
 
-export type callback = (response: credentialPopupResponse) => void;
-export type tokenCallback = (response: tokenPopupResponse) => void;
-export type codeCallback = (response: codePopupResponse) => void;
+export type PopupTypes = PopupTypeCode | PopupTypeToken;
 
 /** Actions to be performed after library is loaded */
-export type actionOnLibraryLoad = (google: google) => void;
-
-export type libraryLoaded = (action: actionOnLibraryLoad) => void;
-export interface buttonConfig {
+export type ActionOnLibraryLoad = (google: Google) => void;
+/**
+ * A wrapper function which makes sure google Client Library is loaded and then give an access to the SDK api
+ * @param action A function to execute some actions only after google Client Library is loaded
+ */
+export type GoogleSdkLoaded = (action: ActionOnLibraryLoad) => void;
+export interface ButtonConfig {
   /** The button [type](https://developers.google.com/identity/gsi/web/reference/js-reference#type): icon, or standard button */
   type?: "standard" | "icon";
   /** The button [theme](https://developers.google.com/identity/gsi/web/reference/js-reference#theme). For example, filled_blue or filled_black */
@@ -30,19 +31,19 @@ export interface buttonConfig {
   locale?: string;
 }
 
-export type clientId = string | null;
+export type ClientId = string | null;
 
-export type buttonId = string;
+export type ButtonId = string;
 
-export type context = "signin" | "signup" | "use";
+export type Context = "signin" | "signup" | "use";
 
-export interface idConfiguration {
+export interface IdConfiguration {
   /**Your Google API client ID */
-  client_id?: clientId;
+  client_id?: ClientId;
   /** Enables automatic selection on Google One Tap */
   auto_select?: boolean;
   /** ID token callback handler */
-  callback?: callback;
+  callback?: Function;
   /** The Sign In With Google button UX flow */
   ux_mode?: "popup" | "redirect";
   /** The URL of your login endpoint */
@@ -58,7 +59,7 @@ export interface idConfiguration {
   /** A random string for ID tokens */
   nonce?: string;
   /** The title and words in the One Tap prompt */
-  context?: context;
+  context?: Context;
   /** If you need to call One Tap in the parent domain and its subdomains, pass the parent domain to this attribute so that a single shared cookie is used. */
   state_cookie_domain?: string;
   /** The origins that are allowed to embed the intermediate iframe. One Tap will run in the intermediate iframe mode if this attribute presents */
@@ -76,82 +77,38 @@ export interface idConfiguration {
   hosted_domain?: string;
 }
 
-export interface options {
-  clientId?: clientId;
+export interface Options {
+  clientId?: ClientId;
   prompt?: boolean;
   autoLogin?: boolean;
-  popupType?: popupTypes;
-  idConfiguration: idConfiguration | null;
-  buttonConfig: buttonConfig;
-  callback: callback;
+  popupType?: PopupTypes;
+  idConfiguration: IdConfiguration | null;
+  buttonConfig: ButtonConfig;
+  callback: Function;
 }
-export interface libraryState {
+export interface LibraryState {
   apiLoaded: boolean;
   apiLoadIntitited: boolean;
 }
 
-export type codeResponseCallback = (response: codePopupResponse) => void;
-export type tokenResponseCallback = (response: tokenPopupResponse) => void;
-
-export interface loginConfig<T> {
-  /**Your Google API client ID */
-  clientId?: clientId;
-  /**Callback to be triggered on user selects account from popup */
-  callback?: T extends popupTypeCode
-    ? codeResponseCallback
-    : tokenResponseCallback;
+/**
+ * A helper function to trigger login popup using google.accounts.oauth2.initCodeClient function under the hoods
+ * @param options Optionally you can add clientId in this option if not initialized on plugin install
+ * @returns A promise which get resolved with an auth code once user login through the popup
+ */
+export interface GoogleAuthCodeLogin {
+  (clientId?: ClientId): Promise<callbackTypes.CodePopupResponse>;
 }
 
-export interface codePopupResponse {
-  authuser?: string;
-  /** The authorization code of a successful token response */
-  code?: string;
-  /** Type of prompt presented to the user */
-  prompt?: string;
-  /**	A space-delimited list of scopes that are approved by the user */
-  scope?: string;
+/**
+ * A helper function to trigger login popup using google.accounts.oauth2.initTokenClient function under the hoods
+ * @param options Optionally you can add clientId in this option if not initialized on plugin install
+ * @returns A promise which get resolved with an access token once user login through the popup
+ */
+export interface GoogleTokenLogin {
+  (clientId?: ClientId): Promise<callbackTypes.TokenPopupResponse>;
 }
-
-export interface tokenPopupResponse {
-  /** The access token of a successful token response. */
-  access_token?: string;
-  authuser?: string;
-  /** The lifetime in seconds of the access token. */
-  expires_in?: string;
-  /** Type of prompt presented to the user */
-  prompt?: string;
-  /** A space-delimited list of scopes that are approved by the user. */
-  scope?: string;
-  /** The type of the token issued. */
-  token_type?: string;
-}
-
-export interface credentialPopupResponse {
-  clientId?: string;
-  /** JWT credential string */
-  credential?: string;
-  /** This field shows how the credential is selected */
-  select_by?:
-    | "auto"
-    | "user"
-    | "user_1tap"
-    | "user_2tap"
-    | "btn"
-    | "btn_confirm"
-    | "brn_add_session"
-    | "btn_confirm_add_session";
-}
-
-export type jwtDecode = (token: string) => object;
-
-export interface openCode {
-  (options?: loginConfig<popupTypeCode>): Promise<codePopupResponse>;
-}
-
-export interface openToken {
-  (options?: loginConfig<popupTypeToken>): Promise<tokenPopupResponse>;
-}
-export interface promptNotification {
+export interface PromptNotification {
   /** Is this notification for a display moment? */
   isDisplayMoment: () => boolean;
   /** Is this notification for a display moment, and the UI is displayed? */
@@ -187,36 +144,44 @@ export interface promptNotification {
   getMomentType: () => "display" | "skipped" | "dismissed";
 }
 
-export type onPromptNotification = (
-  promptNotification: promptNotification
+export type OnPromptNotification = (
+  promptNotification: PromptNotification
 ) => void;
 
-export interface oneTapOptions {
+export interface OneTapOptions {
   /**Your Google API client ID */
-  clientId?: clientId;
+  clientId?: ClientId;
   /** The title and words in the One Tap prompt */
-  context?: context;
+  context?: Context;
   /** Boolean value showing whether the  google client library is loaded or not */
   autoLogin?: boolean;
   /** Controls whether to cancel the prompt if the user clicks outside of the prompt */
   cancelOnTapOutside?: boolean;
   /** A callback triggered on recieving notifications on the prompt UI status  */
-  onNotification?: onPromptNotification;
+  onNotification?: OnPromptNotification;
   /** Callback function to triggered on successfull login */
-  callback?: callback;
+  callback?: callbackTypes.CredentialCallback;
 }
 
-export type oneTapPrompt = (
-  options?: oneTapOptions
-) => Promise<credentialPopupResponse>;
+/**
+ * A function to open one-tap and automatic log-in prompt
+ * @param options Options to customise the behavior of one-tap and automatic log-in prompt
+ * @returns A promise which get resolved once user login through the prompt
+ */
+export type GoogleOneTap = (
+  options?: OneTapOptions
+) => Promise<callbackTypes.CredentialPopupResponse>;
 
-export type logout = () => void;
+/**
+ * This will make user to login and select account again by disabling auto select
+ */
+export type Logout = () => void;
 interface TokenClientConfig {
   /**
    *  The client ID for your application. You can find this value in the
    *  [API Console](https://console.cloud.google.com/apis/dashboard)
    */
-  client_id: clientId;
+  client_id: ClientId;
 
   /**
    * A space-delimited list of scopes that identify the resources
@@ -229,7 +194,7 @@ interface TokenClientConfig {
    * Required for popup UX. The JavaScript function name that handles returned code response
    * The property will be ignored by the redirect UX
    */
-  callback?: (response: tokenPopupResponse) => void;
+  callback?: (response: callbackTypes.TokenPopupResponse) => void;
 
   /**
    * Optional, defaults to 'select_account'. A space-delimited, case-sensitive list of prompts to present the user
@@ -303,7 +268,7 @@ export interface CodeClientConfig {
    * Required. The client ID for your application. You can find this value in the
    * [API Console](https://console.developers.google.com/)
    */
-  client_id: clientId;
+  client_id: ClientId;
 
   /**
    * Required. A space-delimited list of scopes that identify
@@ -325,7 +290,7 @@ export interface CodeClientConfig {
    * Required for popup UX. The JavaScript function name that handles
    * returned code response. The property will be ignored by the redirect UX
    */
-  callback?: (codeResponse: codePopupResponse) => void;
+  callback?: (codeResponse: callbackTypes.CodePopupResponse) => void;
 
   /**
    * Optional. Recommended for redirect UX. Specifies any string value that
@@ -369,14 +334,14 @@ export interface CodeClientConfig {
 }
 
 /** This variable holds an access to google client SDK */
-export interface google {
+export interface Google {
   accounts: {
     id: {
-      initialize: (input: idConfiguration) => void;
+      initialize: (input: IdConfiguration) => void;
       prompt: Function;
       renderButton: (
         parent: HTMLElement,
-        options: buttonConfig,
+        options: ButtonConfig,
         clickHandler?: () => void
       ) => void;
       disableAutoSelect: () => void;
@@ -398,12 +363,12 @@ export interface google {
         requestCode: () => void;
       };
       hasGrantedAnyScope: (
-        tokenRsponse: tokenPopupResponse,
+        tokenRsponse: callbackTypes.TokenPopupResponse,
         firstScope: string,
         ...restScopes: string[]
       ) => boolean;
       hasGrantedAllScopes: (
-        tokenRsponse: tokenPopupResponse,
+        tokenRsponse: callbackTypes.TokenPopupResponse,
         firstScope: string,
         ...restScopes: string[]
       ) => boolean;
@@ -411,6 +376,8 @@ export interface google {
     };
   };
 }
-export interface _window {
-  google: google;
+export interface _Window {
+  google: Google;
 }
+
+export type DecodeCredential = (token: string) => object;
