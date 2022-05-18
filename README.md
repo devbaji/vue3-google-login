@@ -1,4 +1,4 @@
-# Vue 3 Google Login Docs
+# Vue 3 Google Login
 
 <p>
   <a href="https://npm-stat.com/charts.html?package=vue3-google-login" target="_blank">
@@ -11,6 +11,8 @@
     <img src="https://img.shields.io/bundlephobia/minzip/vue3-google-login.svg" alt="npm"/>
   </a>&nbsp;
 </p>
+
+> :information_source: Documentation of version 1 has been moved [here](https://yobaji.github.io/vue3-google-login-v1/)
 
 <!-- ## Documentation
 
@@ -39,12 +41,15 @@ This allows you to implement the following features
 
 ### Installation
 
-First step is to install it using `npm`
+First step is to install it using npm
 
 ```bash
 npm install vue3-google-login
 ```
-
+Or using yarn
+```bash
+yarn add vue3-google-login
+```
 ### Initialize the plugin
 
 Initialize the vue3-google-login plugin in main.js
@@ -65,25 +70,23 @@ app.mount('#app')
 
 ### GoogleLogin component
 
-Once the plugin is installed you can use the component `GoogleLogin` anywhere in your project, this will render a log in button which opens a popup for google login
+Once the plugin is installed you can use the component `GoogleLogin` anywhere in your project, this will render a log in button which opens a popup for Google login
 
 ```vue
 <script setup>
 const callback = (response) => {
-  /* This callback will be triggered when user selects or login to
-     his google account from the popup */
+  // This callback will be triggered when the user selects or login to
+  // his Google account from the popup
   console.log("Handle the response", response)
 }
 </script>
 
 <template>
-  <GoogleLogin client-id="YOUR_GOOGLE_CLIENT_ID" :callback="callback"/>
+  <GoogleLogin :callback="callback"/>
 </template>
 ```
 
->  :information_source: You can omit `client-id` prop if it is [initialized in main.js](#initialize-the-plugin)
-
-Here is an image showing log in button rendered by google
+Here is an image showing log in button rendered by Google
 <p align="center">
   <img 
     src="https://yobaji.github.io/vue3-google-login/images/google-rendered-button.png"
@@ -92,24 +95,49 @@ Here is an image showing log in button rendered by google
 
 ### One Tap prompt
 
-For this feature set the prop `prompt` to true, this will open a prompt with the list of logged in google accounts of the user, now user can just tap on his prefered account to easily login to our application
+For this feature set the prop `prompt` to true, this will open a prompt with the list of logged in Google accounts of the user, now user can just tap on his prefered account to easily login to your application
 
 ```vue
 <script setup>
 const callback = (response) => {
   // This callback will be triggered when user click on the One Tap prompt
-  /* This callback will be also triggered when user click on login button and selects or login to
-     his google account from the popup */
+  // This callback will be also triggered when user click on login button 
+  // and selects or login to his Google account from the popup
   console.log("Handle the response", response)
 }
 </script>
 
 <template>
-  <GoogleLogin :callback="callback" :prompt="true"/>
+  <GoogleLogin :callback="callback" prompt/>
 </template>
 ```
 
-> :information_source: If the user closes the One Tap prompt manually, the One Tap prompt is suppressed, see [here](https://developers.google.com/identity/gsi/web/guides/features#exponential_cooldown) for more info
+Or use `googleOneTap` function
+
+```vue
+<script setup>
+import { onMounted } from "vue"
+import { googleOneTap } from "vue3-google-login"
+
+onMounted(() => {
+  googleOneTap()
+    .then((response) => {
+      // This promise is resolved when user selects an account from the the One Tap prompt
+      console.log("Handle the response", response)
+    })
+    .catch((error) => {
+      console.log("Handle the error", error)
+    })
+})
+
+</script>
+
+<template>
+  <div>One-Tap prompt will be shown once this component is mounted</div>
+</template>
+```
+
+> :information_source: If the user closes the One Tap prompt manually, the One Tap prompt will be suppressed, see [here](https://developers.google.com/identity/gsi/web/guides/features#exponential_cooldown) for more info
 
 
 Here is an image showing One Tap prompt 
@@ -120,23 +148,58 @@ Here is an image showing One Tap prompt
   >
 </p>
 
+> :exclamation: While using One-tap feature a [dead-loop UX issue](https://developers.google.com/identity/gsi/web/guides/automatic-sign-in-sign-out#sign-out) may occur. To resolve this issue, in your logout function run `googleLogout` funtion
+> ```javascript
+> import { googleLogout } from "vue3-google-login"
+> const yourLogoutFunction() {
+>   // your logout logics
+>   googleLogout()
+> }
+> ```
+
 ### Automatic Login
-For this feature set the prop `autoLogin` to true, this will automatically detects whether only one google account is logged in, if yes then prompt will automatically log in and will trigger the callback without any user interactions, to make this work `prompt` must be set to true
+To enable this feature, set the prop `autoLogin` to true, this will automatically detects whether only one Google account is logged in, if yes then prompt will automatically log in and will trigger the callback without any user interactions, to make this work `prompt` must be set to true
 
 ```vue
 <script setup>
 const callback = (response) => {
-  // This callback will be triggered automatically if only one google account is logged in
+  // This callback will be triggered automatically 
+  // if one single Google account is already logged in
   console.log("Handle the response", response)
 }
 </script>
 
 <template>
-  <GoogleLogin :callback="callback" :prompt="true" :autoLogin="true"/>
+  <GoogleLogin :callback="callback" prompt autoLogin/>
 </template>
 ```
 
-Here is an image showing the prompt automatically detects the logged in Google account and logs in automatically
+Or use `googleOneTap` function and set `autoLogin` option to true
+
+```vue
+<script setup>
+import { onMounted } from "vue"
+import { googleOneTap } from "vue3-google-login"
+
+onMounted(() => {
+  googleOneTap({ autoLogin: true })
+    .then((response) => {
+      // This promise is resolved when user selects an account from the the One Tap prompt
+      console.log("Handle the response", response)
+    })
+    .catch((error) => {
+      console.log("Handle the error", error)
+    })
+})
+</script>
+
+<template>
+  <div>One-Tap prompt will be shown once this component is mounted</div>
+</template>
+
+```
+
+Here is an image showing how the prompt automatically detect the logged in Google account and logs in automatically
 
 <p align="center">
   <img 
@@ -159,11 +222,11 @@ const callback = (response) => {
 </script>
 
 <template>
-  <GoogleLogin :callback="callback" :prompt="true" :autoLogin="true"/>
+  <GoogleLogin :callback="callback" prompt autoLogin/>
 </template>
 ```
 
-> :warning: You cannot use decodeCredential function to retrive user data when you are using [Custom Login Button](#custom-login-button), because it doesn't give a JWT credential, instead it gives an authorization code, [see here for more info](#combination-of-one-tap-prompt-and-custom-button)
+> :exclamation: You cannot use decodeCredential function to retrive user data when you are using [Custom Login Button](#custom-login-button), because it doesn't give a JWT credential, instead it gives an authorization code or access token, [see here for more info](#combination-of-one-tap-prompt-and-custom-button)
 
 
 ### Options
@@ -182,19 +245,12 @@ These options can be either used at [initializing in main.js](#initialize-the-pl
 
 ## Custom Login Button
 
+>  :exclamation: For custom buttons this plugin use `google.accounts.oauth2.initCodeClient` and `google.accounts.oauth2.initTokenClient` under the hoods which gives [OAuth2 authorization code](https://developers.google.com/identity/oauth2/web/guides/use-code-model#auth_code_handling) and [Access Token](https://developers.google.com/identity/oauth2/web/guides/use-token-model) respectively in the callback response, but Google rendered login button and One Tap prompt gives a [CredentialResponse](https://developers.google.com/identity/gsi/web/reference/js-reference#CredentialResponse) with a JWT credential field, so if you are using a combination of these, validating your callback response on server-side can be a little tricky, this is more explained [here](#server-side-validation)
+
 Some times you may not need the default button rendered by Google, you can create your own button and can make it behave like a login with Google button
 
-Here is an image showing how a custom button opens the Google login popup 
-<p align="center">
-  <img 
-    width="300"
-    src="https://yobaji.github.io/vue3-google-login/images/custom-login-button.gif"
-  >
-</p>
 This can be done in two ways
 
-
->  :warning: For custom buttons this plugin use `google.accounts.oauth2.initTokenClient` under the hoods which gives an [OAuth2 authorization code](https://developers.google.com/identity/oauth2/web/guides/use-code-model#auth_code_handling) in the callback response, but Google rendered login button and One Tap prompt gives a [CredentialResponse](https://developers.google.com/identity/gsi/web/reference/js-reference#CredentialResponse) with a JWT credential field, so if you are using a combination of these, validating your callback response on server-side can be a little tricky, this is more explained [here](#server-side-validation)
 
 ### Wrap around GoogleLogin
 
@@ -214,61 +270,81 @@ const callback = (response) => {
 </template>
 ```
 
-### gLoginPopup function
+> :bulb: By default this will give [Auth code](https://developers.google.com/identity/oauth2/web/guides/use-code-model#auth_code_handling) in response, you can use the prop `popup-type="TOKEN"` to get [Access Token](https://developers.google.com/identity/oauth2/web/guides/use-token-model) instead
 
-You can use `gLoginPopup` function to dynamically trigger the opening of login popup, also you can use `useLibraryLoaded`  composable function get a boolean state showing whether the [Google 3P Authorization JavaScript Library](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library) is loaded or not
+### googleAuthCodeLogin function
+
+You can use `googleAuthCodeLogin` function to dynamically trigger the opening of login popup, response will have an [OAuth2 authorization code](https://developers.google.com/identity/oauth2/web/guides/use-code-model#auth_code_handling)
 
 ```vue
 <script setup>
-import { useLibraryLoaded, gLoginPopup } from 'vue3-google-login'
-
-const gLibraryLoaded = useLibraryLoaded()
-
-const callback = (response) => {
-  console.log("Handle the response", response)
-}
-
-const onButtonClick = () => {
-  gLoginPopup({ callback })
+import { googleAuthCodeLogin } from "vue3-google-login"
+const login = () => {
+  googleAuthCodeLogin().then((response) => {
+    console.log("Handle the response", response)
+  })
 }
 </script>
 
 <template>
-  <button @click="onButtonClick" :disabled="!gLibraryLoaded">Login Using Google</button>
+  <button @click="login">Login Using Google</button>
 </template>
 ```
 
-### Sign-In JavaScript API
+### googleTokenLogin function
 
-Once the [Google 3P Authorization JavaScript Library](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library) is loaded, Sign-In JavaScript API will be available in window scope and it can be accessed using `window.google`, see [Sign-In JavaScript API](https://developers.google.com/identity/gsi/web/reference/js-reference) and [Token model](https://developers.google.com/identity/oauth2/web/guides/use-token-model) for more info on Sign-In JavaScript API
-
-Here is how we can use this Sign-In JavaScript API to create a custom login button
+Just like [googleAuthCodeLogin function](#googleauthcodelogin-function) you can use `googleTokenLogin` function to trigger the opening of login popup that gives an [Access Token](https://developers.google.com/identity/oauth2/web/guides/use-token-model) instead of an Auth code
 
 ```vue
 <script setup>
-import { useLibraryLoaded } from 'vue3-google-login'
-
-const gLibraryLoaded = useLibraryLoaded()
-
-const callback = (response) => {
-  console.log("Handle the response", response)
-}
-
-const onButtonClick = () => {
-  if (gLibraryLoaded) {
-    window.google.accounts.oauth2.initTokenClient({
-      client_id: 'YOUR_GOOGLE_CLIENT_ID',
-      scope: 'email profile',
-      callback
-    }).requestAccessToken();
-  }
+import { googleTokenLogin } from "vue3-google-login"
+const login = () => {
+  googleTokenLogin().then((response) => {
+    console.log("Handle the response", response)
+  })
 }
 </script>
 
 <template>
-  <button @click="onButtonClick" :disabled="!gLibraryLoaded">Login Using Google</button>
+  <button @click="login">Login Using Google</button>
 </template>
 ```
+
+Here is an image showing how a custom button opens the Google login popup 
+<p align="center">
+  <img 
+    width="300"
+    src="https://yobaji.github.io/vue3-google-login/images/custom-login-button.gif"
+  >
+</p>
+
+## Using Google SDK
+
+If you want to directly use the API provided by [Google Identity Services JavaScript SDK](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library) without even initializing the plugin, you can `googleSdkLoaded` wrapper function to do that. This will run an action in which you can use the API directly, and under the hoods it will make sure that this action is performed only after the SDK library is fully loaded.
+
+Here is an example showing how we can use `googleSdkLoaded` wrapper function to create a custom login button
+
+```vue
+<script setup>
+import { googleSdkLoaded } from "vue3-google-login"
+const login = () => {
+  googleSdkLoaded((google) => {
+    google.accounts.oauth2.initCodeClient({
+      client_id: '352931034399-ht1i7mqefgrbsn67a4b1nm991bvat47l.apps.googleusercontent.com',
+      scope: 'email profile openid',
+      callback: (response) => {
+        console.log("Handle the response", response)
+      }
+    }).requestCode()
+  })
+}
+</script>
+
+<template>
+  <button @click="login">Login Using Google</button>
+</template>
+```
+> :bulb: You can find the docs on how to use this SDK [here](https://developers.google.com/identity/oauth2/web/reference/js-reference) and [here](https://developers.google.com/identity/gsi/web/reference/js-reference)
 
 ## Server-side Validation
 
@@ -282,14 +358,14 @@ Here is a sample Node.js code snippet for validating the JWT credential string
 
 ```javascript
 const { OAuth2Client } = require('google-auth-library')
-const client = new OAuth2Client("YOUR_GOOGLE_CLIENT_ID");
+const client = new OAuth2Client("YOUR_GOOGLE_CLIENT_ID")
 
 // Call this function to validate the JWT credential sent from client-side
 async function verifyCredentials(credential) {
   const ticket = await client.verifyIdToken({
     idToken: credential,
-  });
-  const payload = ticket.getPayload();
+  })
+  const payload = ticket.getPayload()
   return payload
 }
 
@@ -297,14 +373,16 @@ verifyCredentials('JWT_CREDENTIAL_STRING_FROM_CLIENT_SIDE').then((userInfo) => {
   // use userInfo and do your server-side logics here
 }).catch((error) => {
   // validation failed and userinfo was not obtained
-});
+})
 ```
 
 ### Custom Login Button
 
-Callback will be triggered with a response containing an [OAuth2 authorization code](https://developers.google.com/identity/oauth2/web/guides/use-code-model#auth_code_handling)
+###### Validating Auth Code
 
-Here is a sample Node.js code snippet for validating the OAuth2 authorization code
+If you are using [googleAuthCodeLogin function](#googleauthcodelogin-function) or [google.accounts.oauth2.initCodeClient](https://developers.google.com/identity/oauth2/web/reference/js-reference#google.accounts.oauth2.initCodeClient), the response you get on successfull login contains an [OAuth2 authorization code](https://developers.google.com/identity/oauth2/web/guides/use-code-model#auth_code_handling)
+
+Here is a sample Node.js code snippet for validating this OAuth2 authorization code from the response
 
 ```javascript
 const { OAuth2Client } = require('google-auth-library')
@@ -314,7 +392,7 @@ const client = new OAuth2Client(
     clientSecret: 'YOUR_GOOGLE_CLIENT_SECRET',
     redirectUri: 'YOUR_GOOGLE_REDIRECT_URI'
   }
-);
+)
 
 // Call this function to validate OAuth2 authorization code sent from client-side
 async function verifyCode(code) {
@@ -322,7 +400,7 @@ async function verifyCode(code) {
   client.setCredentials({ access_token: tokens.access_token })
   const userinfo = await client.request({
     url: 'https://www.googleapis.com/oauth2/v3/userinfo'
-  });
+  })
   return userinfo.data
 }
 
@@ -330,7 +408,35 @@ verifyCode('AUTHORIZATION_CODE_FROM_CLIENT_SIDE').then((userInfo) => {
   // use userInfo and do your server-side logics here
 }).catch((error) => {
   // validation failed and userinfo was not obtained
-});
+})
+```
+
+###### Validating Access Token
+
+If you are using [googleTokenLogin function](#googleauthcodelogin-function) or [google.accounts.oauth2.initTokenClient](https://developers.google.com/identity/oauth2/web/reference/js-reference#google.accounts.oauth2.initTokenClient), the response you get on successfull login contains an [Access Token](https://developers.google.com/identity/oauth2/web/guides/use-token-model)
+
+Here is a sample Node.js code snippet for validating this Access Token from the response
+
+```javascript
+const { OAuth2Client } = require("google-auth-library")
+const client = new OAuth2Client()
+
+// Call this function to validate OAuth2 authorization code sent from client-side
+async function verifyToken(token) {
+  client.setCredentials({ access_token: token })
+  const userinfo = await client.request({
+    url: "https://www.googleapis.com/oauth2/v3/userinfo",
+  });
+  return userinfo.data
+}
+
+verifyToken("ACCESS_TOKEN_FROM_CLIENT_SIDE")
+  .then((userInfo) => {
+    console.log(userInfo)
+  })
+  .catch((error) => {
+    console.log(error)
+  })
 ```
 
 ### Combination of One Tap Prompt and Custom Button
@@ -341,15 +447,15 @@ If you are using the combination of these like below, then the response caught i
 <script setup>
 const callback = (response) => {
   if(response.credential) {
-    console.log("Call the endpoint which validates JWT credential string");
+    console.log("Call the endpoint which validates JWT credential string")
   } else {
-    console.log("Call the endpoint which validates authorization code");
+    console.log("Call the endpoint which validates authorization code")
   }
 }
 </script>
 
 <template>
-  <GoogleLogin :callback="callback" :prompt="true" :autoLogin="true">
+  <GoogleLogin :callback="callback" prompt autoLogin>
     <button>Add</button>
   </GoogleLogin>
 </template>
