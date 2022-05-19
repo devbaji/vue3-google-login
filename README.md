@@ -23,7 +23,7 @@ This plugin helps you to add Login With Google feature to your Vue 3 application
 
 ## Overview
 
-This is a lightweigh plugin for implementing log-in and sign-up flows using [Google Identity Services](https://developers.google.com/identity/oauth2/web) with the help of [Google 3P Authorization JavaScript Library](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library)
+This is a lightweight plugin to implement log-in and sign-up flows using [Google Identity Services](https://developers.google.com/identity/oauth2/web) with the help of [Google 3P Authorization JavaScript Library](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library)
 
 This allows you to implement the following features
 
