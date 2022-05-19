@@ -8,7 +8,7 @@
     <img src="https://img.shields.io/npm/v/vue3-google-login.svg" alt="npm"/>
   </a>&nbsp;
   <a href="https://bundlephobia.com/package/vue3-google-login" target="_blank">
-    <img src="https://img.shields.io/bundlephobia/minzip/vue3-google-login.svg" alt="npm"/>
+    <img src="https://img.shields.io/bundlephobia/minzip/vue3-google-login/^2.0.0" alt="npm"/>
   </a>&nbsp;
 </p>
 
@@ -148,7 +148,7 @@ Here is an image showing One Tap prompt
   >
 </p>
 
-> :exclamation: While using One-tap feature a [dead-loop UX issue](https://developers.google.com/identity/gsi/web/guides/automatic-sign-in-sign-out#sign-out) may occur. To resolve this issue, in your logout function run `googleLogout` funtion
+> :exclamation: While using One-tap feature, a [dead-loop UX issue](https://developers.google.com/identity/gsi/web/guides/automatic-sign-in-sign-out#sign-out) may occur. To resolve this issue, in your logout function run `googleLogout` funtion
 > ```javascript
 > import { googleLogout } from "vue3-google-login"
 > const yourLogoutFunction() {
