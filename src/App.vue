@@ -5,5 +5,7 @@ const callback = (response: any) => {
 </script>
 
 <template>
-  <GoogleLogin :callback="callback"/>
+  <GoogleLogin :callback="callback" popup-type="TOKEN">
+  <button>Ok</button>
+  </GoogleLogin>
 </template>
