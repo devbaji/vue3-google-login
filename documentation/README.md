@@ -12,11 +12,11 @@
   </a>&nbsp;
 </p>
 
-> :information_source: Documentation of version 1 has been moved [here](https://yobaji.github.io/vue3-google-login-v1/)
-
 <!-- ## Documentation
 
 <a href="https://yobaji.github.io/vue3-google-login/" target="_blank">https://yobaji.github.io/vue3-google-login/</a> -->
+
+> :information_source: Documentation of version 1 has been moved [here](https://yobaji.github.io/vue3-google-login-v1/)
 
 This plugin helps you to add Login With Google feature to your Vue 3 application
 

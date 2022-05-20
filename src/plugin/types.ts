@@ -91,13 +91,17 @@ export interface LibraryState {
   apiLoadIntitited: boolean;
 }
 
+export interface PopupOptions {
+  clientId: ClientId;
+}
+
 /**
  * A helper function to trigger login popup using google.accounts.oauth2.initCodeClient function under the hoods
  * @param options Optionally you can add clientId in this option if not initialized on plugin install
  * @returns A promise which get resolved with an auth code once user login through the popup
  */
 export interface GoogleAuthCodeLogin {
-  (clientId?: ClientId): Promise<callbackTypes.CodePopupResponse>;
+  (options?: PopupOptions): Promise<callbackTypes.CodePopupResponse>;
 }
 
 /**
@@ -106,7 +110,7 @@ export interface GoogleAuthCodeLogin {
  * @returns A promise which get resolved with an access token once user login through the popup
  */
 export interface GoogleTokenLogin {
-  (clientId?: ClientId): Promise<callbackTypes.TokenPopupResponse>;
+  (options?: PopupOptions): Promise<callbackTypes.TokenPopupResponse>;
 }
 export interface PromptNotification {
   /** Is this notification for a display moment? */
