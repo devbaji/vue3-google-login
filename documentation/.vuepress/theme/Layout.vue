@@ -15,7 +15,7 @@ import ParentLayout from '@vuepress/theme-default/lib/client/layouts/Layout.vue'
     <template #page-bottom>
       <div class="my-footer">
         MIT Licensed | Copyright © 2022-present 
-        <a href="https://yobaji.github.io/vue3-google-login/">Ananthakrishnan Baji</a>
+        <a href="https://yobaji.github.io">Ananthakrishnan Baji</a>
       </div>
     </template>
   </ParentLayout>
@@ -38,7 +38,7 @@ import ParentLayout from '@vuepress/theme-default/lib/client/layouts/Layout.vue'
   .my-navbar {
     font-size: 9px;
     margin-right: -15px;
-    margin-top: 3px;
+    margin-top: 2px;
   }
   .my-navbar img {
     width: 15px;

@@ -138,17 +138,17 @@ export const onMount = (
  * @param options Optionally you can add clientId in this option if not initialized on plugin install
  * @returns A promise which get resolved with an auth code once user login through the popup
  */
-export const googleAuthCodeLogin: types.GoogleAuthCodeLogin = (clientId?) => {
+export const googleAuthCodeLogin: types.GoogleAuthCodeLogin = (options?) => {
   return new Promise((resolve, reject) => {
     googleSdkLoaded((google) => {
-      if (!clientId && !state.clientId) {
+      if (!options?.clientId && !state.clientId) {
         throw new Error(
           "clientId is required since the plugin is not initialized with a Client Id"
         );
       }
       google.accounts.oauth2
         .initCodeClient({
-          client_id: clientId || state.clientId || "",
+          client_id: options?.clientId || state.clientId || "",
           scope: config.scopes,
           ux_mode: "popup",
           callback: (response: callbackTypes.CodePopupResponse) => {
@@ -169,17 +169,17 @@ export const googleAuthCodeLogin: types.GoogleAuthCodeLogin = (clientId?) => {
  * @param options Optionally you can add clientId in this option if not initialized on plugin install
  * @returns A promise which get resolved with an access token once user login through the popup
  */
-export const googleTokenLogin: types.GoogleTokenLogin = (clientId) => {
+export const googleTokenLogin: types.GoogleTokenLogin = (options) => {
   return new Promise((resolve, reject) => {
     googleSdkLoaded((google) => {
-      if (!clientId && !state.clientId) {
+      if (!options?.clientId && !state.clientId) {
         throw new Error(
           "clientId is required since the plugin is not initialized with a Client Id"
         );
       }
       google.accounts.oauth2
         .initTokenClient({
-          client_id: clientId || state.clientId || "",
+          client_id: options?.clientId || state.clientId || "",
           scope: config.scopes,
           callback: (response: callbackTypes.TokenPopupResponse) => {
             if (response.access_token) {
