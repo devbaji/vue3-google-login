@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-  <loc>https://yobaji.github.io/vue3-google-login/</loc>
-  <lastmod>2022-05-09T21:57:40+00:00</lastmod>
+	<loc>https://yobaji.github.io/</loc>
+	<lastmod>2022-05-20T19:04:53+01:00</lastmod>
+	<priority>1.0</priority>
 </url>
-
-
-</urlset> 
+<url>
+	<loc>https://yobaji.github.io/resume.pdf</loc>
+	<lastmod>2022-05-20T19:04:53+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://yobaji.github.io/vue3-google-login/</loc>
+	<lastmod>2022-05-20T19:04:53+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+<url>
+	<loc>https://yobaji.github.io/vue3-google-login-v1/</loc>
+	<lastmod>2022-05-20T19:04:55+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+</urlset>
