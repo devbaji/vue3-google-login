@@ -21,7 +21,9 @@ export const uuidv4 = (): string => {
  * @param token JWT credential string
  * @returns Decoded payload from the JWT credential string
  */
-export const decodeCredential: types.DecodeCredential = (token: string): object => {
+export const decodeCredential: types.DecodeCredential = (
+  token: string
+): object => {
   try {
     const base64Url = token.split(".")[1];
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -54,19 +56,6 @@ export const loadGApi = new Promise<types.Google>((resolve) => {
   }
 });
 
-export const initOptions = (options: types.Options): void => {
-  if (options.clientId) {
-    const idConfiguration = {
-      client_id: options.clientId,
-      auto_select: options.autoLogin === true,
-      callback: options.callback,
-      ...options.idConfiguration,
-    };
-    window.google.accounts.id.initialize(idConfiguration);
-    options.prompt && window.google.accounts.id.prompt();
-  }
-};
-
 export const mergeObjects = (obj1: any, obj2: any): types.Options => {
   const mergedObj = { ...obj1 };
   for (const key in obj2) {
@@ -81,15 +70,24 @@ export const renderLoginButton = (
   idConfiguration: types.IdConfiguration,
   buttonId: types.ButtonId,
   buttonConfig: types.ButtonConfig,
-  prompt: boolean = false,
-  hasSlot: boolean
+  hasSlot: boolean,
+  error: Function | null
 ) => {
+  if (error) {
+    const callback = idConfiguration.callback;
+    idConfiguration.callback = ((response) => {
+      if (!response.credential) {
+        error(response);
+      } else {
+        callback && callback(response);
+      }
+    }) as callbackTypes.CredentialCallback;
+  }
   window.google.accounts.id.initialize(idConfiguration);
   const button = document.getElementById(buttonId);
   if (button) {
     !hasSlot && window.google.accounts.id.renderButton(button, buttonConfig);
   }
-  prompt && window.google.accounts.id.prompt();
 };
 
 /**
@@ -120,16 +118,24 @@ export const onMount = (
   hasSlot: boolean
 ): void => {
   if (!idConfiguration.client_id) {
-    throw new Error("A valid Google API client ID must be provided");
+    throw new Error(
+      "Prop client id required since plugin is not initialized with a client id"
+    );
   }
   googleSdkLoaded(() => {
     renderLoginButton(
       idConfiguration,
       buttonId,
       options.buttonConfig,
-      options.prompt,
-      hasSlot
+      hasSlot,
+      options.error
     );
+    options.prompt &&
+      googleOneTap({
+        callback: options.callback as callbackTypes.CredentialCallback,
+        error: options.error,
+        autoLogin: options.autoLogin
+      });
   });
 };
 
@@ -141,14 +147,14 @@ export const onMount = (
 export const googleAuthCodeLogin: types.GoogleAuthCodeLogin = (options?) => {
   return new Promise((resolve, reject) => {
     googleSdkLoaded((google) => {
-      if (!options?.clientId && !state.clientId) {
+      if ((!options || !options.clientId) && !state.clientId) {
         throw new Error(
           "clientId is required since the plugin is not initialized with a Client Id"
         );
       }
       google.accounts.oauth2
         .initCodeClient({
-          client_id: options?.clientId || state.clientId || "",
+          client_id: (options && options.clientId) || state.clientId || "",
           scope: config.scopes,
           ux_mode: "popup",
           callback: (response: callbackTypes.CodePopupResponse) => {
@@ -172,14 +178,14 @@ export const googleAuthCodeLogin: types.GoogleAuthCodeLogin = (options?) => {
 export const googleTokenLogin: types.GoogleTokenLogin = (options) => {
   return new Promise((resolve, reject) => {
     googleSdkLoaded((google) => {
-      if (!options?.clientId && !state.clientId) {
+      if ((!options || !options.clientId) && !state.clientId) {
         throw new Error(
           "clientId is required since the plugin is not initialized with a Client Id"
         );
       }
       google.accounts.oauth2
         .initTokenClient({
-          client_id: options?.clientId || state.clientId || "",
+          client_id: (options && options.clientId) || state.clientId || "",
           scope: config.scopes,
           callback: (response: callbackTypes.TokenPopupResponse) => {
             if (response.access_token) {
@@ -192,6 +198,29 @@ export const googleTokenLogin: types.GoogleTokenLogin = (options) => {
         .requestAccessToken();
     });
   });
+};
+
+const handlePromptError = (options: types.PromptErrorOptions) => {
+  const notification = options.notification;
+  let errorMessage: string = "";
+  if (notification.isNotDisplayed()) {
+    if (notification.getNotDisplayedReason() === "suppressed_by_user") {
+      errorMessage = `Prompt was suppressed by user'. Refer https://developers.google.com/identity/gsi/web/guides/features#exponential_cooldown for more info`;
+    } else {
+      errorMessage = `Prompt was not displayed, reason for not displaying: ${notification.getNotDisplayedReason()}`;
+    }
+  }
+  if (notification.isSkippedMoment()) {
+    errorMessage = `Prompt was skipped, reason for skipping: ${notification.getSkippedReason()}`;
+  }
+  
+  if (errorMessage.length) {
+    if (options.error) {
+      options.error(errorMessage);
+    } else {
+      options.reject(errorMessage);
+    }
+  }
 };
 
 /**
@@ -207,19 +236,16 @@ export const googleOneTap: types.GoogleOneTap = (
     throw new Error("clientId is required");
   }
 
-  const initOptions: types.IdConfiguration = {};
-  options.clientId && (initOptions.client_id = options.clientId);
-  !options.clientId &&
-    state.clientId &&
-    (initOptions.client_id = state.clientId);
-  options.context && (initOptions.context = options.context);
-  options.autoLogin != undefined &&
-    (initOptions.auto_select = options.autoLogin);
+  const idConfig: types.IdConfiguration = {};
+  options.clientId && (idConfig.client_id = options.clientId);
+  !options.clientId && state.clientId && (idConfig.client_id = state.clientId);
+  options.context && (idConfig.context = options.context);
+  options.autoLogin != undefined && (idConfig.auto_select = options.autoLogin);
   options.cancelOnTapOutside != undefined &&
-    (initOptions.cancel_on_tap_outside = options.cancelOnTapOutside);
+    (idConfig.cancel_on_tap_outside = options.cancelOnTapOutside);
 
   return new Promise((resolve, reject) => {
-    initOptions.callback = (response: callbackTypes.CredentialPopupResponse) => {
+    idConfig.callback = (response: callbackTypes.CredentialPopupResponse) => {
       options && options.callback && options.callback(response);
       if (response.credential) {
         resolve(response);
@@ -228,27 +254,16 @@ export const googleOneTap: types.GoogleOneTap = (
       }
     };
     googleSdkLoaded((google) => {
-      google.accounts.id.initialize(initOptions);
+      google.accounts.id.initialize(idConfig);
       google.accounts.id.prompt((notification: types.PromptNotification) => {
         options &&
           options.onNotification &&
           options.onNotification(notification);
-        if (notification.isNotDisplayed()) {
-          if (notification.getNotDisplayedReason() === "suppressed_by_user") {
-            reject(
-              `Prompt was suppressed by user'. Refer https://developers.google.com/identity/gsi/web/guides/features#exponential_cooldown for more info`
-            );
-          } else {
-            reject(
-              `Prompt was not displayed, reason for not displaying:${notification.getNotDisplayedReason()}`
-            );
-          }
-        }
-        if (notification.isSkippedMoment()) {
-          reject(
-            `Prompt was skipped, reason for skipping: ${notification.getSkippedReason()}`
-          );
-        }
+        handlePromptError({
+          notification,
+          reject,
+          error: options && options.error,
+        });
       });
     });
   });

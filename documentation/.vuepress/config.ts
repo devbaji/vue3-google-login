@@ -1,5 +1,6 @@
 import { defineUserConfig } from "vuepress";
 import { localTheme } from "./theme";
+import { copyCodePlugin } from "vuepress-plugin-copy-code2";
 
 export default defineUserConfig({
   title: "vue3-google-login",
@@ -19,7 +20,7 @@ export default defineUserConfig({
       {
         name: "robots",
         content:
-          "vue 3, vue.js, login with google, login using google, npm, vue3-google-login, vue-google-login, vue-google-oauth2, google identity services",
+          "vue 3, vuejs, one tap sign up, automatic sign in, login with google, login using google, one tap sign up and sign in, npm, vue3-google-login, vue-google-login, vue-google-oauth2, google identity services, gsi, client library, sign in with google, gsi client, accounts.google.com, javaScript sdk",
       },
     ],
     [
@@ -27,7 +28,7 @@ export default defineUserConfig({
       {
         name: "googlebot",
         content:
-          "vue 3, vue.js, login with google, login using google, npm, vue3-google-login, vue-google-login, vue-google-oauth2, google identity services",
+          "vue 3, vuejs, one tap sign up, automatic sign in, login with google, login using google, one tap sign up and sign in, npm, vue3-google-login, vue-google-login, vue-google-oauth2, google identity services, gsi, client library, sign in with google, gsi client, accounts.google.com, javaScript sdk",
       },
     ],
     [
@@ -68,4 +69,9 @@ export default defineUserConfig({
     contributors: false,
     lastUpdated: false,
   }),
+  plugins: [
+    copyCodePlugin({
+      pure: true
+    }),
+  ],
 });
