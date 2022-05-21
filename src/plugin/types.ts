@@ -1,4 +1,4 @@
-import * as callbackTypes from "./callbackTypes"
+import * as callbackTypes from "./callbackTypes";
 
 export type PopupTypeCode = "CODE";
 export type PopupTypeToken = "TOKEN";
@@ -31,6 +31,9 @@ export interface ButtonConfig {
   locale?: string;
 }
 
+/**
+ * Your Google API client ID
+ */
 export type ClientId = string | null;
 
 export type ButtonId = string;
@@ -85,6 +88,7 @@ export interface Options {
   idConfiguration: IdConfiguration | null;
   buttonConfig: ButtonConfig;
   callback: Function;
+  error: Function | null;
 }
 export interface LibraryState {
   apiLoaded: boolean;
@@ -92,7 +96,10 @@ export interface LibraryState {
 }
 
 export interface PopupOptions {
-  clientId: ClientId;
+  /**
+   * Your Google API client ID
+   */
+  clientId?: ClientId;
 }
 
 /**
@@ -152,12 +159,18 @@ export type OnPromptNotification = (
   promptNotification: PromptNotification
 ) => void;
 
+export interface PromptErrorOptions {
+  notification: PromptNotification;
+  reject: any;
+  error?: Function | null;
+}
+
 export interface OneTapOptions {
   /**Your Google API client ID */
   clientId?: ClientId;
   /** The title and words in the One Tap prompt */
   context?: Context;
-  /** Boolean value showing whether the  google client library is loaded or not */
+  /** Set this to true if you want the one-tap promt to automatically login */
   autoLogin?: boolean;
   /** Controls whether to cancel the prompt if the user clicks outside of the prompt */
   cancelOnTapOutside?: boolean;
@@ -165,6 +178,8 @@ export interface OneTapOptions {
   onNotification?: OnPromptNotification;
   /** Callback function to triggered on successfull login */
   callback?: callbackTypes.CredentialCallback;
+  /** Callback function to triggered when prompt fails to show */
+  error?: Function | null;
 }
 
 /**

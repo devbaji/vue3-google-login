@@ -24,6 +24,8 @@ const props = withDefaults(
     buttonConfig?: object;
     /** Callback function to triggered on successfull login */
     callback?: Function;
+    /** Callback function to triggered on popup returning with invalid response or when the one-tap prompt fails */
+    error?: Function;
   }>(),
   {
     prompt: false,
@@ -45,13 +47,15 @@ const buttonId: types.ButtonId = `g-btn-${utils.uuidv4()}`;
 
 const openPopup = (type?: types.PopupTypes) => {
   if (type === "TOKEN") {
-    utils.googleTokenLogin(options.clientId).then((response) => {
+    utils.googleTokenLogin({ clientId: options.clientId }).then((response) => {
       options.callback && options.callback(response);
     });
   } else {
-    utils.googleAuthCodeLogin(options.clientId).then((response) => {
-      options.callback && options.callback(response);
-    });
+    utils
+      .googleAuthCodeLogin({ clientId: options.clientId })
+      .then((response) => {
+        options.callback && options.callback(response);
+      });
   }
 };
 

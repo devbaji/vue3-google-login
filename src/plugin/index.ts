@@ -1,9 +1,8 @@
-import { App, Ref, ref, watch } from "vue";
+import { App } from "vue";
 import { Options } from "./types";
 import * as CallbackTypes from "./callbackTypes";
 import {
   loadGApi,
-  initOptions,
   decodeCredential,
   googleOneTap,
   googleLogout,
@@ -25,26 +24,20 @@ export {
   googleSdkLoaded,
 };
 
-/**
- * A composable function to get a boolean state showing whether the google [client library](https://developers.google.com/identity/gsi/web/guides/client-library) is loaded or not
- * @returns a boolean state which changes to true once google [client library](https://developers.google.com/identity/gsi/web/guides/client-library) is loaded
- */
-export const useGoogleSdkLoaded = (): Ref<boolean> => {
-  const loaded = ref(false);
-  watch(
-    () => libraryState.apiLoaded,
-    (n) => {
-      loaded.value = n;
-    }
-  );
-  return loaded;
-};
-
 export default {
   install: (app: App, options: Options) => {
     options && setState(options);
     loadGApi.then(() => {
-      options && initOptions(options);
+      if (options.clientId) {
+        const idConfiguration = {
+          client_id: options.clientId,
+          auto_select: options.autoLogin === true,
+          callback: options.callback,
+          ...options.idConfiguration,
+        };
+        window.google.accounts.id.initialize(idConfiguration);
+        options.prompt && window.google.accounts.id.prompt();
+      }
     });
     app.component("GoogleLogin", GoogleLogin);
   },

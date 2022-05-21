@@ -10,6 +10,7 @@ const state: types.Options = reactive({
   idConfiguration: null,
   buttonConfig: config.defaultButtonConfig,
   callback: () => {},
+  error: null,
 });
 
 export default state;

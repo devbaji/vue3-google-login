@@ -1,15 +1,13 @@
-<script setup lang="ts">
-import { googleTokenLogin } from "./plugin"
-const login = async() => {
-  const r = await googleTokenLogin()
-  console.log(r.access_token);
-  
+<script setup>
+const callback = (response) => {
+  // This callback will be triggered automatically 
+  // if one single Google account is already logged in
+  console.log("Handle the response", response)
 }
-const callback = (response: any) => {
-  console.log(response);
-};
 </script>
 
 <template>
-  <button @click="login">Ok</button>
+  <GoogleLogin :callback="callback" prompt auto-login>
+    <button>Login With Google</button>
+  </GoogleLogin>
 </template>
