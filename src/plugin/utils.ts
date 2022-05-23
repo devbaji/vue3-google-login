@@ -1,4 +1,4 @@
-import { watch } from "vue";
+import { Ref, watch } from "vue";
 import config from "./config";
 import * as types from "./types";
 import * as callbackTypes from "./callbackTypes";
@@ -68,7 +68,7 @@ export const mergeObjects = (obj1: any, obj2: any): types.Options => {
 
 export const renderLoginButton = (
   idConfiguration: types.IdConfiguration,
-  buttonId: types.ButtonId,
+  buttonRef: Ref<HTMLElement | undefined>,
   buttonConfig: types.ButtonConfig,
   hasSlot: boolean,
   error: Function | null
@@ -84,7 +84,7 @@ export const renderLoginButton = (
     }) as callbackTypes.CredentialCallback;
   }
   window.google.accounts.id.initialize(idConfiguration);
-  const button = document.getElementById(buttonId);
+  const button = buttonRef?.value;
   if (button) {
     !hasSlot && window.google.accounts.id.renderButton(button, buttonConfig);
   }
@@ -113,7 +113,7 @@ export const googleSdkLoaded: types.GoogleSdkLoaded = (action) => {
 
 export const onMount = (
   idConfiguration: types.IdConfiguration,
-  buttonId: types.ButtonId,
+  buttonRef: Ref<HTMLElement | undefined>,
   options: types.Options,
   hasSlot: boolean
 ): void => {
@@ -125,7 +125,7 @@ export const onMount = (
   googleSdkLoaded(() => {
     renderLoginButton(
       idConfiguration,
-      buttonId,
+      buttonRef,
       options.buttonConfig,
       hasSlot,
       options.error
