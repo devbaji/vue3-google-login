@@ -43,7 +43,6 @@ const idConfiguration: types.IdConfiguration = {
   ...options.idConfiguration,
 };
 
-const buttonId: types.ButtonId = `g-btn-${utils.uuidv4()}`;
 const buttonRef = ref<HTMLElement | undefined>();
 
 const openPopup = (type?: types.PopupTypes) => {
@@ -71,7 +70,7 @@ onMounted(() => {
     :class="[!libraryState.apiLoaded && 'api-loading']"
     @click="hasSlot && openPopup(options.popupType)"
   >
-    <span v-if="!hasSlot" ref="buttonRef" :id="buttonId" class="g-btn"></span>
+    <span v-if="!hasSlot" ref="buttonRef" class="g-btn"></span>
     <slot></slot>
   </div>
 </template>
