@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, useSlots } from "vue";
+import { onMounted, ref, useSlots } from "vue";
 import * as types from "./types";
 import * as utils from "./utils";
 import { CredentialCallback } from "./callbackTypes";
@@ -44,6 +44,7 @@ const idConfiguration: types.IdConfiguration = {
 };
 
 const buttonId: types.ButtonId = `g-btn-${utils.uuidv4()}`;
+const buttonRef = ref<HTMLElement | undefined>();
 
 const openPopup = (type?: types.PopupTypes) => {
   if (type === "TOKEN") {
@@ -60,7 +61,7 @@ const openPopup = (type?: types.PopupTypes) => {
 };
 
 onMounted(() => {
-  utils.onMount(idConfiguration, buttonId, options, hasSlot);
+  utils.onMount(idConfiguration, buttonRef, options, hasSlot);
 });
 </script>
 
@@ -70,7 +71,7 @@ onMounted(() => {
     :class="[!libraryState.apiLoaded && 'api-loading']"
     @click="hasSlot && openPopup(options.popupType)"
   >
-    <span v-if="!hasSlot" :id="buttonId" class="g-btn"></span>
+    <span v-if="!hasSlot" ref="buttonRef" :id="buttonId" class="g-btn"></span>
     <slot></slot>
   </div>
 </template>
