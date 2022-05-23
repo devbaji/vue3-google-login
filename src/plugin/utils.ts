@@ -8,14 +8,6 @@ declare global {
   interface Window extends types._Window {}
 }
 
-export const uuidv4 = (): string => {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-    var r = (Math.random() * 16) | 0,
-      v = c == "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
-};
-
 /**
  * For retriving the JWT payload from the credential
  * @param token JWT credential string
@@ -132,6 +124,7 @@ export const onMount = (
     );
     options.prompt &&
       googleOneTap({
+        clientId: options.clientId,
         callback: options.callback as callbackTypes.CredentialCallback,
         error: options.error,
         autoLogin: options.autoLogin
