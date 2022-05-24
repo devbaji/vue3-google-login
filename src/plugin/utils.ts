@@ -76,7 +76,7 @@ export const renderLoginButton = (
     }) as callbackTypes.CredentialCallback;
   }
   window.google.accounts.id.initialize(idConfiguration);
-  const button = buttonRef?.value;
+  const button = buttonRef.value;
   if (button) {
     !hasSlot && window.google.accounts.id.renderButton(button, buttonConfig);
   }
