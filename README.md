@@ -33,4 +33,60 @@ This allows you to implement the following features
 
 ## Documentation
 
-<a href="https://yobaji.github.io/vue3-google-login/" target="_blank">https://yobaji.github.io/vue3-google-login/</a>
+https://yobaji.github.io/vue3-google-login/
+
+
+## Basic Setup
+
+### Installation
+
+First step is to install it using npm
+
+```bash
+npm install vue3-google-login
+```
+Or using yarn
+```bash
+yarn add vue3-google-login
+```
+### Initialize the plugin
+
+Initialize the vue3-google-login plugin in main.js, this will register a component `GoogleLogin` globally
+
+
+```javascript
+import { createApp } from 'vue'
+import App from './App.vue'
+import vue3GoogleLogin from 'vue3-google-login'
+
+const app = createApp(App)
+
+app.use(vue3GoogleLogin, {
+  clientId: 'YOUR_GOOGLE_CLIENT_ID'
+})
+
+app.mount('#app')
+```
+
+> :bulb: If you dont want to initialize and register `GoogleLogin` component, you can directly import this from `vue3-google-login` package and use the client-id prop, also some functions accepts a clientId option which can be used to avoid initialising the plugin, see [here](#options) for more info
+> 
+### GoogleLogin component
+
+Once the plugin is installed you can use the component `GoogleLogin` anywhere in your project, this will render a log in button which opens a popup for Google login
+
+```vue
+<script setup>
+const callback = (response) => {
+  // This callback will be triggered when the user selects or login to
+  // his Google account from the popup
+  console.log("Handle the response", response)
+}
+</script>
+
+<template>
+  <GoogleLogin :callback="callback"/>
+</template>
+```
+<br>
+
+> ### For more advanced usages see the [docs](https://yobaji.github.io/vue3-google-login/)
