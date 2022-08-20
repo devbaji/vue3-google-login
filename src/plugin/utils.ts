@@ -34,8 +34,8 @@ export const decodeCredential: types.DecodeCredential = (
 };
 
 export const loadGApi = new Promise<types.Google>((resolve) => {
-  // @ts-ignore: To resolve errors in nuxt3
-  const isRunningInBrowser = typeof process === "undefined" || process.client == undefined || process.client;
+  // To resolve errors in nuxt3
+  const isRunningInBrowser = typeof window !== "undefined";
 
   if (!libraryState.apiLoadIntitited && isRunningInBrowser) {
     const script = document.createElement("script");

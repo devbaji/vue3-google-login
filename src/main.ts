@@ -5,8 +5,8 @@ import plugin from "./plugin"
 
 const app = createApp(App)
 
-// app.use(plugin,{
-//   clientId:'352931034399-ht1i7mqefgrbsn67a4b1nm991bvat47l.apps.googleusercontent.com'
-// })
+app.use(plugin,{
+  clientId:'YOUR_CLIENT_ID'
+})
 
-app.mount("#app");
+app.mount("#app")
