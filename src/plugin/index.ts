@@ -1,5 +1,5 @@
-import { App } from "vue";
-import { Options } from "./types";
+import type { App } from "vue";
+import type { InstallOptions } from "./types";
 import * as CallbackTypes from "./callbackTypes";
 import {
   loadGApi,
@@ -10,7 +10,7 @@ import {
   googleAuthCodeLogin,
   googleSdkLoaded,
 } from "./utils";
-import { setState, libraryState } from "./state";
+import { setState } from "./state";
 import GoogleLogin from "./GoogleLogin.vue";
 
 export {
@@ -25,7 +25,7 @@ export {
 };
 
 export default {
-  install: (app: App, options: Options) => {
+  install: (app: App, options: InstallOptions) => {
     options && setState(options);
     loadGApi.then(() => {
       if (options.clientId) {

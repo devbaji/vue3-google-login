@@ -1,5 +1,5 @@
 import { reactive } from "vue";
-import * as types from "./types";
+import type * as types from "./types";
 import config from "./config";
 
 const state: types.Options = reactive({
@@ -20,7 +20,7 @@ export const libraryState: types.LibraryState = reactive({
   apiLoadIntitited: false,
 });
 
-export const setState = (options: types.Options): void => {
+export const setState = (options: types.Options | types.InstallOptions): void => {
   options.clientId && (state.clientId = options.clientId);
   options.popupType && (state.popupType = options.popupType);
   options.prompt != undefined && (state.prompt = options.prompt);

@@ -1,14 +1,12 @@
-<script setup>
-  import { CallbackTypes, GoogleLogin } from "./plugin"
-const callback = (response) => {
-  // This callback will be triggered automatically 
-  // if one single Google account is already logged in
-  console.log("Handle the response", response)
-}
+<script setup lang="ts">
+import { CallbackTypes } from "./plugin";
+const callback: CallbackTypes.CredentialCallback = (response) => {
+  // This callback will be triggered when the user selects or login to
+  // his Google account from the popup
+  console.log("Credential JWT string", response.credential);
+};
 </script>
 
 <template>
-  <GoogleLogin :callback="callback" prompt auto-login>
-      <button>Login With Google</button>
-    </GoogleLogin>
+  <GoogleLogin :callback="callback" />
 </template>

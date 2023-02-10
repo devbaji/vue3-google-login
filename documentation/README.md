@@ -346,7 +346,7 @@ Use `CredentialCallback` type for the callback of Google rendered login button u
 
 ```vue
 <script setup lang="ts">
-import { CallbackTypes } from "vue3-google-login";
+import type { CallbackTypes } from "vue3-google-login";
 const callback: CallbackTypes.CredentialCallback = (response) => {
   // This callback will be triggered when the user selects or login to
   // his Google account from the popup
@@ -364,7 +364,7 @@ Use `CodeResponseCallback` type for the callback trigered by [GoogleLogin compon
 
 ```vue
 <script setup lang="ts">
-import { CallbackTypes } from "vue3-google-login";
+import type { CallbackTypes } from "vue3-google-login";
 const callback: CallbackTypes.CodeResponseCallback = (response) => {
   console.log("Authorisation code", response.code);
 };
@@ -382,9 +382,9 @@ Use `TokenResponseCallback` type for the callback trigered by [GoogleLogin compo
 
 ```vue
 <script setup lang="ts">
-import { CallbackTypes } from "vue3-google-login";
-const callback: CallbackTypes.CodeResponseCallback = (response) => {
-  console.log("Authorisation code", response.code);
+import type { CallbackTypes } from "vue3-google-login";
+const callback: CallbackTypes.TokenResponseCallback = (response) => {
+  console.log("Access token", response.access_token);
 };
 </script>
 

@@ -1,7 +1,7 @@
-import { Ref, watch } from "vue";
+import { type Ref, watch } from "vue";
 import config from "./config";
-import * as types from "./types";
-import * as callbackTypes from "./callbackTypes";
+import type * as types from "./types";
+import type * as callbackTypes from "./callbackTypes";
 import state, { libraryState } from "./state";
 
 declare global {
