@@ -1,4 +1,4 @@
-import * as callbackTypes from "./callbackTypes";
+import type * as callbackTypes from "./callbackTypes";
 
 export type PopupTypeCode = "CODE";
 export type PopupTypeToken = "TOKEN";
@@ -90,6 +90,18 @@ export interface Options {
   callback: Function;
   error: Function | null;
 }
+
+export interface InstallOptions {
+  clientId?: ClientId;
+  prompt?: boolean;
+  autoLogin?: boolean;
+  popupType?: PopupTypes;
+  idConfiguration?: IdConfiguration | null;
+  buttonConfig?: ButtonConfig;
+  callback?: Function;
+  error?: Function | null;
+}
+
 export interface LibraryState {
   apiLoaded: boolean;
   apiLoadIntitited: boolean;

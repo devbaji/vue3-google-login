@@ -1,4 +1,4 @@
-import { ButtonConfig } from "./types";
+import type { ButtonConfig } from "./types";
 
 const defaultButtonConfig: ButtonConfig = { theme: "outline", size: "large" };
 
