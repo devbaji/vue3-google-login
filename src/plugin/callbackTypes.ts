@@ -38,6 +38,14 @@ export interface CodePopupResponse {
   scope: string;
 }
 
+export interface ErrorPopupResponse {
+  message: string;
+  /** The error stack trace. */
+  stack: string;
+  /** The error type, giving the detailed reason for the error. */
+  type: string;
+}
+
 /**
  * Callback triggered with JWT credential response on google login prompts success.
  */
