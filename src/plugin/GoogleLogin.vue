@@ -47,14 +47,22 @@ const buttonRef = ref<HTMLElement | undefined>();
 
 const openPopup = (type?: types.PopupTypes) => {
   if (type === "TOKEN") {
-    utils.googleTokenLogin({ clientId: options.clientId }).then((response) => {
-      options.callback && options.callback(response);
-    });
+    utils
+      .googleTokenLogin({ clientId: options.clientId })
+      .then((response) => {
+        options.callback && options.callback(response);
+      })
+      .catch((error) => {
+        options.error && options.error(error)
+      });
   } else {
     utils
       .googleAuthCodeLogin({ clientId: options.clientId })
       .then((response) => {
         options.callback && options.callback(response);
+      })
+      .catch((error) => {
+        options.error && options.error(error)
       });
   }
 };

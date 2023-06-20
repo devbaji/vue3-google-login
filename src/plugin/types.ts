@@ -262,6 +262,17 @@ interface TokenClientConfig {
    * request and the authorization server's response.
    */
   state?: string;
+
+  /**
+   * Optional. The JavaScript function that handles some non-OAuth errors, such as the popup window is failed to open; or closed before an OAuth response is returned.
+   * 
+   * The `type` field of the input parameter gives the detailed reason.
+   * 
+   *   * popup_failed_to_open The popup window is failed to open.
+   *   * popup_closed The popup window is closed before an OAuth response is returned.
+   *   * unknown Placeholder for other errors.
+   */
+  error_callback?: (errorResponse: callbackTypes.ErrorPopupResponse) => void;
 }
 
 export interface OverridableTokenClientConfig {

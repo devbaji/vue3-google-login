@@ -160,6 +160,9 @@ export const googleAuthCodeLogin: types.GoogleAuthCodeLogin = (options?) => {
               reject(response);
             }
           },
+          error_callback: (response: callbackTypes.ErrorPopupResponse) => {
+            reject(response);
+          },
         })
         .requestCode();
     });
@@ -189,6 +192,9 @@ export const googleTokenLogin: types.GoogleTokenLogin = (options) => {
             } else {
               reject(response);
             }
+          },
+          error_callback: (response) => {
+            reject(response);
           },
         })
         .requestAccessToken();
