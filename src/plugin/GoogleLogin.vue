@@ -14,7 +14,7 @@ const props = withDefaults(
     clientId?: string;
     /** To show the One-tap and Automatic-Login prompt */
     prompt?: boolean;
-    /** Boolean value showing whether the  google client library is loaded or not */
+    /** Set this to true if you want the one-tap promt to automatically login */
     autoLogin?: boolean;
     /** Type of popup, if set to 'code' will give an Auth code in the popup call back and if set to 'token' the popup callback will give as an access token */
     popupType?: "CODE" | "TOKEN";
@@ -53,7 +53,7 @@ const openPopup = (type?: types.PopupTypes) => {
         options.callback && options.callback(response);
       })
       .catch((error) => {
-        options.error && options.error(error)
+        options.error && options.error(error);
       });
   } else {
     utils
@@ -62,7 +62,7 @@ const openPopup = (type?: types.PopupTypes) => {
         options.callback && options.callback(response);
       })
       .catch((error) => {
-        options.error && options.error(error)
+        options.error && options.error(error);
       });
   }
 };
