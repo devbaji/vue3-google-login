@@ -117,9 +117,6 @@ export const onMount = (
       "Prop client id required since plugin is not initialized with a client id"
     );
   }
-  if(options.popupType && !hasSlot) {
-    console.warn("Option 'popupType' is ignored since a slot which act as a custom login button was not found!!!")
-  }
   googleSdkLoaded(() => {
     renderLoginButton(
       idConfiguration,
