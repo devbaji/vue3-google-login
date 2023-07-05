@@ -30,7 +30,6 @@ const props = withDefaults(
   {
     prompt: false,
     autoLogin: false,
-    popupType: "CODE",
   }
 );
 
@@ -69,6 +68,9 @@ const openPopup = (type?: types.PopupTypes) => {
 
 onMounted(() => {
   utils.onMount(idConfiguration, buttonRef, options, hasSlot);
+  if(props.popupType && !hasSlot) {
+    console.warn("Option 'popupType' is ignored since a slot which act as a custom login button was not found!!!")
+  }
 });
 </script>
 
