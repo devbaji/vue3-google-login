@@ -6,8 +6,8 @@ import ParentLayout from "@vuepress/theme-default/lib/client/layouts/Layout.vue"
   <ParentLayout>
     <template #navbar-after>
       <div class="my-navbar">
-        <a href="https://github.com/yobaji/vue3-google-login/">
-          <img src="https://yobaji.github.io/images/github.svg?sdsd=45" />
+        <a href="https://github.com/devbaji/vue3-google-login/">
+          <img src="https://devbaji.github.io/images/github.svg?sdsd=45" />
           GitHub
         </a>
       </div>
@@ -15,7 +15,7 @@ import ParentLayout from "@vuepress/theme-default/lib/client/layouts/Layout.vue"
     <template #page-bottom>
       <div class="my-footer">
         MIT Licensed | Copyright © 2022-present
-        <a href="https://yobaji.github.io">Ananthakrishnan Baji</a>
+        <a href="https://devbaji.github.io">Ananthakrishnan Baji</a>
       </div>
     </template>
   </ParentLayout>

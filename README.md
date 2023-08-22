@@ -1,7 +1,7 @@
 <h1 align="center">Vue 3 Google Login</h1>
 <p align="center">
   <img 
-    src="https://yobaji.github.io/vue3-google-login/images/auto-login.gif"
+    src="https://devbaji.github.io/vue3-google-login/images/auto-login.gif"
     width="300"
   >
 </p>
@@ -33,7 +33,7 @@ This allows you to implement the following features
 
 ## Documentation
 
-https://yobaji.github.io/vue3-google-login/
+https://devbaji.github.io/vue3-google-login/
 
 
 ## Basic Setup
@@ -89,4 +89,4 @@ const callback = (response) => {
 ```
 <br>
 
-> ### For more advanced usages see the [docs](https://yobaji.github.io/vue3-google-login/)
+> ### For more advanced usages see the [docs](https://devbaji.github.io/vue3-google-login/)

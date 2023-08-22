@@ -1,7 +1,7 @@
 <h1 align="center">Vue 3 Google Login</h1>
 <p align="center">
   <img 
-    src="https://yobaji.github.io/vue3-google-login/images/auto-login.gif"
+    src="https://devbaji.github.io/vue3-google-login/images/auto-login.gif"
   >
 </p>
 
@@ -19,7 +19,7 @@
 
 <!-- ## Documentation
 
-<a href="https://yobaji.github.io/vue3-google-login/" target="_blank">https://yobaji.github.io/vue3-google-login/</a> -->
+<a href="https://devbaji.github.io/vue3-google-login/" target="_blank">https://devbaji.github.io/vue3-google-login/</a> -->
 
 ## Overview
 
@@ -93,7 +93,7 @@ const callback = (response) => {
 Here is an image showing log in button rendered by Google
 <p align="center">
   <img 
-    src="https://yobaji.github.io/vue3-google-login/images/google-rendered-button.png"
+    src="https://devbaji.github.io/vue3-google-login/images/google-rendered-button.png"
   >
 </p>
 
@@ -148,7 +148,7 @@ Here is an image showing One Tap prompt
 
 <p align="center">
   <img 
-    src="https://yobaji.github.io/vue3-google-login/images/one-tap-prompt.gif"
+    src="https://devbaji.github.io/vue3-google-login/images/one-tap-prompt.gif"
   >
 </p>
 
@@ -207,7 +207,7 @@ Here is an image showing how the prompt detects the logged in Google account and
 
 <p align="center">
   <img 
-    src="https://yobaji.github.io/vue3-google-login/images/auto-login.gif"
+    src="https://devbaji.github.io/vue3-google-login/images/auto-login.gif"
   >
 </p>
 
@@ -303,7 +303,7 @@ Here is an image showing how a custom button opens the Google login popup
 <p align="center">
   <img 
     width="300"
-    src="https://yobaji.github.io/vue3-google-login/images/custom-login-button.gif"
+    src="https://devbaji.github.io/vue3-google-login/images/custom-login-button.gif"
   >
 </p>
 
