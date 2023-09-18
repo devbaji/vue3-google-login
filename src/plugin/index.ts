@@ -1,5 +1,5 @@
 import type { App } from "vue";
-import type { InstallOptions } from "./types";
+import type { IdConfiguration, InstallOptions } from "./types";
 import * as CallbackTypes from "./callbackTypes";
 import {
   loadGApi,
@@ -29,10 +29,11 @@ export default {
     options && setState(options);
     loadGApi.then(() => {
       if (options.clientId) {
-        const idConfiguration = {
+        const idConfiguration: IdConfiguration = {
           client_id: options.clientId,
           auto_select: options.autoLogin === true,
           callback: options.callback,
+          use_fedcm_for_prompt: true,
           ...options.idConfiguration,
         };
         window.google.accounts.id.initialize(idConfiguration);

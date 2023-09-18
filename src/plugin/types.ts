@@ -67,6 +67,8 @@ export interface IdConfiguration {
   state_cookie_domain?: string;
   /** The origins that are allowed to embed the intermediate iframe. One Tap will run in the intermediate iframe mode if this attribute presents */
   allowed_parent_origin?: string | string[];
+  /**	Allow the browser to control user sign-in prompts and mediate the sign-in flow between your website and Google. Defaults to false. */
+  use_fedcm_for_prompt?: boolean;
   /**	Overrides the default intermediate iframe behavior when users manually close One Tap */
   intermediate_iframe_close_callback?: () => void;
   /** Enables upgraded One Tap UX on ITP browsers */

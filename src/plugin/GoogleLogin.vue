@@ -77,7 +77,6 @@ onMounted(() => {
 <template>
   <div
     class="g-btn-wrapper"
-    :class="[!libraryState.apiLoaded && 'api-loading']"
     @click="hasSlot && openPopup(options.popupType)"
   >
     <span v-if="!hasSlot" ref="buttonRef" class="g-btn"></span>
@@ -88,9 +87,5 @@ onMounted(() => {
 <style scoped>
 .g-btn-wrapper {
   display: inline-block;
-}
-.g-btn-wrapper.api-loading {
-  opacity: 0.5;
-  pointer-events: none;
 }
 </style>
