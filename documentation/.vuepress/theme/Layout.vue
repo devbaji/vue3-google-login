@@ -6,6 +6,10 @@ import ParentLayout from "@vuepress/theme-default/lib/client/layouts/Layout.vue"
   <ParentLayout>
     <template #navbar-after>
       <div class="my-navbar">
+        <a href="https://www.buymeacoffee.com/developerbaji" target="_blank"><img src="./buyme-coffee.webp" alt="Buy Me A Coffee" class="buy-me-coffee"></a>
+        <a href="https://paypal.me/devbaji" target="_blank"><img src="./paypal.png" alt="Paypal" class="paypal"></a>
+        <a href="https://www.buymeacoffee.com/developerbaji" target="_blank"><img src="./buyme-coffee-small.webp" alt="Buy Me A Coffee" class="buy-me-coffee-small"></a>
+        <a href="https://paypal.me/devbaji" target="_blank"><img src="./paypal-small.png" alt="Paypal" class="paypal-small"></a>
         <a href="https://github.com/devbaji/vue3-google-login/">
           <img src="https://devbaji.github.io/images/github.svg?sdsd=45" />
           GitHub
@@ -22,6 +26,25 @@ import ParentLayout from "@vuepress/theme-default/lib/client/layouts/Layout.vue"
 </template>
 
 <style lang="css">
+.buy-me-coffee {
+  height: 32px;
+  margin-right: 5px;
+  width: auto !important;
+}
+.paypal {
+  height: 32px;
+  width: auto !important;
+  border-radius: 5px;
+  margin-right: 5px;
+  overflow: hidden;
+}
+.paypal-small, .buy-me-coffee-small {
+  display: none;
+  width: 20px !important;
+  border-radius: 5px;
+  margin-right: 5px;
+  overflow: hidden;
+}
 div[class*="language-"] .copy-code-pure-button {
   z-index: 2;
   opacity: 0;
@@ -54,6 +77,15 @@ div[class*="language-"]:hover .copy-code-pure-button {
   }
   .my-navbar img {
     width: 15px;
+  }
+  .paypal, .buy-me-coffee {
+    display: none;
+  }
+  .paypal-small, .buy-me-coffee-small {
+    display: inline-block;
+  }
+  .site-name {
+    font-size: 17px !important;
   }
 }
 </style>
