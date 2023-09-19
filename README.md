@@ -18,6 +18,11 @@
   </a>&nbsp;
 </p>
 
+<p align="center">
+  <a href="https://www.buymeacoffee.com/developerbaji" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 30px !important;width: auto !important;" ></a>
+  <a href="https://paypal.me/devbaji" target="_blank"><img src="https://devbaji.github.io/vue3-google-login/documentation/.vuepress/theme/paypal.png" alt="Paypal" style="height: 30px !important;width: auto !important;" ></a>
+</p>
+
 ## Overview
 
 This is a lightweight plugin to implement log-in and sign-up flows using [Google Identity Services](https://developers.google.com/identity) with the help of [Google 3P Authorization JavaScript Library](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library)
