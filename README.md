@@ -19,8 +19,8 @@
 </p>
 
 <p align="center">
-  <a href="https://www.buymeacoffee.com/developerbaji" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 30px !important;width: auto !important;" ></a>
-  <a href="https://paypal.me/devbaji" target="_blank"><img src="https://devbaji.github.io/vue3-google-login/images/paypal.png" alt="Paypal" style="height: 30px !important;width: auto !important;" ></a>
+  <a href="https://www.buymeacoffee.com/developerbaji" target="_blank"><img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee"></a>
+  <a href="https://paypal.me/devbaji" target="_blank"><img src="https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white" alt="Paypal" ></a>
 </p>
 
 ## Overview
