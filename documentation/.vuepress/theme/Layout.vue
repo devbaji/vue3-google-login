@@ -6,10 +6,10 @@ import ParentLayout from "@vuepress/theme-default/lib/client/layouts/Layout.vue"
   <ParentLayout>
     <template #navbar-after>
       <div class="my-navbar">
-        <a href="https://www.buymeacoffee.com/developerbaji" target="_blank"><img src="./buyme-coffee.webp" alt="Buy Me A Coffee" class="buy-me-coffee"></a>
-        <a href="https://paypal.me/devbaji" target="_blank"><img src="./paypal.png" alt="Paypal" class="paypal"></a>
-        <a href="https://www.buymeacoffee.com/developerbaji" target="_blank"><img src="./buyme-coffee-small.webp" alt="Buy Me A Coffee" class="buy-me-coffee-small"></a>
-        <a href="https://paypal.me/devbaji" target="_blank"><img src="./paypal-small.png" alt="Paypal" class="paypal-small"></a>
+        <a href="https://www.buymeacoffee.com/developerbaji" target="_blank"><img src="/images/buyme-coffee.webp" alt="Buy Me A Coffee" class="buy-me-coffee"></a>
+        <a href="https://paypal.me/devbaji" target="_blank"><img src="/images/paypal.png" alt="Paypal" class="paypal"></a>
+        <a href="https://www.buymeacoffee.com/developerbaji" target="_blank"><img src="/images/buyme-coffee-small.webp" alt="Buy Me A Coffee" class="buy-me-coffee-small"></a>
+        <a href="https://paypal.me/devbaji" target="_blank"><img src="/images/paypal-small.png" alt="Paypal" class="paypal-small"></a>
         <a href="https://github.com/devbaji/vue3-google-login/">
           <img src="https://devbaji.github.io/images/github.svg?sdsd=45" />
           GitHub
