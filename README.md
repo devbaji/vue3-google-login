@@ -73,7 +73,7 @@ app.use(vue3GoogleLogin, {
 app.mount('#app')
 ```
 
-> :bulb: If you dont want to initialize and register `GoogleLogin` component, you can directly import this from `vue3-google-login` package and use the client-id prop, also some functions accepts a clientId option which can be used to avoid initialising the plugin, see [here](#options) for more info
+> :bulb: If you dont want to initialize and register `GoogleLogin` component, you can directly import this from `vue3-google-login` package and use the client-id prop, also some functions accepts a clientId option which can be used to avoid initialising the plugin, see [here](https://devbaji.github.io/vue3-google-login/#options) for more info
 > 
 ### GoogleLogin component
 
