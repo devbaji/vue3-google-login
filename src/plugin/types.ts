@@ -1,7 +1,7 @@
-import type * as callbackTypes from "./callbackTypes";
+import type * as callbackTypes from './callbackTypes';
 
-export type PopupTypeCode = "CODE";
-export type PopupTypeToken = "TOKEN";
+export type PopupTypeCode = 'CODE';
+export type PopupTypeToken = 'TOKEN';
 
 export type PopupTypes = PopupTypeCode | PopupTypeToken;
 
@@ -14,17 +14,17 @@ export type ActionOnLibraryLoad = (google: Google) => void;
 export type GoogleSdkLoaded = (action: ActionOnLibraryLoad) => void;
 export interface ButtonConfig {
   /** The button [type](https://developers.google.com/identity/gsi/web/reference/js-reference#type): icon, or standard button */
-  type?: "standard" | "icon";
+  type?: 'standard' | 'icon';
   /** The button [theme](https://developers.google.com/identity/gsi/web/reference/js-reference#theme). For example, filled_blue or filled_black */
-  theme?: "outline" | "filled_blue" | "filled_black";
+  theme?: 'outline' | 'filled_blue' | 'filled_black';
   /** The button [size](https://developers.google.com/identity/gsi/web/reference/js-reference#size). For example, small or large */
-  size?: "large" | "medium" | "small";
+  size?: 'large' | 'medium' | 'small';
   /** The button [text](https://developers.google.com/identity/gsi/web/reference/js-reference#text). For example, "Sign in with Google" or "Sign up with Google" */
-  text?: "signin_with" | "signup_with" | "continue_with" | "signin";
+  text?: 'signin_with' | 'signup_with' | 'continue_with' | 'signin';
   /**	The button [shape](https://developers.google.com/identity/gsi/web/reference/js-reference#shape). For example, rectangular or circular */
-  shape?: "rectangular" | "pill" | "circle" | "square";
+  shape?: 'rectangular' | 'pill' | 'circle' | 'square';
   /**	The Google [logo alignment](https://developers.google.com/identity/gsi/web/reference/js-reference#logo_alignment): left or center */
-  logo_alignment?: "left" | "center";
+  logo_alignment?: 'left' | 'center';
   /** The button [width](https://developers.google.com/identity/gsi/web/reference/js-reference#width), in pixels */
   width?: string;
   /** If set, then the button [language](https://developers.google.com/identity/gsi/web/reference/js-reference#locale) is rendered */
@@ -38,7 +38,7 @@ export type ClientId = string | null;
 
 export type ButtonId = string;
 
-export type Context = "signin" | "signup" | "use";
+export type Context = 'signin' | 'signup' | 'use';
 
 export interface IdConfiguration {
   /**Your Google API client ID */
@@ -48,7 +48,7 @@ export interface IdConfiguration {
   /** ID token callback handler */
   callback?: Function;
   /** The Sign In With Google button UX flow */
-  ux_mode?: "popup" | "redirect";
+  ux_mode?: 'popup' | 'redirect';
   /** The URL of your login endpoint */
   login_uri?: string;
   /** The URL of your password credential handler endpoint */
@@ -84,6 +84,7 @@ export interface IdConfiguration {
 
 export interface Options {
   clientId?: ClientId;
+  scope?: string;
   prompt?: boolean;
   autoLogin?: boolean;
   popupType?: PopupTypes;
@@ -95,6 +96,7 @@ export interface Options {
 
 export interface InstallOptions {
   clientId?: ClientId;
+  scope?: string;
   prompt?: boolean;
   autoLogin?: boolean;
   popupType?: PopupTypes;
@@ -114,6 +116,13 @@ export interface PopupOptions {
    * Your Google API client ID
    */
   clientId?: ClientId;
+
+  /**
+   * A space-delimited list of scopes that identify the resources
+   * that your application could access on the user's behalf.
+   * These values inform the consent screen that Google displays to the user
+   */
+  scope?: string;
 }
 
 /**
@@ -142,36 +151,27 @@ export interface PromptNotification {
   isNotDisplayed: () => boolean;
   /** The detailed reason why the UI isn't displayed */
   getNotDisplayedReason: () =>
-    | "browser_not_supported"
-    | "invalid_client"
-    | "missing_client_id"
-    | "opt_out_or_no_session"
-    | "secure_http_required"
-    | "suppressed_by_user"
-    | "unregistered_origin"
-    | "unknown_reason";
+    | 'browser_not_supported'
+    | 'invalid_client'
+    | 'missing_client_id'
+    | 'opt_out_or_no_session'
+    | 'secure_http_required'
+    | 'suppressed_by_user'
+    | 'unregistered_origin'
+    | 'unknown_reason';
   /** Is this notification for a skipped moment? */
   isSkippedMoment: () => boolean;
   /** The detailed reason for the skipped moment */
-  getSkippedReason: () =>
-    | "auto_cancel"
-    | "user_cancel"
-    | "tap_outside"
-    | "issuing_failed";
+  getSkippedReason: () => 'auto_cancel' | 'user_cancel' | 'tap_outside' | 'issuing_failed';
   /** Is this notification for a dismissed moment? */
   isDismissedMoment: () => boolean;
   /** The detailed reason for the dismissal */
-  getDismissedReason: () =>
-    | "credential_returned"
-    | "cancel_called"
-    | "flow_restarted";
+  getDismissedReason: () => 'credential_returned' | 'cancel_called' | 'flow_restarted';
   /** Return a string for the moment type */
-  getMomentType: () => "display" | "skipped" | "dismissed";
+  getMomentType: () => 'display' | 'skipped' | 'dismissed';
 }
 
-export type OnPromptNotification = (
-  promptNotification: PromptNotification
-) => void;
+export type OnPromptNotification = (promptNotification: PromptNotification) => void;
 
 export interface PromptErrorOptions {
   notification: PromptNotification;
@@ -202,7 +202,7 @@ export interface OneTapOptions {
  * @returns A promise which get resolved once user login through the prompt
  */
 export type GoogleOneTap = (
-  options?: OneTapOptions
+  options?: OneTapOptions,
 ) => Promise<callbackTypes.CredentialPopupResponse>;
 
 /**
@@ -232,7 +232,7 @@ interface TokenClientConfig {
   /**
    * Optional, defaults to 'select_account'. A space-delimited, case-sensitive list of prompts to present the user
    */
-  prompt?: "" | "none" | "consent" | "select_account";
+  prompt?: '' | 'none' | 'consent' | 'select_account';
 
   /**
    * 	Optional, defaults to true. If set to false,
@@ -267,9 +267,9 @@ interface TokenClientConfig {
 
   /**
    * Optional. The JavaScript function that handles some non-OAuth errors, such as the popup window is failed to open; or closed before an OAuth response is returned.
-   * 
+   *
    * The `type` field of the input parameter gives the detailed reason.
-   * 
+   *
    *   * popup_failed_to_open The popup window is failed to open.
    *   * popup_closed The popup window is closed before an OAuth response is returned.
    *   * unknown Placeholder for other errors.
@@ -369,7 +369,7 @@ export interface CodeClientConfig {
    * 	Optional. The UX mode to use for the authorization flow.
    * By default, it will open the consent flow in a popup. Valid values are popup and redirect
    */
-  ux_mode?: "popup" | "redirect";
+  ux_mode?: 'popup' | 'redirect';
 
   /**
    * Optional, defaults to 'false'. Boolean value to prompt the user to select an account
@@ -378,9 +378,9 @@ export interface CodeClientConfig {
 
   /**
    * Optional. The JavaScript function that handles some non-OAuth errors, such as the popup window is failed to open; or closed before an OAuth response is returned.
-   * 
+   *
    * The `type` field of the input parameter gives the detailed reason.
-   * 
+   *
    *   * popup_failed_to_open The popup window is failed to open.
    *   * popup_closed The popup window is closed before an OAuth response is returned.
    *   * unknown Placeholder for other errors.
@@ -394,15 +394,11 @@ export interface Google {
     id: {
       initialize: (input: IdConfiguration) => void;
       prompt: Function;
-      renderButton: (
-        parent: HTMLElement,
-        options: ButtonConfig,
-        clickHandler?: () => void
-      ) => void;
+      renderButton: (parent: HTMLElement, options: ButtonConfig, clickHandler?: () => void) => void;
       disableAutoSelect: () => void;
       storeCredential: (
         credential: { id: string; password: string },
-        callback?: () => void
+        callback?: () => void,
       ) => void;
       cancel: () => void;
       onGoogleLibraryLoad: Function;
@@ -410,9 +406,7 @@ export interface Google {
     };
     oauth2: {
       initTokenClient: (config: TokenClientConfig) => {
-        requestAccessToken: (
-          overridableClientConfig?: OverridableTokenClientConfig
-        ) => void;
+        requestAccessToken: (overridableClientConfig?: OverridableTokenClientConfig) => void;
       };
       initCodeClient: (config: CodeClientConfig) => {
         requestCode: () => void;

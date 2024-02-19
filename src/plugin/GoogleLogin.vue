@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { onMounted, ref, useSlots } from "vue";
-import * as types from "./types";
-import * as utils from "./utils";
-import { CredentialCallback } from "./callbackTypes";
-import state, { libraryState } from "./state";
+import { onMounted, ref, useSlots } from 'vue';
+import * as types from './types';
+import * as utils from './utils';
+import { CredentialCallback } from './callbackTypes';
+import state, { libraryState } from './state';
 
 const slots = useSlots();
 const hasSlot: boolean = slots.default ? true : false;
@@ -12,12 +12,14 @@ const props = withDefaults(
   defineProps<{
     /**Your Google API client ID, to create one [follow these steps](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid)*/
     clientId?: string;
+    /**A space-delimited list of scopes that identify the resources that your application could access on the user's behalf. These values inform the consent screen that Google displays to the user*/
+    scope?: string;
     /** To show the One-tap and Automatic-Login prompt */
     prompt?: boolean;
     /** Set this to true if you want the one-tap promt to automatically login */
     autoLogin?: boolean;
     /** Type of popup, if set to 'code' will give an Auth code in the popup call back and if set to 'token' the popup callback will give as an access token */
-    popupType?: "CODE" | "TOKEN";
+    popupType?: 'CODE' | 'TOKEN';
     /** IdConfiguration object for initializing, see list of fields and descriptions of the IdConfiguration [here](https://developers.google.com/identity/gsi/web/reference/js-reference#IdConfiguration) */
     idConfiguration?: object;
     /** Configuration of the login button rendered by Google, see list of fields and descriptions of these configurations [here](https://developers.google.com/identity/gsi/web/reference/js-reference#GsiButtonConfiguration) */
@@ -30,7 +32,7 @@ const props = withDefaults(
   {
     prompt: false,
     autoLogin: false,
-  }
+  },
 );
 
 const options: types.Options = utils.mergeObjects(state, props);
@@ -45,9 +47,9 @@ const idConfiguration: types.IdConfiguration = {
 const buttonRef = ref<HTMLElement | undefined>();
 
 const openPopup = (type?: types.PopupTypes) => {
-  if (type === "TOKEN") {
+  if (type === 'TOKEN') {
     utils
-      .googleTokenLogin({ clientId: options.clientId })
+      .googleTokenLogin({ clientId: options.clientId, scope: options.scope })
       .then((response) => {
         options.callback && options.callback(response);
       })
@@ -56,7 +58,7 @@ const openPopup = (type?: types.PopupTypes) => {
       });
   } else {
     utils
-      .googleAuthCodeLogin({ clientId: options.clientId })
+      .googleAuthCodeLogin({ clientId: options.clientId, scope: options.scope })
       .then((response) => {
         options.callback && options.callback(response);
       })
@@ -68,17 +70,16 @@ const openPopup = (type?: types.PopupTypes) => {
 
 onMounted(() => {
   utils.onMount(idConfiguration, buttonRef, options, hasSlot);
-  if(props.popupType && !hasSlot) {
-    console.warn("Option 'popupType' is ignored since a slot which act as a custom login button was not found!!!")
+  if (props.popupType && !hasSlot) {
+    console.warn(
+      "Option 'popupType' is ignored since a slot which act as a custom login button was not found!!!",
+    );
   }
 });
 </script>
 
 <template>
-  <div
-    class="g-btn-wrapper"
-    @click="hasSlot && openPopup(options.popupType)"
-  >
+  <div class="g-btn-wrapper" @click="hasSlot && openPopup(options.popupType)">
     <span v-if="!hasSlot" ref="buttonRef" class="g-btn"></span>
     <slot></slot>
   </div>

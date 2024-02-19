@@ -1,8 +1,8 @@
-import { type Ref, watch } from "vue";
-import config from "./config";
-import type * as types from "./types";
-import type * as callbackTypes from "./callbackTypes";
-import state, { libraryState } from "./state";
+import { type Ref, watch } from 'vue';
+import config from './config';
+import type * as types from './types';
+import type * as callbackTypes from './callbackTypes';
+import state, { libraryState } from './state';
 
 declare global {
   interface Window extends types._Window {}
@@ -13,34 +13,32 @@ declare global {
  * @param token JWT credential string
  * @returns Decoded payload from the JWT credential string
  */
-export const decodeCredential: types.DecodeCredential = (
-  token: string
-): object => {
+export const decodeCredential: types.DecodeCredential = (token: string): object => {
   try {
-    const base64Url = token.split(".")[1];
-    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const jsonPayload = decodeURIComponent(
       atob(base64)
-        .split("")
+        .split('')
         .map(function (c) {
-          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         })
-        .join("")
+        .join(''),
     );
     return JSON.parse(jsonPayload);
   } catch (error) {
-    throw "JWT provided is invalid";
+    throw 'JWT provided is invalid';
   }
 };
 
 export const loadGApi = new Promise<types.Google>((resolve) => {
   // To resolve errors in nuxt3
-  const isRunningInBrowser = typeof window !== "undefined";
+  const isRunningInBrowser = typeof window !== 'undefined';
 
   if (!libraryState.apiLoadIntitited && isRunningInBrowser) {
-    const script = document.createElement("script");
+    const script = document.createElement('script');
     libraryState.apiLoadIntitited = true;
-    script.addEventListener("load", () => {
+    script.addEventListener('load', () => {
       libraryState.apiLoaded = true;
       resolve(window.google);
     });
@@ -54,9 +52,7 @@ export const loadGApi = new Promise<types.Google>((resolve) => {
 export const mergeObjects = (obj1: any, obj2: any): types.Options => {
   const mergedObj = { ...obj1 };
   for (const key in obj2) {
-    obj2[key] !== undefined &&
-      obj2[key] !== null &&
-      (mergedObj[key] = obj2[key]);
+    obj2[key] !== undefined && obj2[key] !== null && (mergedObj[key] = obj2[key]);
   }
   return mergedObj;
 };
@@ -66,7 +62,7 @@ export const renderLoginButton = (
   buttonRef: Ref<HTMLElement | undefined>,
   buttonConfig: types.ButtonConfig,
   hasSlot: boolean,
-  error: Function | null
+  error: Function | null,
 ) => {
   if (error) {
     const callback = idConfiguration.callback;
@@ -99,7 +95,7 @@ export const googleSdkLoaded: types.GoogleSdkLoaded = (action) => {
       () => libraryState.apiLoaded,
       (loaded) => {
         loaded && action(window.google);
-      }
+      },
     );
   } else {
     action(window.google);
@@ -110,27 +106,19 @@ export const onMount = (
   idConfiguration: types.IdConfiguration,
   buttonRef: Ref<HTMLElement | undefined>,
   options: types.Options,
-  hasSlot: boolean
+  hasSlot: boolean,
 ): void => {
   if (!idConfiguration.client_id) {
-    throw new Error(
-      "Prop client id required since plugin is not initialized with a client id"
-    );
+    throw new Error('Prop client id required since plugin is not initialized with a client id');
   }
   googleSdkLoaded(() => {
-    renderLoginButton(
-      idConfiguration,
-      buttonRef,
-      options.buttonConfig,
-      hasSlot,
-      options.error
-    );
+    renderLoginButton(idConfiguration, buttonRef, options.buttonConfig, hasSlot, options.error);
     options.prompt &&
       googleOneTap({
         clientId: options.clientId,
         callback: options.callback as callbackTypes.CredentialCallback,
         error: options.error,
-        autoLogin: options.autoLogin
+        autoLogin: options.autoLogin,
       });
   });
 };
@@ -145,14 +133,14 @@ export const googleAuthCodeLogin: types.GoogleAuthCodeLogin = (options?) => {
     googleSdkLoaded((google) => {
       if ((!options || !options.clientId) && !state.clientId) {
         throw new Error(
-          "clientId is required since the plugin is not initialized with a Client Id"
+          'clientId is required since the plugin is not initialized with a Client Id',
         );
       }
       google.accounts.oauth2
         .initCodeClient({
-          client_id: (options && options.clientId) || state.clientId || "",
-          scope: config.scopes,
-          ux_mode: "popup",
+          client_id: (options && options.clientId) || state.clientId || '',
+          scope: (options && options.scope) || state.scope || config.scopes,
+          ux_mode: 'popup',
           callback: (response: callbackTypes.CodePopupResponse) => {
             if (response.code) {
               resolve(response);
@@ -179,13 +167,13 @@ export const googleTokenLogin: types.GoogleTokenLogin = (options) => {
     googleSdkLoaded((google) => {
       if ((!options || !options.clientId) && !state.clientId) {
         throw new Error(
-          "clientId is required since the plugin is not initialized with a Client Id"
+          'clientId is required since the plugin is not initialized with a Client Id',
         );
       }
       google.accounts.oauth2
         .initTokenClient({
-          client_id: (options && options.clientId) || state.clientId || "",
-          scope: config.scopes,
+          client_id: (options && options.clientId) || state.clientId || '',
+          scope: (options && options.scope) || state.scope || config.scopes,
           callback: (response: callbackTypes.TokenPopupResponse) => {
             if (response.access_token) {
               resolve(response);
@@ -204,9 +192,9 @@ export const googleTokenLogin: types.GoogleTokenLogin = (options) => {
 
 const handlePromptError = (options: types.PromptErrorOptions) => {
   const notification = options.notification;
-  let errorMessage: string = "";
+  let errorMessage: string = '';
   if (notification.isNotDisplayed()) {
-    if (notification.getNotDisplayedReason() === "suppressed_by_user") {
+    if (notification.getNotDisplayedReason() === 'suppressed_by_user') {
       errorMessage = `Prompt was suppressed by user'. Refer https://developers.google.com/identity/gsi/web/guides/features#exponential_cooldown for more info`;
     } else {
       errorMessage = `Prompt was not displayed, reason for not displaying: ${notification.getNotDisplayedReason()}`;
@@ -215,7 +203,7 @@ const handlePromptError = (options: types.PromptErrorOptions) => {
   if (notification.isSkippedMoment()) {
     errorMessage = `Prompt was skipped, reason for skipping: ${notification.getSkippedReason()}`;
   }
-  
+
   if (errorMessage.length) {
     if (options.error) {
       options.error(errorMessage);
@@ -231,11 +219,11 @@ const handlePromptError = (options: types.PromptErrorOptions) => {
  * @returns A promise which get resolved once user login through the prompt
  */
 export const googleOneTap: types.GoogleOneTap = (
-  options?: types.OneTapOptions
+  options?: types.OneTapOptions,
 ): Promise<callbackTypes.CredentialPopupResponse> => {
   !options && (options = {});
   if (!options.clientId && !state.clientId) {
-    throw new Error("clientId is required");
+    throw new Error('clientId is required');
   }
 
   const idConfig: types.IdConfiguration = {};
@@ -258,9 +246,7 @@ export const googleOneTap: types.GoogleOneTap = (
     googleSdkLoaded((google) => {
       google.accounts.id.initialize(idConfig);
       google.accounts.id.prompt((notification: types.PromptNotification) => {
-        options &&
-          options.onNotification &&
-          options.onNotification(notification);
+        options && options.onNotification && options.onNotification(notification);
         handlePromptError({
           notification,
           reject,

@@ -1,10 +1,11 @@
-import { reactive } from "vue";
-import type * as types from "./types";
-import config from "./config";
+import { reactive } from 'vue';
+import type * as types from './types';
+import config from './config';
 
 const state: types.Options = reactive({
   clientId: null,
-  popupType: "CODE",
+  scope: undefined,
+  popupType: 'CODE',
   prompt: false,
   autoLogin: false,
   idConfiguration: null,
@@ -22,6 +23,7 @@ export const libraryState: types.LibraryState = reactive({
 
 export const setState = (options: types.Options | types.InstallOptions): void => {
   options.clientId && (state.clientId = options.clientId);
+  options.scope && (state.scope = options.scope);
   options.popupType && (state.popupType = options.popupType);
   options.prompt != undefined && (state.prompt = options.prompt);
   options.autoLogin != undefined && (state.autoLogin = options.autoLogin);
