@@ -35,7 +35,8 @@
     "vue": "^3.2.25",
     "vue-tsc": "^0.34.7",
     "vuepress": "^2.0.0-beta.43",
-    "vuepress-plugin-copy-code2": "^2.0.0-beta.66"
+    "vuepress-plugin-copy-code2": "^2.0.0-beta.66",
+    "vuepress-plugin-full-text-search2": "^0.4.0"
   },
   "repository": {
     "type": "git",
