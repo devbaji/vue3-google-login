@@ -1,6 +1,7 @@
 import { defineUserConfig } from "vuepress";
 import { localTheme } from "./theme";
 import { copyCodePlugin } from "vuepress-plugin-copy-code2";
+import fullTextSearchPlugin from "vuepress-plugin-full-text-search2";
 
 export default defineUserConfig({
   title: "vue3-google-login",
@@ -70,6 +71,7 @@ export default defineUserConfig({
     lastUpdated: false,
   }),
   plugins: [
+    fullTextSearchPlugin,
     copyCodePlugin({
       pure: true,
     }),

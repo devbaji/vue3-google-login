@@ -152,14 +152,16 @@ Here is an image showing One Tap prompt
   >
 </p>
 
-> :exclamation: While using One-tap feature, a [dead-loop UX issue](https://developers.google.com/identity/gsi/web/guides/automatic-sign-in-sign-out#sign-out) may occur. To resolve this issue, in your logout function run `googleLogout` funtion
-> ```javascript
-> import { googleLogout } from "vue3-google-login"
-> const yourLogoutFunction() {
->   // your logout logics
->   googleLogout()
-> }
-> ```
+### Use of googleLogout function
+While using One-tap feature, a [dead-loop UX issue](https://developers.google.com/identity/gsi/web/guides/automatic-sign-in-sign-out#sign-out) may occur. To resolve this issue, in your logout function run `googleLogout` funtion
+```javascript
+import { googleLogout } from "vue3-google-login"
+const yourLogoutFunction() {
+  // your logout logics
+  googleLogout()
+}
+```
+> :exclamation: Function `googleLogout` is used to temporarily disable One Tap Automatic sign-in for one day. This API does not sign out your users out of your website or any Google websites.
 
 ### Automatic Login
 To enable this feature, set the prop `autoLogin` to true, this will automatically detects whether only one Google account is logged in, if yes then prompt will automatically log in and will trigger the callback without any user interactions, to make this work `prompt` must be set to true
