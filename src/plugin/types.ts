@@ -133,51 +133,6 @@ export interface GoogleAuthCodeLogin {
 export interface GoogleTokenLogin {
   (options?: PopupOptions): Promise<callbackTypes.TokenPopupResponse>;
 }
-export interface PromptNotification {
-  /** Is this notification for a display moment? */
-  isDisplayMoment: () => boolean;
-  /** Is this notification for a display moment, and the UI is displayed? */
-  isDisplayed: () => boolean;
-  /** Is this notification for a display moment, and the UI isn't displayed? */
-  isNotDisplayed: () => boolean;
-  /** The detailed reason why the UI isn't displayed */
-  getNotDisplayedReason: () =>
-    | "browser_not_supported"
-    | "invalid_client"
-    | "missing_client_id"
-    | "opt_out_or_no_session"
-    | "secure_http_required"
-    | "suppressed_by_user"
-    | "unregistered_origin"
-    | "unknown_reason";
-  /** Is this notification for a skipped moment? */
-  isSkippedMoment: () => boolean;
-  /** The detailed reason for the skipped moment */
-  getSkippedReason: () =>
-    | "auto_cancel"
-    | "user_cancel"
-    | "tap_outside"
-    | "issuing_failed";
-  /** Is this notification for a dismissed moment? */
-  isDismissedMoment: () => boolean;
-  /** The detailed reason for the dismissal */
-  getDismissedReason: () =>
-    | "credential_returned"
-    | "cancel_called"
-    | "flow_restarted";
-  /** Return a string for the moment type */
-  getMomentType: () => "display" | "skipped" | "dismissed";
-}
-
-export type OnPromptNotification = (
-  promptNotification: PromptNotification
-) => void;
-
-export interface PromptErrorOptions {
-  notification: PromptNotification;
-  reject: any;
-  error?: Function | null;
-}
 
 export interface OneTapOptions {
   /**Your Google API client ID */
@@ -188,8 +143,6 @@ export interface OneTapOptions {
   autoLogin?: boolean;
   /** Controls whether to cancel the prompt if the user clicks outside of the prompt */
   cancelOnTapOutside?: boolean;
-  /** A callback triggered on recieving notifications on the prompt UI status  */
-  onNotification?: OnPromptNotification;
   /** Callback function to triggered on successfull login */
   callback?: callbackTypes.CredentialCallback;
   /** Callback function to triggered when prompt fails to show */

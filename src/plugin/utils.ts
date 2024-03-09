@@ -202,29 +202,6 @@ export const googleTokenLogin: types.GoogleTokenLogin = (options) => {
   });
 };
 
-const handlePromptError = (options: types.PromptErrorOptions) => {
-  const notification = options.notification;
-  let errorMessage: string = "";
-  if (notification.isNotDisplayed()) {
-    if (notification.getNotDisplayedReason() === "suppressed_by_user") {
-      errorMessage = `Prompt was suppressed by user'. Refer https://developers.google.com/identity/gsi/web/guides/features#exponential_cooldown for more info`;
-    } else {
-      errorMessage = `Prompt was not displayed, reason for not displaying: ${notification.getNotDisplayedReason()}`;
-    }
-  }
-  if (notification.isSkippedMoment()) {
-    errorMessage = `Prompt was skipped, reason for skipping: ${notification.getSkippedReason()}`;
-  }
-  
-  if (errorMessage.length) {
-    if (options.error) {
-      options.error(errorMessage);
-    } else {
-      options.reject(errorMessage);
-    }
-  }
-};
-
 /**
  * A function to open one-tap and automatic log-in prompt
  * @param options Options to customise the behavior of one-tap and automatic log-in prompt
@@ -238,7 +215,7 @@ export const googleOneTap: types.GoogleOneTap = (
     throw new Error("clientId is required");
   }
 
-  const idConfig: types.IdConfiguration = {};
+  const idConfig: types.IdConfiguration = { use_fedcm_for_prompt: true };
   options.clientId && (idConfig.client_id = options.clientId);
   !options.clientId && state.clientId && (idConfig.client_id = state.clientId);
   options.context && (idConfig.context = options.context);
@@ -257,16 +234,7 @@ export const googleOneTap: types.GoogleOneTap = (
     };
     googleSdkLoaded((google) => {
       google.accounts.id.initialize(idConfig);
-      google.accounts.id.prompt((notification: types.PromptNotification) => {
-        options &&
-          options.onNotification &&
-          options.onNotification(notification);
-        handlePromptError({
-          notification,
-          reject,
-          error: options && options.error,
-        });
-      });
+      google.accounts.id.prompt();
     });
   });
 };
