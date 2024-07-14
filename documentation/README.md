@@ -6,8 +6,8 @@
 </p>
 
 <p align="center">
-  <a href="https://npm-stat.com/charts.html?package=vue3-google-login" target="_blank">
-    <img src="https://img.shields.io/npm/dm/vue3-google-login.svg" alt="npm"/>
+  <a href="https://npmcharts.com/compare/vue3-google-login" target="_blank">
+    <img src="https://img.shields.io/npm/dw/vue3-google-login.svg" alt="npm"/>
   </a>&nbsp;
   <a href="https://www.npmjs.com/package/vue3-google-login" target="_blank">
     <img src="https://img.shields.io/npm/v/vue3-google-login.svg" alt="npm"/>
