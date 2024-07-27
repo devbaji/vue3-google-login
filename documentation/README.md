@@ -70,7 +70,7 @@ app.use(vue3GoogleLogin, {
 app.mount('#app')
 ```
 
-> :bulb: If you dont want to initialize and register `GoogleLogin` component, you can directly import this from `vue3-google-login` package and use the client-id prop, also some functions accepts a clientId option which can be used to avoid initialising the plugin, see [here](#options) for more info
+> :bulb: If you dont want to initialize and register `GoogleLogin` component, you can directly import this from `vue3-google-login` package and use the client-id prop, also some functions accepts a clientId option which can be used to avoid initializing the plugin, see [here](#options) for more info
 > 
 ### GoogleLogin component
 
@@ -513,10 +513,32 @@ const callback = (response) => {
 </template>
 ```
 
+## Nuxt 3
+
+### Initialize vue3-google-login inside the plugins directory
+For example, create a file named vue3-google-login.client.ts and place it inside the plugins directory.
+>  :exclamation: Make sure to use `.client` suffix in the file name to load the plugin only on the client side.
+```js
+import vue3GoogleLogin from 'vue3-google-login'
+
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.vueApp.use(vue3GoogleLogin, {
+    clientId: 'YOUR_GOOGLE_CLIENT_ID'
+  })
+});
+```
+>  :exclamation: While using [GoogleLogin component](#googlelogin-component), make sure it is wrapped inside [`<ClientOnly>`](https://nuxt.com/docs/api/components/client-only) component.
+```vue
+  <ClientOnly>
+    <GoogleLogin :callback="callback" />
+  </ClientOnly>
+```
+
+
 ## Options
 
 ### Plugin options and GoogleLogin component props
-Options of plugin used at [initializing in main.js](#initialize-the-plugin) and prop values in [GoogleLogin component](#googlelogin-component) are similar
+Options of plugin used at [initializing in main.js](#initialize-the-plugin) and prop values in [GoogleLogin component](#googlelogin-component) are similar.
 
 | Name            |   Type   | Description                                                                                                                                                                                                                                                                                                                                         |
 | --------------- | :------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
