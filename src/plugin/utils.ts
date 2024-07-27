@@ -5,7 +5,7 @@ import type * as callbackTypes from "./callbackTypes";
 import state, { libraryState } from "./state";
 
 declare global {
-  interface Window extends types._Window {}
+  interface Window extends types._Window { }
 }
 
 /**
@@ -33,13 +33,11 @@ export const decodeCredential: types.DecodeCredential = (
   }
 };
 
-export const loadGApi = new Promise<types.Google>((resolve, reject) => {
-  // To resolve errors in nuxt3
+export const loadGApi = () => new Promise<types.Google>((resolve, reject) => {
+  // To show errow if tried to rendered on server side
   const isRunningInBrowser = typeof window !== "undefined";
-
   if (!isRunningInBrowser) {
-    reject(`vue3-google-login is intended to run only on the client side and cannot be executed on the server side. 
-      If you are using Nuxt 3 please refer here for more information https://devbaji.github.io/vue3-google-login/#nuxt-3`)
+    reject(config.ssrError)
     return;
   }
 
@@ -100,7 +98,7 @@ export const renderLoginButton = (
  */
 export const googleSdkLoaded: types.GoogleSdkLoaded = (action) => {
   if (!libraryState.apiLoadIntitited) {
-    loadGApi.then((google) => {
+    loadGApi().then((google) => {
       action(google);
     });
   } else if (!libraryState.apiLoaded) {

@@ -27,7 +27,7 @@ export {
 export default {
   install: (app: App, options: InstallOptions) => {
     options && setState(options);
-    loadGApi.then(() => {
+    loadGApi().then(() => {
       if (options.clientId) {
         const idConfiguration: IdConfiguration = {
           client_id: options.clientId,

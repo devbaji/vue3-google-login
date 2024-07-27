@@ -534,6 +534,27 @@ export default defineNuxtPlugin((nuxtApp) => {
   </ClientOnly>
 ```
 
+## No SSR support
+The [GoogleLogin component](#googlelogin-component) doesn't render properly on the server side because the Google login button relies on an iframe button provided by Google and needs the [Google 3P Authorization JavaScript Library](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library) to be loaded on the client side. So, if you are using SSR-supporting frameworks like Nuxt 3 or Quasar, make sure the GoogleLogin component is rendered on the client side. 
+
+> :bulb: You can also directly import the [GoogleLogin component](#googlelogin-component) and utilize the client-id prop if you don't wish to initialize the plugin at the framework entry point and register the GoogleLogin component globally.
+
+### Nuxt 3
+On Nuxt 3 application, wrap the GoogleLogin component in the [`ClientOnly` component](https://nuxt.com/docs/api/components/client-only), which is used for purposely rendering a component only on client side.
+
+```vue
+  <ClientOnly>
+    <GoogleLogin :callback="callback" client-id="YOUR_GOOGLE_CLIENT_ID"/>
+  </ClientOnly>
+```
+
+### Quasar in SSR mode
+You can use [`QNoSsr` component](https://quasar.dev/vue-components/no-ssr/) for rendering the login button on client side while running a Quasar app on SSR mode.
+```vue
+  <q-no-ssr>
+    <GoogleLogin :callback="callback" client-id="YOUR_GOOGLE_CLIENT_ID"/>
+  </q-no-ssr>
+```
 
 ## Options
 

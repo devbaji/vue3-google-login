@@ -3,7 +3,14 @@ import { onMounted, ref, useSlots } from "vue";
 import * as types from "./types";
 import * as utils from "./utils";
 import { CredentialCallback } from "./callbackTypes";
-import state, { libraryState } from "./state";
+import state from "./state";
+import config from "./config";
+
+// To show errow if tried to rendered on server side
+const isRunningInBrowser = typeof window !== "undefined";
+if (!isRunningInBrowser) {
+  throw new Error(config.ssrError);
+}
 
 const slots = useSlots();
 const hasSlot: boolean = slots.default ? true : false;
@@ -68,17 +75,16 @@ const openPopup = (type?: types.PopupTypes) => {
 
 onMounted(() => {
   utils.onMount(idConfiguration, buttonRef, options, hasSlot);
-  if(props.popupType && !hasSlot) {
-    console.warn("Option 'popupType' is ignored since a slot which act as a custom login button was not found!!!")
+  if (props.popupType && !hasSlot) {
+    console.warn(
+      "Option 'popupType' is ignored since a slot which act as a custom login button was not found!!!"
+    );
   }
 });
 </script>
 
 <template>
-  <div
-    class="g-btn-wrapper"
-    @click="hasSlot && openPopup(options.popupType)"
-  >
+  <div class="g-btn-wrapper" @click="hasSlot && openPopup(options.popupType)">
     <span v-if="!hasSlot" ref="buttonRef" class="g-btn"></span>
     <slot></slot>
   </div>
