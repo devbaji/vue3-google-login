@@ -33,16 +33,25 @@ export const decodeCredential: types.DecodeCredential = (
   }
 };
 
-export const loadGApi = new Promise<types.Google>((resolve) => {
+export const loadGApi = new Promise<types.Google>((resolve, reject) => {
   // To resolve errors in nuxt3
   const isRunningInBrowser = typeof window !== "undefined";
 
-  if (!libraryState.apiLoadIntitited && isRunningInBrowser) {
+  if (!isRunningInBrowser) {
+    reject(`vue3-google-login is intended to run only on the client side and cannot be executed on the server side. 
+      If you are using Nuxt 3 please refer here for more information https://devbaji.github.io/vue3-google-login/#nuxt-3`)
+    return;
+  }
+
+  if (!libraryState.apiLoadIntitited) {
     const script = document.createElement("script");
     libraryState.apiLoadIntitited = true;
     script.addEventListener("load", () => {
       libraryState.apiLoaded = true;
       resolve(window.google);
+    });
+    script.addEventListener("error", () => {
+      reject("Failed to load the Google 3P Authorization JavaScript Library.");
     });
     script.src = config.library;
     script.async = true;
