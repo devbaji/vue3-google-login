@@ -516,9 +516,10 @@ const callback = (response) => {
 ## Nuxt 3
 
 ### Initialize vue3-google-login inside the plugins directory
-For example, create a file named vue3-google-login.client.ts and place it inside the plugins directory.
+For example, create a file named vue3-google-login.client.ts and place it inside the plugins directory, this will register `GoogleLogin` component globally
 >  :exclamation: Make sure to use `.client` suffix in the file name to load the plugin only on the client side.
 ```js
+// plugins/vue3-google-login.client.ts
 import vue3GoogleLogin from 'vue3-google-login'
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -526,12 +527,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     clientId: 'YOUR_GOOGLE_CLIENT_ID'
   })
 });
-```
->  :exclamation: While using [GoogleLogin component](#googlelogin-component), make sure it is wrapped inside [`<ClientOnly>`](https://nuxt.com/docs/api/components/client-only) component.
-```vue
-  <ClientOnly>
-    <GoogleLogin :callback="callback" />
-  </ClientOnly>
 ```
 
 ## No SSR support
