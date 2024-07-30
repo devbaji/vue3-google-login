@@ -551,6 +551,20 @@ You can use [`QNoSsr` component](https://quasar.dev/vue-components/no-ssr/) for 
   </q-no-ssr>
 ```
 
+### Vike
+In Vike applications, you can use the [clientOnly helper](https://vike.dev/clientOnly#vue), which is used for purposely rendering a component only on client side. 
+
+```vue
+<template>
+  <GoogleLogin :callback="callback" client-id="YOUR_GOOGLE_CLIENT_ID"/>
+</template>
+
+<script setup lang="ts">
+import { clientOnly } from 'vike-vue/clientOnly'
+const GoogleLogin = clientOnly(async () => (await import('vue3-google-login')).GoogleLogin);
+</script>
+```
+
 ## Options
 
 ### Plugin options and GoogleLogin component props
