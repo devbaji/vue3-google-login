@@ -156,7 +156,7 @@ Here is an image showing One Tap prompt
 While using One-tap feature, a [dead-loop UX issue](https://developers.google.com/identity/gsi/web/guides/automatic-sign-in-sign-out#sign-out) may occur. To resolve this issue, in your logout function run `googleLogout` funtion
 ```javascript
 import { googleLogout } from "vue3-google-login"
-const yourLogoutFunction() {
+const yourLogoutFunction = () => {
   // your logout logics
   googleLogout()
 }
