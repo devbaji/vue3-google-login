@@ -19,7 +19,7 @@ export default [
       },
       {
         format: "cjs",
-        file: "dist/index.js",
+        file: "dist/index.cjs.js",
         plugins: [terser()],
       },
       {
