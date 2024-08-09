@@ -5,6 +5,8 @@ import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import { terser } from "rollup-plugin-terser";
 import del from "rollup-plugin-delete";
 import dts from "rollup-plugin-dts";
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 
 export default [
   {
@@ -20,7 +22,17 @@ export default [
         file: "dist/index.js",
         plugins: [terser()],
       },
+      {
+        format: "umd",
+        file: "dist/index.umd.js",
+        name: "Vue3GoogleLogin",
+        globals: {
+          vue: 'Vue'
+        },
+        plugins: [terser()],
+      },
     ],
+    external: ['vue'],
     plugins: [
       vue(),
       peerDepsExternal(),
@@ -35,6 +47,8 @@ export default [
         },
       }),
       postcss(),
+      resolve(),
+      commonjs(),
       del({ targets: "dist/*" }),
     ],
   },
