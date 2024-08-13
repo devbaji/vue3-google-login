@@ -34,6 +34,11 @@ jobs:
         npm run docs:build
       continue-on-error: false
 
+    - name: Debug - List build directory
+      run: |
+        echo "Vue3-google-login build directory contents:"
+        ls -la vue3-google-login/docs/.vuepress/dist
+
     - name: Checkout personal repo
       uses: actions/checkout@v3
       with:
@@ -43,7 +48,7 @@ jobs:
 
     - name: Clear existing documentation
       run: |
-        rm -rf personal-repo/vue3-google-login/docs/.vuepress/dist/*
+        rm -rf personal-repo/vue3-google-login/*
       continue-on-error: false
 
     - name: Copy built files
@@ -58,7 +63,7 @@ jobs:
         git config user.name github-actions
         git config user.email github-actions@github.com
         git add .
-        git commit -m "Update vue3-google-login documentation"
+        git commit -m "Update vue3-google-login documentation" || echo "No changes to commit"
         git push
       continue-on-error: false
 
