@@ -43,7 +43,7 @@ jobs:
 
     - name: Clear existing documentation
       run: |
-        rm -rf personal-repo/vue3-google-login/*
+        rm -rf personal-repo/vue3-google-login/docs/.vuepress/dist/*
       continue-on-error: false
 
     - name: Copy built files
