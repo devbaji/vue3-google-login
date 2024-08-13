@@ -1,0 +1,69 @@
+name: Update Documentation
+
+on:
+  push:
+    paths:
+      - 'documentation/README.md'
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout vue3-google-login
+      uses: actions/checkout@v3
+      with:
+        repository: devbaji/vue3-google-login
+        path: vue3-google-login
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: |
+        cd vue3-google-login
+        npm ci
+      continue-on-error: false
+
+    - name: Build documentation
+      run: |
+        cd vue3-google-login
+        npm run docs:build
+      continue-on-error: false
+
+    - name: Checkout personal repo
+      uses: actions/checkout@v3
+      with:
+        repository: devbaji/devbaji.github.io
+        path: personal-repo
+        token: ${{ secrets.PERSONAL_REPO_TOKEN }}
+
+    - name: Clear existing documentation
+      run: |
+        rm -rf personal-repo/vue3-google-login/*
+      continue-on-error: false
+
+    - name: Copy built files
+      run: |
+        mkdir -p personal-repo/vue3-google-login
+        cp -R vue3-google-login/docs/.vuepress/dist/* personal-repo/vue3-google-login/
+      continue-on-error: false
+
+    - name: Commit and push changes
+      run: |
+        cd personal-repo
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add .
+        git commit -m "Update vue3-google-login documentation"
+        git push
+      continue-on-error: false
+
+    - name: Check for errors
+      if: failure()
+      run: |
+        echo "The workflow failed. Please check the logs for more information."
+        exit 1
