@@ -37,7 +37,7 @@ jobs:
     - name: Debug - List build directory
       run: |
         echo "Vue3-google-login build directory contents:"
-        ls -la vue3-google-login/docs/.vuepress/dist
+        ls -la vue3-google-login/documentation/.vuepress/dist
 
     - name: Checkout personal repo
       uses: actions/checkout@v3
@@ -54,7 +54,7 @@ jobs:
     - name: Copy built files
       run: |
         mkdir -p personal-repo/vue3-google-login
-        cp -R vue3-google-login/docs/.vuepress/dist/* personal-repo/vue3-google-login/
+        cp -R vue3-google-login/documentation/.vuepress/dist/* personal-repo/vue3-google-login/
       continue-on-error: false
 
     - name: Commit and push changes
