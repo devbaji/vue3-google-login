@@ -1,4 +1,4 @@
-<h1 align="center">Vue 3 Google Login</h1>
+<h1 align="center">Vue 3 Google Login </h1>
 <p align="center">
   <img 
     src="https://devbaji.github.io/vue3-google-login/images/auto-login.gif"
