@@ -42,15 +42,22 @@ This allows you to implement the following features
 
 ### Installation
 
-First step is to install it using npm
+Installation via NPM
 
-```bash
+```sh
 npm install vue3-google-login
 ```
-Or using yarn
-```bash
+Installation via Yarn
+```sh
 yarn add vue3-google-login
 ```
+Installation via CDN
+
+If you prefer to use vue3-google-login via a CDN, you can include the following script in your HTML file:
+```html
+<script src="https://cdn.jsdelivr.net/npm/vue3-google-login@2.0.31/dist/index.umd.min.js"></script>
+```
+
 ### Initialize the plugin
 
 Initialize the vue3-google-login plugin in main.js, this will register a component `GoogleLogin` globally
