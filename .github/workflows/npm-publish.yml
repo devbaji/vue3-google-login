@@ -1,49 +1,42 @@
-name: Publish to NPM
+name: Publish to npm
 
 on:
   push:
     paths:
       - 'package.json'
-    branches:
-      - master
 
 jobs:
-  publish-npm:
+  publish:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        registry-url: 'https://registry.npmjs.org'
+      - name: Check for version bump
+        id: version_check
+        uses: EndBug/version-check@v2.1.4
 
-    - name: Check if version has changed
-      id: check
-      run: |
-        PACKAGE_VERSION=$(node -p "require('./package.json').version")
-        git fetch --depth=1 origin master
-        PREVIOUS_VERSION=$(git show origin/master:package.json | node -p "JSON.parse(require('fs').readFileSync(0)).version")
-        if [ "$PACKAGE_VERSION" != "$PREVIOUS_VERSION" ]; then
-          echo "Version changed from $PREVIOUS_VERSION to $PACKAGE_VERSION"
-          echo "version_changed=true" >> $GITHUB_OUTPUT
-        else
-          echo "Version unchanged"
-          echo "version_changed=false" >> $GITHUB_OUTPUT
-        fi
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
 
-    - name: Install dependencies
-      if: steps.check.outputs.version_changed == 'true'
-      run: npm ci
+      - name: Log when changed
+        if: steps.version_check.outputs.changed == 'true'
+        run: 'echo "Version change found in commit ${{ steps.version_check.outputs.commit }}! New version: ${{ steps.version_check.outputs.version }} (${{ steps.version_check.outputs.type }})"'
+        
+      - name: Log when unchanged
+        if: steps.version_check.outputs.changed == 'false'
+        run: 'echo "No version change :/"'          
 
-    - name: Build package
-      if: steps.check.outputs.version_changed == 'true'
-      run: npm run build
+      - name: Install dependencies
+        if: steps.version_check.outputs.changed == 'true'
+        run: npm install
 
-    - name: Publish to NPM
-      if: steps.check.outputs.version_changed == 'true'
-      run: npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish to npm
+        if: steps.version_check.outputs.changed == 'true'
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
