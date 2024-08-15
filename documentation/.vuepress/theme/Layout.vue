@@ -18,8 +18,7 @@ import ParentLayout from "@vuepress/theme-default/lib/client/layouts/Layout.vue"
     </template>
     <template #page-bottom>
       <div class="my-footer">
-        MIT Licensed | Copyright © 2022-present
-        <a href="https://devbaji.github.io">Ananthakrishnan Baji</a>
+        MIT Licensed | Copyright © 2022-present <a href="https://devbaji.github.io">Ananthakrishnan Baji</a>
       </div>
     </template>
   </ParentLayout>
