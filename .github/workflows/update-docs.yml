@@ -3,7 +3,7 @@ name: Update Documentation
 on:
   push:
     paths:
-      - 'documentation/README.md'
+      - 'documentation/**'
     branches:
       - master
 
