@@ -13,7 +13,7 @@
     <img src="https://img.shields.io/npm/v/vue3-google-login.svg" alt="npm"/>
   </a>&nbsp;
   <a href="https://bundlephobia.com/package/vue3-google-login" target="_blank">
-    <img src="https://img.shields.io/bundlephobia/minzip/vue3-google-login/^2.0.0" alt="npm"/>
+    <img src="https://img.shields.io/bundlephobia/minzip/vue3-google-login" alt="npm"/>
   </a>&nbsp;
 </p>
 
