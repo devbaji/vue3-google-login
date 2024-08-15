@@ -8,7 +8,7 @@ on:
       - master
 
 jobs:
-  build-and-deploy:
+  deploy-docs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout vue3-google-login
