@@ -16,6 +16,8 @@ jobs:
       - name: Check for version bump
         id: version_check
         uses: EndBug/version-check@v2.1.4
+        with:
+          diff-search: true
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
