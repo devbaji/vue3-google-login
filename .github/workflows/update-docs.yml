@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout vue3-google-login
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: devbaji/vue3-google-login
         path: vue3-google-login
@@ -40,7 +40,7 @@ jobs:
         ls -la vue3-google-login/documentation/.vuepress/dist
 
     - name: Checkout personal repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: devbaji/devbaji.github.io
         path: personal-repo
