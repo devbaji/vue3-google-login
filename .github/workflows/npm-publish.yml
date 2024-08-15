@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - 'package.json'
+    branches:
+      - master
 
 jobs:
   publish-package:
