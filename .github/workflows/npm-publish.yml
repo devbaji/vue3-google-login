@@ -6,7 +6,7 @@ on:
       - 'package.json'
 
 jobs:
-  publish:
+  publish-package:
     runs-on: ubuntu-latest
 
     steps:
