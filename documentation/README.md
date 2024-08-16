@@ -7,13 +7,13 @@
 
 <p align="center">
   <a href="https://npmcharts.com/compare/vue3-google-login" target="_blank">
-    <img src="https://img.shields.io/npm/dw/vue3-google-login.svg" alt="npm"/>
+    <img src="https://img.shields.io/npm/dw/vue3-google-login.svg" alt="downloads"/>
   </a>&nbsp;
   <a href="https://www.npmjs.com/package/vue3-google-login" target="_blank">
     <img src="https://img.shields.io/npm/v/vue3-google-login.svg" alt="npm"/>
   </a>&nbsp;
   <a href="https://bundlephobia.com/package/vue3-google-login" target="_blank">
-    <img src="https://img.shields.io/bundlephobia/minzip/vue3-google-login" alt="npm"/>
+    <img src="https://img.shields.io/bundlephobia/minzip/vue3-google-login" alt="bundlephobia"/>
   </a>&nbsp;
 </p>
 
