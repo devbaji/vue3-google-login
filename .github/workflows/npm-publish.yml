@@ -39,6 +39,10 @@ jobs:
         if: steps.version_check.outputs.changed == 'true'
         run: npm install
 
+      - name: Create build
+        if: steps.version_check.outputs.changed == 'true'
+        run: npm run build
+
       - name: Publish to npm
         if: steps.version_check.outputs.changed == 'true'
         run: npm publish
