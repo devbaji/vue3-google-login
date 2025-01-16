@@ -39,7 +39,12 @@ export default {
         window.google.accounts.id.initialize(idConfiguration);
         options.prompt && window.google.accounts.id.prompt();
       }
-    });
-    app.component("GoogleLogin", GoogleLogin);
+    }).catch((e) => {
+		if(!options.error)
+			throw e;
+
+		options.error(e);
+	});
+	app.component("GoogleLogin", GoogleLogin);
   },
 };
