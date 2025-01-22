@@ -84,6 +84,7 @@ export interface IdConfiguration {
 
 export interface Options {
   clientId?: ClientId;
+  scopes?: string;
   prompt?: boolean;
   autoLogin?: boolean;
   popupType?: PopupTypes;
@@ -114,6 +115,7 @@ export interface PopupOptions {
    * Your Google API client ID
    */
   clientId?: ClientId;
+  scopes?: string;
 }
 
 /**

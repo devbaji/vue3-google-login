@@ -158,7 +158,7 @@ export const googleAuthCodeLogin: types.GoogleAuthCodeLogin = (options?) => {
       google.accounts.oauth2
         .initCodeClient({
           client_id: (options && options.clientId) || state.clientId || "",
-          scope: config.scopes,
+          scope: (options && options.scopes) || state.scopes || config.scopes,
           ux_mode: "popup",
           callback: (response: callbackTypes.CodePopupResponse) => {
             if (response.code) {
@@ -192,7 +192,7 @@ export const googleTokenLogin: types.GoogleTokenLogin = (options) => {
       google.accounts.oauth2
         .initTokenClient({
           client_id: (options && options.clientId) || state.clientId || "",
-          scope: config.scopes,
+          scope: (options && options.scopes) || state.scopes || config.scopes,
           callback: (response: callbackTypes.TokenPopupResponse) => {
             if (response.access_token) {
               resolve(response);
