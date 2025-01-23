@@ -56,5 +56,8 @@
     "oauth2",
     "lightweight",
     "customizable"
-  ]
+  ],
+  "dependencies": {
+    "vue3-google-login": "github:astarrh/vue3-google-login"
+  }
 }
