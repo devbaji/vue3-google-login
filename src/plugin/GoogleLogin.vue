@@ -19,6 +19,8 @@ const props = withDefaults(
   defineProps<{
     /**Your Google API client ID, to create one [follow these steps](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid)*/
     clientId?: string;
+    /** Button prop. Set to 'credential' to return authentication credentials, or to code to return authorization code. */
+    authMode?: "credential" | "code"; 
     /** To show the One-tap and Automatic-Login prompt */
     prompt?: boolean;
     /** Set this to true if you want the one-tap promt to automatically login */
@@ -37,6 +39,7 @@ const props = withDefaults(
   {
     prompt: false,
     autoLogin: false,
+    authMode: "credential",
   }
 );
 
@@ -74,7 +77,7 @@ const openPopup = (type?: types.PopupTypes) => {
 };
 
 onMounted(() => {
-  utils.onMount(idConfiguration, buttonRef, options, hasSlot);
+  utils.onMount(idConfiguration, buttonRef, options, hasSlot, props.authMode);
   if (props.popupType && !hasSlot) {
     console.warn(
       "Option 'popupType' is ignored since a slot which act as a custom login button was not found!!!"

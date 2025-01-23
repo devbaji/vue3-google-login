@@ -73,22 +73,46 @@ export const renderLoginButton = (
   buttonRef: Ref<HTMLElement | undefined>,
   buttonConfig: types.ButtonConfig,
   hasSlot: boolean,
+  authMode: "credential" | "code", // New parameter to toggle flow
   error: Function | null
 ) => {
-  if (error) {
-    const callback = idConfiguration.callback;
-    idConfiguration.callback = ((response) => {
-      if (!response.credential) {
-        error(response);
-      } else {
-        callback && callback(response);
+  if (authMode === "credential") {
+    // Existing GIS ID flow
+    {
+      if (error) {
+        const callback = idConfiguration.callback;
+        idConfiguration.callback = ((response) => {
+          if (!response.credential) {
+            error(response);
+          } else {
+            callback && callback(response);
+          }
+        }) as callbackTypes.CredentialCallback;
       }
-    }) as callbackTypes.CredentialCallback;
-  }
-  window.google.accounts.id.initialize(idConfiguration);
-  const button = buttonRef.value;
-  if (button) {
-    !hasSlot && window.google.accounts.id.renderButton(button, buttonConfig);
+      window.google.accounts.id.initialize(idConfiguration);
+      const button = buttonRef.value;
+      if (button) {
+        !hasSlot && window.google.accounts.id.renderButton(button, buttonConfig);
+      }
+    };
+  } else if (authMode === "code") {
+    const oauthClient = window.google.accounts.oauth2.initCodeClient({
+      client_id: idConfiguration.client_id || state.clientId || "",
+      scope: state.scopes || config.scopes,
+      ux_mode: "popup",
+      callback: (response) => {
+        if (response.code) {
+          idConfiguration.callback && idConfiguration.callback(response);
+        } else {
+          console.error("Authorization Code Flow failed:", response);
+        }
+      },
+    });
+
+    const button = buttonRef.value;
+    if (button) {
+      button.onclick = () => oauthClient.requestCode();
+    }
   }
 };
 
@@ -117,7 +141,8 @@ export const onMount = (
   idConfiguration: types.IdConfiguration,
   buttonRef: Ref<HTMLElement | undefined>,
   options: types.Options,
-  hasSlot: boolean
+  hasSlot: boolean,
+  authMode: "credential" | "code"
 ): void => {
   if (!idConfiguration.client_id) {
     throw new Error(
@@ -130,6 +155,7 @@ export const onMount = (
       buttonRef,
       options.buttonConfig,
       hasSlot,
+      authMode,
       options.error
     );
     options.prompt &&
