@@ -158,7 +158,7 @@ export const googleAuthCodeLogin: types.GoogleAuthCodeLogin = (options?) => {
       google.accounts.oauth2
         .initCodeClient({
           client_id: (options && options.clientId) || state.clientId || "",
-          scope: (options && options.scopes) || state.scopes || config.scopes,
+          scope: config.scopes,
           ux_mode: "popup",
           callback: (response: callbackTypes.CodePopupResponse) => {
             if (response.code) {
