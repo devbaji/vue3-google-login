@@ -16,7 +16,8 @@
     "dev": "vite",
     "build": "rollup -c",
     "docs:dev": "vuepress dev documentation",
-    "docs:build": "vuepress build documentation"
+    "docs:build": "vuepress build documentation",
+    "prepare": "npm run build"
   },
   "peerDependencies": {
     "vue": "^3.0.3"
