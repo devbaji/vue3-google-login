@@ -77,7 +77,6 @@ export const renderLoginButton = (
   error: Function | null
 ) => {
   if (authMode === "credential") {
-    // Existing GIS ID flow
     {
       if (error) {
         const callback = idConfiguration.callback;
@@ -107,11 +106,20 @@ export const renderLoginButton = (
           console.error("Authorization Code Flow failed:", response);
         }
       },
+      error_callback: (error) => {
+        console.error("OAuth2 error occurred:", error);
+      },
     });
 
+    window.google.accounts.id.initialize(idConfiguration);
     const button = buttonRef.value;
     if (button) {
-      button.onclick = () => oauthClient.requestCode();
+      window.google.accounts.id.renderButton(button, buttonConfig);
+      const newButton = button.cloneNode(true);
+      button.parentNode!.replaceChild(newButton, button);
+      newButton.addEventListener("click", () => {
+        oauthClient.requestCode(); // Custom behavior
+      });
     }
   }
 };

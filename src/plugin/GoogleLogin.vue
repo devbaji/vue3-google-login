@@ -97,4 +97,17 @@ onMounted(() => {
 .g-btn-wrapper {
   display: inline-block;
 }
+.custom-google-button {
+  display: inline-block;
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.custom-google-button:hover {
+  background-color: #357ae8;
+}
 </style>

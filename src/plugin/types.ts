@@ -96,6 +96,7 @@ export interface Options {
 
 export interface InstallOptions {
   clientId?: ClientId;
+  scopes?: string;
   prompt?: boolean;
   autoLogin?: boolean;
   popupType?: PopupTypes;

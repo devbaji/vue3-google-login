@@ -8,5 +8,5 @@ const callback: CallbackTypes.CredentialCallback = (response) => {
 </script>
 
 <template>
-  <GoogleLogin :callback="callback" />
+  <GoogleLogin :callback="callback" :authMode="'code'" />
 </template>

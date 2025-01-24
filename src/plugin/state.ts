@@ -22,6 +22,7 @@ export const libraryState: types.LibraryState = reactive({
 
 export const setState = (options: types.Options | types.InstallOptions): void => {
   options.clientId && (state.clientId = options.clientId);
+  options.scopes && (state.scopes = options.scopes);
   options.popupType && (state.popupType = options.popupType);
   options.prompt != undefined && (state.prompt = options.prompt);
   options.autoLogin != undefined && (state.autoLogin = options.autoLogin);
