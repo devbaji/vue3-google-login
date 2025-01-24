@@ -104,6 +104,35 @@ Here is an image showing log in button rendered by Google
   >
 </p>
 
+By default, the GoogleLogin component uses Google Identity Services (GIS) for token-based authentication. With the authMode prop, you can switch between:
+
+	•	“credential” (default): Uses GIS for token-based authentication.
+	•	“code”: Uses Google OAuth 2.0 authorization code flow for server-side authentication.
+
+To enable the authorization code flow, set the authMode prop to "code":
+
+```vue
+<script setup>
+const callback = (response) => {
+  // This callback will be triggered when the user logs in
+  // and receives an authorization code
+  console.log("Authorization code:", response.code);
+};
+</script>
+
+<template>
+  <GoogleLogin :callback="callback" :authMode="'code'" />
+</template>
+```
+
+Key Differences:
+	1.	authMode: "credential":
+	•	Returns a token via response.credential.
+	•	Ideal for front-end authentication workflows.
+	2.	authMode: "code":
+	•	Returns an authorization code via response.code.
+	•	Recommended for server-side authentication and workflows requiring OAuth 2.0.
+
 ### One Tap prompt
 
 For this feature set the prop `prompt` to true, this will open a prompt with the list of logged in Google accounts of the user, now user can just tap on his prefered account to easily login to your application
