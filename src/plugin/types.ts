@@ -29,6 +29,8 @@ export interface ButtonConfig {
   width?: string;
   /** If set, then the button [language](https://developers.google.com/identity/gsi/web/reference/js-reference#locale) is rendered */
   locale?: string;
+  /** The button [nonce](https://developers.google.com/identity/gsi/web/reference/js-reference#nonce) */
+  nonce?: string;
 }
 
 /**
