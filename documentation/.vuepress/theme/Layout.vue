@@ -6,19 +6,37 @@ import ParentLayout from "@vuepress/theme-default/lib/client/layouts/Layout.vue"
   <ParentLayout>
     <template #navbar-after>
       <div class="my-navbar">
-        <a href="https://www.buymeacoffee.com/developerbaji" target="_blank"><img src="/images/buyme-coffee.webp" alt="Buy Me A Coffee" class="buy-me-coffee"></a>
-        <a href="https://paypal.me/devbaji" target="_blank"><img src="/images/paypal.png" alt="Paypal" class="paypal"></a>
-        <a href="https://www.buymeacoffee.com/developerbaji" target="_blank"><img src="/images/buyme-coffee-small.webp" alt="Buy Me A Coffee" class="buy-me-coffee-small"></a>
-        <a href="https://paypal.me/devbaji" target="_blank"><img src="/images/paypal-small.png" alt="Paypal" class="paypal-small"></a>
+        <a href="https://www.buymeacoffee.com/developerbaji" target="_blank"
+          ><img
+            src="/images/buyme-coffee.webp"
+            alt="Buy Me A Coffee"
+            class="buy-me-coffee"
+        /></a>
+        <a href="https://paypal.me/devbaji" target="_blank"
+          ><img src="/images/paypal.png" alt="Paypal" class="paypal"
+        /></a>
+        <a href="https://www.buymeacoffee.com/developerbaji" target="_blank"
+          ><img
+            src="/images/buyme-coffee-small.webp"
+            alt="Buy Me A Coffee"
+            class="buy-me-coffee-small"
+        /></a>
+        <a href="https://paypal.me/devbaji" target="_blank"
+          ><img
+            src="/images/paypal-small.png"
+            alt="Paypal"
+            class="paypal-small"
+        /></a>
         <a href="https://github.com/devbaji/vue3-google-login/">
-          <img src="https://devbaji.github.io/images/github.svg?sdsd=45" />
+          <img src="/images/github.svg" alt="GitHub" />
           GitHub
         </a>
       </div>
     </template>
     <template #page-bottom>
       <div class="my-footer">
-        MIT Licensed | Copyright © 2022-present <a href="https://devbaji.github.io">Ananthakrishnan Baji</a>
+        MIT Licensed | Copyright © 2022-present
+        <a href="https://devbaji.github.io">Ananthakrishnan Baji</a>
       </div>
     </template>
   </ParentLayout>
@@ -37,7 +55,8 @@ import ParentLayout from "@vuepress/theme-default/lib/client/layouts/Layout.vue"
   margin-right: 5px;
   overflow: hidden;
 }
-.paypal-small, .buy-me-coffee-small {
+.paypal-small,
+.buy-me-coffee-small {
   display: none;
   width: 20px !important;
   border-radius: 5px;
@@ -91,10 +110,12 @@ div[class*="language-"]:hover .copy-code-pure-button {
   .my-navbar img {
     width: 15px;
   }
-  .paypal, .buy-me-coffee {
+  .paypal,
+  .buy-me-coffee {
     display: none;
   }
-  .paypal-small, .buy-me-coffee-small {
+  .paypal-small,
+  .buy-me-coffee-small {
     display: inline-block;
   }
   .site-name {
