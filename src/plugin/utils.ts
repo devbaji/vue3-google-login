@@ -100,6 +100,8 @@ export const googleSdkLoaded: types.GoogleSdkLoaded = (action) => {
   if (!libraryState.apiLoadIntitited) {
     loadGApi().then((google) => {
       action(google);
+    }).catch((error) => {
+      throw error;
     });
   } else if (!libraryState.apiLoaded) {
     watch(

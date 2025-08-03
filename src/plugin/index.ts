@@ -40,11 +40,11 @@ export default {
         options.prompt && window.google.accounts.id.prompt();
       }
     }).catch((e) => {
-		if(!options.error)
-			throw e;
-
-		options.error(e);
-	});
-	app.component("GoogleLogin", GoogleLogin);
+      if (!options.error) {
+        throw e;
+      }
+      options.error(e);
+    });
+    app.component("GoogleLogin", GoogleLogin);
   },
 };
