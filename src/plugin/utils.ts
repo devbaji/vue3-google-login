@@ -54,6 +54,7 @@ export const loadGApi = () => new Promise<types.Google>((resolve, reject) => {
     script.src = config.library;
     script.async = true;
     script.defer = true;
+    script.nonce = state.buttonConfig.nonce;
     document.head.appendChild(script);
   }
 });
