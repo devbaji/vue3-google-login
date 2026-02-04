@@ -1,20 +1,21 @@
-<h1 align="center">Vue 3 Google Login</h1>
+<h1 align="center">Vue 3 Google Login - Google Sign In for Vue 3</h1>
 <p align="center">
   <img 
     src="https://devbaji.github.io/vue3-google-login/images/auto-login.gif"
     width="300"
+    alt="Vue 3 Google Login - Automatic Google Sign In Demo"
   >
 </p>
 
 <p align="center">
   <a href="https://npmcharts.com/compare/vue3-google-login" target="_blank">
-    <img src="https://img.shields.io/npm/dw/vue3-google-login.svg" alt="downloads"/>
+    <img src="https://img.shields.io/npm/dw/vue3-google-login.svg" alt="npm downloads"/>
   </a>&nbsp;
   <a href="https://www.npmjs.com/package/vue3-google-login" target="_blank">
-    <img src="https://img.shields.io/npm/v/vue3-google-login.svg" alt="npm"/>
+    <img src="https://img.shields.io/npm/v/vue3-google-login.svg" alt="npm version"/>
   </a>&nbsp;
   <a href="https://bundlephobia.com/package/vue3-google-login" target="_blank">
-    <img src="https://img.shields.io/bundlephobia/minzip/vue3-google-login" alt="bundlephobia"/>
+    <img src="https://img.shields.io/bundlephobia/minzip/vue3-google-login" alt="bundle size"/>
   </a>&nbsp;
 </p>
 
@@ -25,45 +26,50 @@
 
 ## Overview
 
-This is a lightweight plugin to implement log-in and sign-up flows using [Google Identity Services](https://developers.google.com/identity) with the help of [Google 3P Authorization JavaScript Library](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library)
+**vue3-google-login** is a lightweight, easy-to-use Vue 3 plugin for implementing Google Sign In and authentication in your Vue 3 applications. This package provides seamless integration with [Google Identity Services](https://developers.google.com/identity) and the [Google 3P Authorization JavaScript Library](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library), enabling you to add Google OAuth2 login functionality to your Vue 3 projects with minimal setup.
 
-This allows you to implement the following features
+Perfect for Vue 3 developers looking for a simple solution to add Google login, Google signin, or Google OAuth2 authentication to their applications. Supports TypeScript and works with Vue 3.0.3+.
 
-- Login with Google button
-- Login using One Tap prompt
-- Automatic Login without any user interaction
-- Login with Google using a custom button
+### Features
+
+- **Login with Google button** - Pre-styled Google sign-in button component
+- **One Tap prompt** - Quick Google account selection for faster login
+- **Automatic Login** - Seamless authentication without user interaction
+- **Custom Login Button** - Use your own button design with Google authentication
+- **TypeScript Support** - Full TypeScript definitions included
+- **Lightweight** - Minimal bundle size, maximum performance
 
 
 
 ## Documentation
 
-https://devbaji.github.io/vue3-google-login/
+📚 **Full documentation available at:** https://devbaji.github.io/vue3-google-login/
 
-
-## Basic Setup
+## Quick Start - Vue 3 Google Login Setup
 
 ### Installation
 
-Installation via NPM
+Install the vue3-google-login package using your preferred package manager:
 
+**NPM:**
 ```sh
 npm install vue3-google-login
 ```
-Installation via Yarn
+
+**Yarn:**
 ```sh
 yarn add vue3-google-login
 ```
-Installation via CDN
 
+**CDN:**
 If you prefer to use vue3-google-login via a CDN, you can include the following script in your HTML file:
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vue3-google-login@2.0.31/dist/index.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue3-google-login@2.0.36/dist/index.umd.min.js"></script>
 ```
 
-### Initialize the plugin
+### Initialize the Plugin
 
-Initialize the vue3-google-login plugin in main.js, this will register a component `GoogleLogin` globally
+Initialize the vue3-google-login plugin in your `main.js` or `main.ts` file. This will register the `GoogleLogin` component globally and configure Google OAuth2 authentication:
 
 
 ```javascript
@@ -80,11 +86,11 @@ app.use(vue3GoogleLogin, {
 app.mount('#app')
 ```
 
-> :bulb: If you dont want to initialize and register `GoogleLogin` component, you can directly import this from `vue3-google-login` package and use the client-id prop, also some functions accepts a clientId option which can be used to avoid initialising the plugin, see [here](https://devbaji.github.io/vue3-google-login/#options) for more info
-> 
-### GoogleLogin component
+> 💡 **Tip:** If you don't want to initialize and register the `GoogleLogin` component globally, you can directly import it from `vue3-google-login` package and use the `client-id` prop. Some functions also accept a `clientId` option to avoid initializing the plugin. See the [full documentation](https://devbaji.github.io/vue3-google-login/#options) for more details.
 
-Once the plugin is installed you can use the component `GoogleLogin` anywhere in your project, this will render a log in button which opens a popup for Google login
+### Using the GoogleLogin Component
+
+Once the plugin is installed and initialized, you can use the `GoogleLogin` component anywhere in your Vue 3 application. This component renders a Google sign-in button that opens a popup for Google authentication:
 
 ```vue
 <script setup>
@@ -101,4 +107,25 @@ const callback = (response) => {
 ```
 <br>
 
-> ### For more advanced usages see the [docs](https://devbaji.github.io/vue3-google-login/)
+## Additional Features
+
+This Vue 3 Google Login plugin supports many advanced features:
+
+- **One Tap Login** - Show Google One Tap prompt for faster authentication
+- **Automatic Sign In** - Auto-login users with a single Google account
+- **Custom Buttons** - Create your own Google login button design
+- **OAuth2 Support** - Full support for OAuth2 authorization code and access token flows
+- **Server-side Validation** - Complete examples for validating credentials on your backend
+- **Nuxt 3 Support** - Works seamlessly with Nuxt 3 applications
+- **TypeScript** - Full TypeScript support with type definitions
+
+> 📖 **For complete documentation, examples, and advanced usage, visit:** [https://devbaji.github.io/vue3-google-login/](https://devbaji.github.io/vue3-google-login/)
+
+## Why Choose vue3-google-login?
+
+- ✅ **Vue 3 Native** - Built specifically for Vue 3 with Composition API support
+- ✅ **Lightweight** - Minimal bundle size, no unnecessary dependencies
+- ✅ **Easy Integration** - Simple setup, works out of the box
+- ✅ **TypeScript Ready** - Full TypeScript support included
+- ✅ **Flexible** - Support for custom buttons, One Tap, and automatic login
+- ✅ **Well Maintained** - Active development and community support
