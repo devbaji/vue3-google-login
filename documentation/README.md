@@ -446,7 +446,7 @@ verifyCredentials('JWT_CREDENTIAL_STRING_FROM_CLIENT_SIDE').then((userInfo) => {
 
 ### Custom Login Button
 
-###### Validating Auth Code
+#### Validating Auth Code
 
 If you are using [googleAuthCodeLogin function](#googleauthcodelogin-function) or [google.accounts.oauth2.initCodeClient](https://developers.google.com/identity/oauth2/web/reference/js-reference#google.accounts.oauth2.initCodeClient), the response you get on successfull login contains an [OAuth2 authorization code](https://developers.google.com/identity/oauth2/web/guides/use-code-model#auth_code_handling)
 
@@ -479,7 +479,7 @@ verifyCode('AUTHORIZATION_CODE_FROM_CLIENT_SIDE').then((userInfo) => {
 })
 ```
 
-###### Validating Access Token
+#### Validating Access Token
 
 If you are using [googleTokenLogin function](#googleauthcodelogin-function) or [google.accounts.oauth2.initTokenClient](https://developers.google.com/identity/oauth2/web/reference/js-reference#google.accounts.oauth2.initTokenClient), the response you get on successfull login contains an [Access Token](https://developers.google.com/identity/oauth2/web/guides/use-token-model)
 
@@ -531,9 +531,45 @@ const callback = (response) => {
 
 ## Nuxt 3
 
-### Initialize vue3-google-login inside the plugins directory
-For example, create a file named vue3-google-login.client.ts and place it inside the plugins directory, this will register `GoogleLogin` component globally
->  :exclamation: Make sure to use `.client` suffix in the file name to load the plugin only on the client side.
+### Using the official Nuxt module (recommended)
+
+The easiest way to use vue3-google-login in a Nuxt 3 app is via the official **[nuxt-vue3-google-login](https://github.com/devbaji/nuxt-vue3-google-login)** module. It handles SSR safety, auto-imports components and utility functions, and requires zero boilerplate.
+
+```bash
+npx nuxi@latest module add nuxt-vue3-google-login
+```
+
+Then add your Client ID to `nuxt.config.ts`:
+
+```ts
+export default defineNuxtConfig({
+  modules: ['nuxt-vue3-google-login'],
+  googleLogin: {
+    clientId: 'YOUR_GOOGLE_CLIENT_ID',
+  },
+})
+```
+
+All components and utility functions are auto-imported — no import statements needed:
+
+```vue
+<template>
+  <GoogleLogin :callback="onSuccess" />
+</template>
+
+<script setup>
+function onSuccess(response) {
+  const user = decodeCredential(response.credential)
+}
+</script>
+```
+
+### Manual setup (without the Nuxt module)
+
+If you prefer to set it up manually, create a file named `vue3-google-login.client.ts` inside the `plugins` directory. This will register the `GoogleLogin` component globally.
+
+> :exclamation: Make sure to use the `.client` suffix in the file name to load the plugin only on the client side.
+
 ```js
 // plugins/vue3-google-login.client.ts
 import vue3GoogleLogin from 'vue3-google-login'
@@ -545,19 +581,18 @@ export default defineNuxtPlugin((nuxtApp) => {
 });
 ```
 
-## No SSR support
-The [GoogleLogin component](#googlelogin-component) doesn't render properly on the server side because the Google login button relies on an iframe button provided by Google and needs the [Google 3P Authorization JavaScript Library](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library) to be loaded on the client side. So, if you are using SSR-supporting frameworks like Nuxt 3 or Quasar, make sure the GoogleLogin component is rendered on the client side. 
-
-> :bulb: You can also directly import the [GoogleLogin component](#googlelogin-component) and utilize the client-id prop if you don't wish to initialize the plugin at the framework entry point and register the GoogleLogin component globally.
-
-### Nuxt 3
-On Nuxt 3 application, wrap the GoogleLogin component in the [`ClientOnly` component](https://nuxt.com/docs/api/components/client-only), which is used for purposely rendering a component only on client side.
+Then wrap `<GoogleLogin>` in Nuxt's [`<ClientOnly>`](https://nuxt.com/docs/api/components/client-only) component to prevent SSR errors:
 
 ```vue
-  <ClientOnly>
-    <GoogleLogin :callback="callback" client-id="YOUR_GOOGLE_CLIENT_ID"/>
-  </ClientOnly>
+<ClientOnly>
+  <GoogleLogin :callback="callback" client-id="YOUR_GOOGLE_CLIENT_ID"/>
+</ClientOnly>
 ```
+
+## No SSR support
+The [GoogleLogin component](#googlelogin-component) doesn't render properly on the server side because the Google login button relies on an iframe button provided by Google and needs the [Google 3P Authorization JavaScript Library](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library) to be loaded on the client side. So, if you are using SSR-supporting frameworks like Nuxt 3 or Quasar, make sure the GoogleLogin component is rendered on the client side.
+
+> :bulb: You can also directly import the [GoogleLogin component](#googlelogin-component) and utilize the client-id prop if you don't wish to initialize the plugin at the framework entry point and register the GoogleLogin component globally.
 
 ### Quasar in SSR mode
 You can use [`QNoSsr` component](https://quasar.dev/vue-components/no-ssr/) for rendering the login button on client side while running a Quasar app on SSR mode.
