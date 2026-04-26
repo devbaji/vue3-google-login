@@ -10,6 +10,8 @@ on:
 jobs:
   publish-package:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
 
     steps:
       - name: Checkout code
@@ -45,6 +47,4 @@ jobs:
 
       - name: Publish to npm
         if: steps.version_check.outputs.changed == 'true'
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance --access public
