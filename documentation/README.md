@@ -325,6 +325,31 @@ Here is an image showing how a custom button opens the Google OAuth2 login popup
   >
 </p>
 
+### Disabling a custom button until SDK is ready
+
+When building a fully custom button it's a good practice to disable it until the Google SDK is fully loaded. You can use the `useGoogleSdk` composable which exposes a reactive `isLoaded` boolean for this purpose.
+
+```vue
+<script setup>
+import { useGoogleSdk, googleAuthCodeLogin } from "vue3-google-login"
+
+const { isLoaded } = useGoogleSdk()
+
+const login = async () => {
+  const response = await googleAuthCodeLogin()
+  console.log("Handle the response", response)
+}
+</script>
+
+<template>
+  <button :disabled="!isLoaded" @click="login">
+    Sign in with Google
+  </button>
+</template>
+```
+
+> :bulb: `isLoaded` is a Vue computed ref that becomes `true` once the Google Identity Services script is fully loaded and ready. Until then, the button stays disabled, preventing users from clicking before the SDK initializes.
+
 ## Using Google SDK
 
 If you want to directly use the API provided by [Google Identity Services JavaScript SDK](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library) without even initializing the plugin, you can use `googleSdkLoaded` wrapper function to do that. This will run an action in which you can use the API directly, and under the hoods it will make sure that this action is performed only after the SDK library is fully loaded.

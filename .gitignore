@@ -3,3 +3,5 @@ dist
 documentation/.vuepress/.cache
 documentation/.vuepress/.temp
 .DS_Store
+.env
+.env.local

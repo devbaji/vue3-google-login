@@ -19,13 +19,17 @@ export interface TokenPopupResponse {
   access_token: string;
   authuser: string;
   /** The lifetime in seconds of the access token. */
-  expires_in: string;
+  expires_in: number;
   /** Type of prompt presented to the user */
   prompt: string;
   /** A space-delimited list of scopes that are approved by the user. */
   scope: string;
   /** The type of the token issued. */
   token_type: string;
+  /** The hosted domain the user belongs to if using Google Workspace */
+  hd?: string;
+  /** The string value that your application uses to maintain state between your authorization request and the response */
+  state?: string;
 }
 
 export interface CodePopupResponse {
@@ -36,6 +40,8 @@ export interface CodePopupResponse {
   prompt: string;
   /**	A space-delimited list of scopes that are approved by the user */
   scope: string;
+  /** The string value that your application uses to maintain state between your authorization request and the response */
+  state?: string;
 }
 
 export interface ErrorPopupResponse {

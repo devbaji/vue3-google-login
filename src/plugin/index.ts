@@ -11,6 +11,7 @@ import {
   googleSdkLoaded,
 } from "./utils";
 import { setState } from "./state";
+import { useGoogleSdk } from "./composables";
 import GoogleLogin from "./GoogleLogin.vue";
 
 export {
@@ -22,6 +23,7 @@ export {
   googleTokenLogin,
   googleAuthCodeLogin,
   googleSdkLoaded,
+  useGoogleSdk,
 };
 
 export default {

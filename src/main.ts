@@ -6,7 +6,7 @@ import plugin from "./plugin";
 const app = createApp(App);
 
 app.use(plugin, {
-  clientId: "YOUR_CLIENT_ID",
+  clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
 });
 
 app.mount("#app");
