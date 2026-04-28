@@ -1,0 +1,27 @@
+.VPSidebarItem.level-0 > .items {
+  padding-left: 0 !important;
+}
+
+.VPSidebarItem .items {
+  border-left: none !important;
+  padding-left: 12px !important;
+}
+
+.results span.title.main {
+  background: none;
+}
+
+.results [data-markjs="true"] {
+  background: transparent !important;
+  color: var(--vp-c-brand-1) !important;
+}
+
+.VPFeature .icon img {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.VPHero .image-src {
+  width: 300px !important;
+  height: auto !important;
+}

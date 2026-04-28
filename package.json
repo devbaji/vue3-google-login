@@ -15,8 +15,9 @@
   "scripts": {
     "dev": "vite",
     "build": "rollup -c",
-    "docs:dev": "vuepress dev documentation",
-    "docs:build": "vuepress build documentation"
+    "docs:dev": "vitepress dev documentation",
+    "docs:build": "vitepress build documentation",
+    "docs:preview": "vitepress preview documentation"
   },
   "peerDependencies": {
     "vue": "^3.0.3"
@@ -25,7 +26,6 @@
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@vitejs/plugin-vue": "^2.3.3",
-    "@vuepress/plugin-google-analytics": "^2.0.0-beta.45",
     "rollup": "^2.73.0",
     "rollup-plugin-delete": "^2.0.0",
     "rollup-plugin-dts": "^4.2.1",
@@ -36,11 +36,10 @@
     "rollup-plugin-vue": "^6.0.0",
     "typescript": "^4.5.4",
     "vite": "^2.9.9",
+    "vitepress": "^1.6.3",
+    "vitepress-sidebar": "^1.33.1",
     "vue": "^3.2.25",
-    "vue-tsc": "^0.34.7",
-    "vuepress": "^2.0.0-beta.43",
-    "vuepress-plugin-copy-code2": "^2.0.0-beta.66",
-    "vuepress-plugin-full-text-search2": "^0.4.0"
+    "vue-tsc": "^0.34.7"
   },
   "repository": {
     "type": "git",

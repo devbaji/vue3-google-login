@@ -2,6 +2,8 @@ node_modules
 dist
 documentation/.vuepress/.cache
 documentation/.vuepress/.temp
+documentation/.vitepress/cache
+documentation/.vitepress/dist
 .DS_Store
 .env
 .env.local
