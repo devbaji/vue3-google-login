@@ -48,10 +48,6 @@ export default defineConfig({
     outline: 2,
     outlineTitle: 'On this page',
 
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/devbaji/vue3-google-login' },
-    ],
-
     footer: {
       message: 'MIT Licensed',
       copyright: 'Copyright © 2022-present <a href="https://devbaji.github.io">Ananthakrishnan Baji</a>',
