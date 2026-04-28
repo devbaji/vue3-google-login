@@ -26,6 +26,10 @@
   height: auto !important;
 }
 
-.VPHero .home-hero-lottie {
+.animation {
   margin-left: 12px;
+}
+
+.home-hero-lottie {
+  margin: 0 auto;
 }
