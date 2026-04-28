@@ -1,5 +1,17 @@
 ---
 layout: home
+title: Vue3 Google Login - Integrate Google Sign-In in Vue 3
+description: Learn how to integrate Google login in Vue 3 using vue3-google-login, including Google Sign-In button, One Tap login, and OAuth2 flows.
+head:
+  - - meta
+    - name: keywords
+      content: vue3 google login, how to integrate google login in vue3, vue 3 google sign in, google identity services vue
+  - - meta
+    - property: og:title
+      content: Vue3 Google Login - Integrate Google Sign-In in Vue 3
+  - - meta
+    - property: og:description
+      content: Step-by-step Vue 3 Google login integration with One Tap, custom button, and OAuth2 flows.
 
 hero:
   name: "Vue3 Google Login"

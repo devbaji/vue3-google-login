@@ -1,14 +1,28 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
+  lang: 'en-US',
   title: 'Vue 3 Google Login',
-  description: 'A lightweight Vue 3 plugin to implement log-in and sign-up flows using Google Identity Services',
+  description: 'Vue 3 Google Login plugin for Google Sign-In, One Tap, and OAuth2 flows. Learn how to integrate Google login in Vue 3 apps with production-ready examples.',
   base: '/vue3-google-login/',
 
   head: [
+    ['link', { rel: 'canonical', href: 'https://devbaji.github.io/vue3-google-login/' }],
     ['link', { rel: 'icon', href: '/vue3-google-login/images/favicon.ico' }],
-    ['meta', { name: 'description', content: 'This is a lightweight Vue 3 plugin to implement log-in and sign-up flows using Google Identity Services with the help of Google 3P Authorization JavaScript Library' }],
-    ['meta', { name: 'robots', content: 'vue 3, vuejs, one tap sign up, automatic sign in, login with google, login using google, one tap sign up and sign in, npm, vue3-google-login, google identity services, gsi, client library, sign in with google, gsi client, example, example code, tutorial, accounts.google.com, javaScript sdk' }],
+    ['meta', { name: 'description', content: 'Vue 3 Google Login plugin for integrating Google Sign-In, One Tap, and OAuth2 flows using Google Identity Services in Vue 3 applications.' }],
+    ['meta', { name: 'keywords', content: 'vue3 google login, vue 3 google login, integrate google login in vue3, how to integrate google login in vue3, google sign in vue3, google identity services vue' }],
+    ['meta', { name: 'robots', content: 'index, follow, max-image-preview:large' }],
+    ['meta', { property: 'og:site_name', content: 'Vue3 Google Login' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:title', content: 'Vue3 Google Login - Google Sign-In for Vue 3' }],
+    ['meta', { property: 'og:description', content: 'Integrate Google login in Vue 3 with One Tap, Sign-In Button, and OAuth2 flows using this lightweight plugin.' }],
+    ['meta', { property: 'og:url', content: 'https://devbaji.github.io/vue3-google-login/' }],
+    ['meta', { property: 'og:image', content: 'https://devbaji.github.io/vue3-google-login/images/cover-og.jpg' }],
+    ['meta', { property: 'og:image:alt', content: 'Vue3 Google Login documentation cover image' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:title', content: 'Vue3 Google Login - Google Sign-In for Vue 3' }],
+    ['meta', { name: 'twitter:description', content: 'Learn how to integrate Google login in Vue 3 apps with One Tap and OAuth2 flows.' }],
+    ['meta', { name: 'twitter:image', content: 'https://devbaji.github.io/vue3-google-login/images/cover-og.jpg' }],
     ['meta', { name: 'google-site-verification', content: 'IUHi0oL16YV--ZcBFM5VbJba3XjjLJgR_tvH-afMeyE' }],
     ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' }],
     ['script', { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-90C8T90JGH' }],

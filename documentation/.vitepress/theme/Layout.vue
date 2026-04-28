@@ -49,6 +49,9 @@ const toggleAppearance = () => {
   gap: 12px;
   margin-left: 8px;
 }
+.VPSwitchAppearance {
+  margin-right: 3px;
+}
 .action-icon {
   height: 32px;
   width: auto;
