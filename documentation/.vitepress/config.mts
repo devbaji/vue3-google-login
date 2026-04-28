@@ -13,6 +13,7 @@ export default defineConfig({
     ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' }],
     ['script', { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-90C8T90JGH' }],
     ['script', {}, `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-90C8T90JGH');`],
+    ['script', { type: 'module', src: 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js' }],
   ],
 
   themeConfig: {

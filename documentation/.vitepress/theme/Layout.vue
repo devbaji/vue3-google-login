@@ -1,11 +1,15 @@
 <script setup>
 import DefaultTheme from 'vitepress/theme'
 import { withBase } from 'vitepress'
+import HomeHeroLottie from './components/HomeHeroLottie.vue'
 const { Layout } = DefaultTheme
 </script>
 
 <template>
   <Layout>
+    <template #home-hero-image>
+      <HomeHeroLottie />
+    </template>
     <template #nav-bar-content-after>
       <div class="my-navbar">
         <a href="https://www.buymeacoffee.com/developerbaji" target="_blank">

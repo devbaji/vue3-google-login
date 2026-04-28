@@ -4,9 +4,6 @@ layout: home
 hero:
   name: "Vue3 Google Login"
   tagline: Lightweight, production-ready plugin for Google Identity Services. One-tap login, OAuth2 flows, and full TypeScript support out of the box.
-  image:
-    src: /images/auto-login.gif
-    alt: Vue 3 Google Login Demo
   actions:
     - theme: brand
       text: Get Started
