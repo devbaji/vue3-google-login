@@ -556,11 +556,11 @@ const callback = (response) => {
 </template>
 ```
 
-## Nuxt 3
+## Nuxt 3 / Nuxt 4
 
-### Using the official Nuxt module (recommended)
+### Using the Nuxt module (recommended)
 
-The easiest way to use vue3-google-login in a Nuxt 3 app is via the official **[nuxt-vue3-google-login](https://github.com/devbaji/nuxt-vue3-google-login)** module. It handles SSR safety, auto-imports components and utility functions, and requires zero boilerplate.
+The easiest way to use vue3-google-login in a Nuxt app is via **[nuxt-vue3-google-login](https://www.npmjs.com/package/nuxt-vue3-google-login)** — compatible with both Nuxt 3 and Nuxt 4. It handles SSR safety, auto-imports components and utility functions, and requires zero boilerplate.
 
 ```bash
 npx nuxi@latest module add nuxt-vue3-google-login
