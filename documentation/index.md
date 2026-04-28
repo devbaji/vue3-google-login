@@ -6,7 +6,10 @@ hero:
   tagline: Lightweight, production-ready plugin for Google Identity Services. One-tap login, OAuth2 flows, and full TypeScript support out of the box.
   actions:
     - theme: brand
-      text: Get Started
+      text: Explore Docs
+      link: /guide/overview
+    - theme: alt
+      text: Quick Install
       link: /guide/getting-started
     - theme: alt
       text: View on GitHub
