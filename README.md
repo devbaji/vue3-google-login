@@ -24,6 +24,8 @@
   <a href="https://paypal.me/devbaji" target="_blank"><img src="https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white" alt="Paypal" ></a>
 </p>
 
+> **Using Nuxt?** The recommended way to integrate this plugin in a Nuxt app is via the dedicated wrapper module → [nuxt-vue3-google-login](https://www.npmjs.com/package/nuxt-vue3-google-login)
+
 ## Overview
 
 **vue3-google-login** is a lightweight, easy-to-use Vue 3 plugin for implementing Google Sign In and authentication in your Vue 3 applications. This package provides seamless integration with [Google Identity Services](https://developers.google.com/identity) and the [Google 3P Authorization JavaScript Library](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library), enabling you to add Google OAuth2 login functionality to your Vue 3 projects with minimal setup.

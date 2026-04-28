@@ -18,6 +18,8 @@
   </a>&nbsp;
 </p>
 
+> **Using Nuxt?** The recommended way to integrate this plugin in a Nuxt app is via the dedicated wrapper module → [nuxt-vue3-google-login](https://www.npmjs.com/package/nuxt-vue3-google-login)
+
 ## Overview
 
 **vue3-google-login** is a lightweight, production-ready Vue 3 plugin for implementing Google Sign In, Google authentication, and OAuth2 login flows in your Vue 3 applications. This package provides seamless integration with [Google Identity Services](https://developers.google.com/identity) and the [Google 3P Authorization JavaScript Library](https://developers.google.com/identity/oauth2/web/guides/load-3p-authorization-library), making it easy to add Google login functionality to your Vue 3 projects.
