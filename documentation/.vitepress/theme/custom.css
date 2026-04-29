@@ -1,6 +1,11 @@
 :root {
   --vp-c-text-2: #4b5563;
   --vp-c-text-3: #6b7280;
+  --vp-button-brand-bg: #1d4ed8;
+  --vp-button-brand-hover-bg: #1e40af;
+  --vp-button-brand-active-bg: #1e3a8a;
+  --vp-button-brand-text: #ffffff;
+  --vp-button-brand-border: #1d4ed8;
 }
 
 .dark {
