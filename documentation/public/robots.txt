@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://devbaji.github.io/vue3-google-login/sitemap.xml
