@@ -1,3 +1,13 @@
+:root {
+  --vp-c-text-2: #4b5563;
+  --vp-c-text-3: #6b7280;
+}
+
+.dark {
+  --vp-c-text-2: #cbd5e1;
+  --vp-c-text-3: #94a3b8;
+}
+
 .VPSidebarItem.level-0 > .items {
   padding-left: 0 !important;
 }

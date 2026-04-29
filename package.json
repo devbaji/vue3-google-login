@@ -26,6 +26,7 @@
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@vitejs/plugin-vue": "^2.3.3",
+    "lottie-web": "^5.13.0",
     "rollup": "^2.73.0",
     "rollup-plugin-delete": "^2.0.0",
     "rollup-plugin-dts": "^4.2.1",

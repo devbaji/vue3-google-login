@@ -1,10 +1,16 @@
 <script setup>
+import { onMounted, ref } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import { useData, withBase } from 'vitepress'
 import HomeHeroLottie from './components/HomeHeroLottie.vue'
 
 const { isDark } = useData()
 const { Layout } = DefaultTheme
+const isMounted = ref(false)
+
+onMounted(() => {
+  isMounted.value = true
+})
 
 const toggleAppearance = () => {
   isDark.value = !isDark.value
@@ -12,7 +18,8 @@ const toggleAppearance = () => {
 </script>
 
 <template>
-  <Layout>
+  <main role="main" aria-label="Documentation content">
+    <Layout>
     <template #home-hero-image>
       <HomeHeroLottie />
     </template>
@@ -21,25 +28,26 @@ const toggleAppearance = () => {
         <button
           class="mobile-theme-toggle mobile-only"
           type="button"
-          :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+          :aria-label="isMounted ? (isDark ? 'Switch to light mode' : 'Switch to dark mode') : 'Toggle appearance'"
           @click="toggleAppearance"
         >
-          {{ isDark ? '☀' : '🌙' }}
+          <span v-if="isMounted">{{ isDark ? '☀' : '🌙' }}</span>
         </button>
-        <a href="https://github.com/devbaji/vue3-google-login" target="_blank" aria-label="GitHub">
+        <a href="https://github.com/devbaji/vue3-google-login" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
           <img :src="withBase('/images/github.svg')" alt="GitHub" class="action-icon github-icon">
         </a>
-        <a href="https://www.buymeacoffee.com/developerbaji" target="_blank">
+        <a href="https://www.buymeacoffee.com/developerbaji" target="_blank" rel="noopener noreferrer">
           <img :src="withBase('/images/buyme-coffee.webp')" alt="Buy Me A Coffee" class="action-icon buy-me-coffee desktop-only">
           <img :src="withBase('/images/buyme-coffee-small.webp')" alt="Buy Me A Coffee" class="action-icon buy-me-coffee mobile-only">
         </a>
-        <a href="https://paypal.me/devbaji" target="_blank">
+        <a href="https://paypal.me/devbaji" target="_blank" rel="noopener noreferrer">
           <img :src="withBase('/images/paypal.png')" alt="Paypal" class="action-icon paypal desktop-only">
           <img :src="withBase('/images/paypal-small.png')" alt="Paypal" class="action-icon paypal mobile-only">
         </a>
       </div>
     </template>
-  </Layout>
+    </Layout>
+  </main>
 </template>
 
 <style>

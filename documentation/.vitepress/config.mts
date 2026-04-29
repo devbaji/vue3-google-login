@@ -39,10 +39,9 @@ export default defineConfig({
     ['meta', { name: 'twitter:description', content: 'Learn how to integrate Google login in Vue 3 apps with One Tap and OAuth2 flows.' }],
     ['meta', { name: 'twitter:image', content: 'https://devbaji.github.io/vue3-google-login/images/cover-og.jpg' }],
     ['meta', { name: 'google-site-verification', content: 'IUHi0oL16YV--ZcBFM5VbJba3XjjLJgR_tvH-afMeyE' }],
-    ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' }],
+    ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }],
     ['script', { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-90C8T90JGH' }],
     ['script', {}, `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-90C8T90JGH');`],
-    ['script', { type: 'module', src: 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js' }],
   ],
 
   themeConfig: {
