@@ -64,7 +64,7 @@ export default defineConfig({
 
     footer: {
       message: 'MIT Licensed',
-      copyright: 'Copyright © 2022-present <a href="https://devbaji.github.io">Ananthakrishnan Baji</a>',
+      copyright: 'Copyright © 2022-present <a href="https://devbaji.github.io/" target="_blank" rel="noopener noreferrer">Ananthakrishnan Baji</a>',
     },
   },
 })
