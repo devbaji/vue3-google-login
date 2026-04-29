@@ -16,7 +16,8 @@
     "dev": "vite",
     "build": "rollup -c",
     "docs:dev": "vitepress dev documentation",
-    "docs:build": "vitepress build documentation",
+    "docs:sitemap": "node scripts/generate-sitemap.mjs",
+    "docs:build": "npm run docs:sitemap && vitepress build documentation",
     "docs:preview": "vitepress preview documentation"
   },
   "peerDependencies": {
