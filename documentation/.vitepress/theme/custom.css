@@ -33,3 +33,10 @@
 .home-hero-lottie {
   margin: 0 auto;
 }
+
+.image-container {
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
