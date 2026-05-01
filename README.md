@@ -1,8 +1,8 @@
 <h1 align="center">Vue 3 Google Login - Google Sign In for Vue 3</h1>
 <p align="center">
   <img 
-    src="https://devbaji.github.io/vue3-google-login/images/auto-login.gif"
-    width="300"
+    src="https://devbaji.github.io/vue3-google-login/images/vue-google-login.gif"
+    width="150"
     alt="Vue 3 Google Login - Automatic Google Sign In Demo"
   >
 </p>
