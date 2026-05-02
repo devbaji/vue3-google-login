@@ -46,9 +46,21 @@ function toRoutePath(filePath) {
   return `/${withoutIndex}`
 }
 
-function toAbsoluteUrl(routePath) {
-  if (routePath === '/') return siteBase
-  return `${siteBase}${routePath.replace(/^\//, '')}`
+/** Matches VitePress static output and GitHub Pages URLs (e.g. guide/overview.html). */
+function toSitemapLoc(filePath) {
+  const rel = relative(docsRoot, filePath).replace(/\\/g, '/')
+
+  if (rel === 'index.md') {
+    return siteBase
+  }
+
+  const withoutMd = rel.replace(/\.md$/, '')
+  if (withoutMd.endsWith('/index')) {
+    const prefix = withoutMd.slice(0, -'/index'.length)
+    return `${siteBase}${prefix}/index.html`
+  }
+
+  return `${siteBase}${withoutMd}.html`
 }
 
 function getGitLastModified(filePath) {
@@ -113,8 +125,8 @@ markdownFiles.sort((a, b) => {
 
 const urlsXml = markdownFiles
   .map(
-    ({ routePath, lastmod }) => `<url>
-  <loc>${toAbsoluteUrl(routePath)}</loc>
+    ({ filePath, lastmod }) => `<url>
+  <loc>${toSitemapLoc(filePath)}</loc>
   <lastmod>${lastmod}</lastmod>
 </url>`,
   )
