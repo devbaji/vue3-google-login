@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref, useSlots } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import type { PropType } from "vue";
 import type * as types from "@/types";
 import type { CredentialCallback } from "@/callbackTypes";
@@ -12,45 +12,43 @@ import {
 import state from "@/state";
 import config from "@/config";
 
-function buildIdConfiguration(
-  options: types.Options
-): types.IdConfiguration {
-  const idConfiguration: types.IdConfiguration = {
-    client_id: options.clientId || null,
-    auto_select: options.autoLogin || false,
-    callback: options.callback as CredentialCallback,
-  };
-  if (
-    options.idConfiguration &&
-    typeof options.idConfiguration === "object"
-  ) {
-    Object.assign(idConfiguration, options.idConfiguration);
-  }
-  return idConfiguration;
-}
-
 export default defineComponent({
   name: "GoogleLogin",
   props: {
+    /** Your Google API client ID */
     clientId: String as PropType<string | undefined>,
+    /** To show the One-tap and Automatic-Login prompt */
     prompt: { type: Boolean, default: false },
+    /** Set this to true if you want the one-tap prompt to automatically login */
     autoLogin: { type: Boolean, default: false },
+    /** Type of popup: CODE (auth code) or TOKEN (access token) */
     popupType: String as PropType<types.PopupTypes | undefined>,
+    /** IdConfiguration for GIS initialize */
     idConfiguration: Object as PropType<Record<string, unknown> | undefined>,
+    /** GsiButtonConfiguration for the rendered button */
     buttonConfig: Object as PropType<Record<string, unknown> | undefined>,
+    /** Success callback */
     callback: Function as PropType<Function | undefined>,
+    /** Error callback */
     error: Function as PropType<Function | undefined>,
   },
-  setup(props) {
+  setup(props, { slots }) {
     if (typeof window === "undefined") {
       throw new Error(config.ssrError);
     }
 
-    const slots = useSlots();
     const hasSlot = Boolean(slots.default);
     const options: types.Options = mergeObjects(state, props);
 
-    const idConfiguration = buildIdConfiguration(options);
+    const idConfiguration: types.IdConfiguration = {
+      client_id: options.clientId || null,
+      auto_select: options.autoLogin || false,
+      callback: options.callback as CredentialCallback,
+      ...(options.idConfiguration &&
+      typeof options.idConfiguration === "object"
+        ? options.idConfiguration
+        : {}),
+    };
 
     const buttonRef = ref<HTMLElement | undefined>();
 
