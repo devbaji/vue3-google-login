@@ -11,8 +11,17 @@ const docsPublic = join(docsRoot, 'public')
 const sitemapPath = join(docsPublic, 'sitemap.xml')
 const robotsPath = join(docsPublic, 'robots.txt')
 const vitepressConfigPath = join(docsRoot, '.vitepress', 'config.mts')
-/** Trailing slash. Override with DOCS_SITE_ORIGIN in CI (same as VitePress config). */
-const siteBase = `${(process.env.DOCS_SITE_ORIGIN ?? 'https://vue3-google-login.pages.dev').replace(/\/$/, '')}/`
+
+const rawDocsOrigin =
+  (process.env.DOCS_SITE_ORIGIN ?? '').trim() || 'https://vue3-google-login.pages.dev'
+const docsOriginNoSlash = (
+  rawDocsOrigin.startsWith('http://') || rawDocsOrigin.startsWith('https://')
+    ? rawDocsOrigin
+    : `https://${rawDocsOrigin}`
+).replace(/\/$/, '')
+
+/** Trailing slash. Loc URLs are extensionless when VitePress cleanUrls is true (matches Cloudflare Pages). */
+const siteBase = `${docsOriginNoSlash}/`
 
 function collectMarkdownFiles(dir, acc = []) {
   const entries = readdirSync(dir, { withFileTypes: true })
@@ -48,7 +57,7 @@ function toRoutePath(filePath) {
   return `/${withoutIndex}`
 }
 
-/** Matches VitePress static output and GitHub Pages URLs (e.g. guide/overview.html). */
+/** Extensionless paths when using VitePress cleanUrls (same URLs Cloudflare Pages uses after build). */
 function toSitemapLoc(filePath) {
   const rel = relative(docsRoot, filePath).replace(/\\/g, '/')
 
@@ -59,10 +68,10 @@ function toSitemapLoc(filePath) {
   const withoutMd = rel.replace(/\.md$/, '')
   if (withoutMd.endsWith('/index')) {
     const prefix = withoutMd.slice(0, -'/index'.length)
-    return `${siteBase}${prefix}/index.html`
+    return `${siteBase}${prefix}/`
   }
 
-  return `${siteBase}${withoutMd}.html`
+  return `${siteBase}${withoutMd}`
 }
 
 function getGitLastModified(filePath) {

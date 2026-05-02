@@ -1,10 +1,13 @@
 import { defineConfig } from 'vitepress'
 
-/** No trailing slash. Set DOCS_SITE_ORIGIN in CI (e.g. Cloudflare Pages) for your public docs URL. */
-const docsOrigin = (process.env.DOCS_SITE_ORIGIN ?? 'https://vue3-google-login.pages.dev').replace(
-  /\/$/,
-  '',
-)
+/** No trailing slash. Host-only DOCS_SITE_ORIGIN in CI gets https:// prepended (valid absolute URLs). */
+const rawDocsOrigin =
+  (process.env.DOCS_SITE_ORIGIN ?? '').trim() || 'https://vue3-google-login.pages.dev'
+const docsOrigin = (
+  rawDocsOrigin.startsWith('http://') || rawDocsOrigin.startsWith('https://')
+    ? rawDocsOrigin
+    : `https://${rawDocsOrigin}`
+).replace(/\/$/, '')
 
 /**
  * Preferred URLs for indexing (historic GitHub Pages docs). Canonical / og:url use this even when the
@@ -13,6 +16,8 @@ const docsOrigin = (process.env.DOCS_SITE_ORIGIN ?? 'https://vue3-google-login.p
 const canonicalOrigin = 'https://devbaji.github.io/vue3-google-login'
 
 export default defineConfig({
+  /** Extensionless links; aligns with Cloudflare Pages (see https://developers.cloudflare.com/pages/configuration/serving-pages/). */
+  cleanUrls: true,
   lang: 'en-US',
   title: 'Vue 3 Google Login',
   description: 'Vue 3 Google Login plugin for Google Sign-In, One Tap, and OAuth2 flows. Learn how to integrate Google login in Vue 3 apps with production-ready examples.',
