@@ -114,12 +114,12 @@ export const onMount = (
   });
 };
 
-/**
- * A helper function to trigger login popup using google.accounts.oauth2.initCodeClient function under the hoods
- * @param options Optionally you can add clientId in this option if not initialized on plugin install
- * @returns A promise which get resolved with an auth code once user login through the popup
- */
-export const googleAuthCodeLogin: types.GoogleAuthCodeLogin = (options?) => {
+function requestOAuthPopup(
+  kind: "code" | "token",
+  options?: types.PopupOptions
+): Promise<
+  callbackTypes.CodePopupResponse | callbackTypes.TokenPopupResponse
+> {
   return new Promise((resolve, reject) => {
     googleSdkLoaded((google) => {
       if ((!options || !options.clientId) && !state.clientId) {
@@ -127,59 +127,66 @@ export const googleAuthCodeLogin: types.GoogleAuthCodeLogin = (options?) => {
           "clientId is required since the plugin is not initialized with a Client Id"
         );
       }
-      google.accounts.oauth2
-        .initCodeClient({
-          client_id: (options && options.clientId) || state.clientId || "",
-          scope: config.scopes,
-          ux_mode: "popup",
-          callback: (response: callbackTypes.CodePopupResponse) => {
-            if (response.code) {
-              resolve(response);
-            } else {
+      const client_id = (options && options.clientId) || state.clientId || "";
+      if (kind === "code") {
+        google.accounts.oauth2
+          .initCodeClient({
+            client_id,
+            scope: config.scopes,
+            ux_mode: "popup",
+            callback: (response: callbackTypes.CodePopupResponse) => {
+              if (response.code) {
+                resolve(response);
+              } else {
+                reject(response);
+              }
+            },
+            error_callback: (response: callbackTypes.ErrorPopupResponse) => {
               reject(response);
-            }
-          },
-          error_callback: (response: callbackTypes.ErrorPopupResponse) => {
-            reject(response);
-          },
-        })
-        .requestCode();
+            },
+          })
+          .requestCode();
+      } else {
+        google.accounts.oauth2
+          .initTokenClient({
+            client_id,
+            scope: config.scopes,
+            callback: (response: callbackTypes.TokenPopupResponse) => {
+              if (response.access_token) {
+                resolve(response);
+              } else {
+                reject(response);
+              }
+            },
+            error_callback: (response) => {
+              reject(response);
+            },
+          })
+          .requestAccessToken();
+      }
     });
   });
-};
+}
+
+/**
+ * A helper function to trigger login popup using google.accounts.oauth2.initCodeClient function under the hoods
+ * @param options Optionally you can add clientId in this option if not initialized on plugin install
+ * @returns A promise which get resolved with an auth code once user login through the popup
+ */
+export const googleAuthCodeLogin: types.GoogleAuthCodeLogin = (options?) =>
+  requestOAuthPopup("code", options) as Promise<
+    callbackTypes.CodePopupResponse
+  >;
 
 /**
  * A helper function to trigger login popup using google.accounts.oauth2.initTokenClient function under the hoods
  * @param options Optionally you can add clientId in this option if not initialized on plugin install
  * @returns A promise which get resolved with an access token once user login through the popup
  */
-export const googleTokenLogin: types.GoogleTokenLogin = (options) => {
-  return new Promise((resolve, reject) => {
-    googleSdkLoaded((google) => {
-      if ((!options || !options.clientId) && !state.clientId) {
-        throw new Error(
-          "clientId is required since the plugin is not initialized with a Client Id"
-        );
-      }
-      google.accounts.oauth2
-        .initTokenClient({
-          client_id: (options && options.clientId) || state.clientId || "",
-          scope: config.scopes,
-          callback: (response: callbackTypes.TokenPopupResponse) => {
-            if (response.access_token) {
-              resolve(response);
-            } else {
-              reject(response);
-            }
-          },
-          error_callback: (response) => {
-            reject(response);
-          },
-        })
-        .requestAccessToken();
-    });
-  });
-};
+export const googleTokenLogin: types.GoogleTokenLogin = (options?) =>
+  requestOAuthPopup("token", options) as Promise<
+    callbackTypes.TokenPopupResponse
+  >;
 
 /**
  * A function to open one-tap and automatic log-in prompt

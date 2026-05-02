@@ -43,6 +43,14 @@ module.exports = {
     },
   ],
   rules: {
+    "max-lines": [
+      "error",
+      {
+        max: 250,
+        skipBlankLines: true,
+        skipComments: true,
+      },
+    ],
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",

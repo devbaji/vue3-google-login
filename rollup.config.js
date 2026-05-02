@@ -13,6 +13,9 @@ import commonjs from '@rollup/plugin-commonjs';
 const srcRoot = path.resolve(process.cwd(), "src");
 const distRoot = path.resolve(process.cwd(), "dist");
 
+/** `compress.passes: 2` trims raw size vs default Terser; dropping forced `ecma` avoids extra gzip loss. */
+const terserMinify = () => [terser({ compress: { passes: 2 } })];
+
 export default [
   {
     input: "src/index.ts",
@@ -20,12 +23,12 @@ export default [
       {
         format: "esm",
         file: "dist/index.esm.js",
-        plugins: [terser()],
+        plugins: terserMinify(),
       },
       {
         format: "cjs",
         file: "dist/index.cjs.js",
-        plugins: [terser()],
+        plugins: terserMinify(),
       },
       {
         format: "umd",
@@ -34,7 +37,7 @@ export default [
         globals: {
           vue: 'Vue'
         },
-        plugins: [terser()],
+        plugins: terserMinify(),
       },
     ],
     external: ['vue'],
