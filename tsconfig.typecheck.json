@@ -7,7 +7,13 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": ["src/**/*.ts", "src/**/*.vue", "src/env.d.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "src/env.d.ts",
+    "playground/**/*.ts",
+    "playground/**/*.vue"
+  ],
   "exclude": ["node_modules", "dist", "documentation", "tests"],
   "references": []
 }

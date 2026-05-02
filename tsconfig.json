@@ -22,6 +22,8 @@
     "src/**/*.ts",
     "src/**/*.vue",
     "src/**/*.d.ts",
+    "playground/**/*.ts",
+    "playground/**/*.vue",
     "tests/**/*.ts",
     "vitest.config.ts"
   ],
