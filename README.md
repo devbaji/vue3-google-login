@@ -1,7 +1,7 @@
 <h1 align="center">Vue 3 Google Login</h1>
 <p align="center">
   <img 
-    src="https://devbaji.github.io/vue3-google-login/images/vue-google-login.gif"
+    src="https://vue3-google-login.pages.dev/images/vue-google-login.gif"
     width="150"
     alt="Vue 3 Google Login - Automatic Google Sign In Demo"
   >
@@ -45,7 +45,7 @@ Perfect for Vue 3 developers looking for a simple solution to add Google login, 
 
 ## Documentation
 
-📚 **Full documentation available at:** https://devbaji.github.io/vue3-google-login/
+📚 **Full documentation available at:** https://vue3-google-login.pages.dev/
 
 ## Quick Start - Vue 3 Google Login Setup
 
@@ -88,7 +88,7 @@ app.use(vue3GoogleLogin, {
 app.mount('#app')
 ```
 
-> 💡 **Tip:** If you don't want to initialize and register the `GoogleLogin` component globally, you can directly import it from `vue3-google-login` package and use the `client-id` prop. Some functions also accept a `clientId` option to avoid initializing the plugin. See the [full documentation](https://devbaji.github.io/vue3-google-login/#options) for more details.
+> 💡 **Tip:** If you don't want to initialize and register the `GoogleLogin` component globally, you can directly import it from `vue3-google-login` package and use the `client-id` prop. Some functions also accept a `clientId` option to avoid initializing the plugin. See the [full documentation](https://vue3-google-login.pages.dev/#options) for more details.
 
 ### Using the GoogleLogin Component
 
@@ -121,7 +121,7 @@ This Vue 3 Google Login plugin supports many advanced features:
 - **Nuxt 3 Support** - Works seamlessly with Nuxt 3 applications
 - **TypeScript** - Full TypeScript support with type definitions
 
-> 📖 **For complete documentation, examples, and advanced usage, visit:** [https://devbaji.github.io/vue3-google-login/](https://devbaji.github.io/vue3-google-login/)
+> 📖 **For complete documentation, examples, and advanced usage, visit:** [https://vue3-google-login.pages.dev/](https://vue3-google-login.pages.dev/)
 
 ## Why Choose vue3-google-login?
 

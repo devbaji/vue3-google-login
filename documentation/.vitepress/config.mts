@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress'
 
 /** No trailing slash. Set DOCS_SITE_ORIGIN in CI (e.g. Cloudflare Pages) for your public docs URL. */
-const docsOrigin = (process.env.DOCS_SITE_ORIGIN ?? 'https://devbaji.github.io/vue3-google-login').replace(
+const docsOrigin = (process.env.DOCS_SITE_ORIGIN ?? 'https://vue3-google-login.pages.dev').replace(
   /\/$/,
   '',
 )
@@ -83,7 +83,7 @@ export default defineConfig({
 
     footer: {
       message: 'MIT Licensed',
-      copyright: 'Copyright © 2022-present <a href="https://devbaji.github.io/" target="_blank" rel="noopener noreferrer">Ananthakrishnan Baji</a>',
+      copyright: 'Copyright © 2022-present <a href="https://devbaji.com" target="_blank" rel="noopener noreferrer">Ananthakrishnan Baji</a>',
     },
   },
 })

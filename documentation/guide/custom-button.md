@@ -73,7 +73,7 @@ Here is an image showing how a custom button opens the Google OAuth2 login popup
 <p align="center">
   <img 
     width="300"
-    src="https://devbaji.github.io/vue3-google-login/images/custom-login-button.gif"
+    src="https://vue3-google-login.pages.dev/images/custom-login-button.gif"
     alt="Custom Google Login Button Demo - Vue 3 Google Login"
   >
 </p>

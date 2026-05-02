@@ -12,7 +12,7 @@ const sitemapPath = join(docsPublic, 'sitemap.xml')
 const robotsPath = join(docsPublic, 'robots.txt')
 const vitepressConfigPath = join(docsRoot, '.vitepress', 'config.mts')
 /** Trailing slash. Override with DOCS_SITE_ORIGIN in CI (same as VitePress config). */
-const siteBase = `${(process.env.DOCS_SITE_ORIGIN ?? 'https://devbaji.github.io/vue3-google-login').replace(/\/$/, '')}/`
+const siteBase = `${(process.env.DOCS_SITE_ORIGIN ?? 'https://vue3-google-login.pages.dev').replace(/\/$/, '')}/`
 
 function collectMarkdownFiles(dir, acc = []) {
   const entries = readdirSync(dir, { withFileTypes: true })

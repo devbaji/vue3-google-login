@@ -132,7 +132,7 @@ Here is an image showing the Google One Tap prompt in action:
 
 <p align="center">
   <img 
-    src="https://devbaji.github.io/vue3-google-login/images/one-tap-prompt.gif"
+    src="https://vue3-google-login.pages.dev/images/one-tap-prompt.gif"
     alt="Google One Tap Login Prompt Demo"
     width="250"
   >
@@ -198,7 +198,7 @@ Here is an image showing how the Google One Tap prompt automatically detects the
 
 <p align="center">
   <img 
-    src="https://devbaji.github.io/vue3-google-login/images/auto-login.gif"
+    src="https://vue3-google-login.pages.dev/images/auto-login.gif"
     alt="Automatic Google Login Demo - Vue 3 Google Login"
     width="250"
   >
