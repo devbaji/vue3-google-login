@@ -17,18 +17,16 @@ export default defineConfig({
       normalizedRoute === '/' ? base : `${base}${normalizedRoute.replace(/^\//, '')}`
     const canonicalUrl = `${site}${canonicalPath}`
 
-    return [
-      ['link', { rel: 'canonical', href: canonicalUrl }],
-      ['meta', { property: 'og:url', content: canonicalUrl }],
-    ]
+    return [['meta', { property: 'og:url', content: canonicalUrl }]]
   },
 
   head: [
+    ['link', { rel: 'canonical', href: 'https://devbaji.github.io/vue3-google-login/' }],
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/vue3-google-login/images/favicon.svg' }],
     ['link', { rel: 'icon', href: '/vue3-google-login/images/favicon.ico', sizes: 'any' }],
     ['meta', { name: 'description', content: 'Vue 3 Google Login plugin for integrating Google Sign-In, One Tap, and OAuth2 flows using Google Identity Services in Vue 3 applications.' }],
     ['meta', { name: 'keywords', content: 'vue3 google login, vue 3 google login, integrate google login in vue3, how to integrate google login in vue3, google sign in vue3, google identity services vue' }],
-    ['meta', { name: 'robots', content: 'index, follow, max-image-preview:large' }],
+    ['meta', { name: 'robots', content: 'index, follow' }],
     ['meta', { property: 'og:site_name', content: 'Vue3 Google Login' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:title', content: 'Vue3 Google Login - Google Sign-In for Vue 3' }],
