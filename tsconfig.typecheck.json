@@ -1,0 +1,13 @@
+{
+  // Narrow project for vue-tsc: src only (no tests) — keeps checks fast and avoids Vitest globals in library typing.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "composite": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.vue", "src/env.d.ts"],
+  "exclude": ["node_modules", "dist", "documentation", "tests"],
+  "references": []
+}

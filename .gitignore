@@ -8,3 +8,9 @@ documentation/.vitepress/dist
 .DS_Store
 .env
 .env.local
+
+# Accidental declaration emit (sources are *.ts); @/ paths are not resolved in these copies
+tests/**/*.d.ts
+tests/**/*.d.ts.map
+vitest.config.d.ts
+vitest.config.d.ts.map

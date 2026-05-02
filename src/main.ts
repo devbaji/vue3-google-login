@@ -1,8 +1,8 @@
 /// <reference types="vite/client" />
 import { createApp } from "vue";
-import App from "./App.vue";
+import App from "@/App.vue";
 
-import plugin from "./plugin";
+import plugin from "@/index";
 
 const app = createApp(App);
 

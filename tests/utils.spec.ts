@@ -1,21 +1,21 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { nextTick, defineComponent } from "vue";
 import { mount, flushPromises } from "@vue/test-utils";
+import { decodeCredential } from "@/utils/decodeCredential";
+import { mergeObjects } from "@/utils/mergeOptions";
 import {
-  decodeCredential,
-  mergeObjects,
   googleSdkLoaded,
   googleLogout,
   googleOneTap,
-} from "../src/plugin/utils";
-import { useGoogleSdk } from "../src/plugin/composables";
-import state, { libraryState } from "../src/plugin/state";
+} from "@/google/client";
+import { useGoogleSdk } from "@/composables/useGoogleSdk";
+import state, { libraryState } from "@/state";
 import {
   createMockGoogle,
   installGsiScriptLoadInterceptor,
 } from "./helpers/mock-google";
 import { resetPluginAndLibraryState } from "./helpers/reset-state";
-import type { Google } from "../src/plugin/types";
+import type { Google } from "@/types";
 
 describe("decodeCredential", () => {
   it("decodes a valid JWT payload", () => {

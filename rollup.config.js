@@ -1,3 +1,5 @@
+import path from "path";
+import alias from "@rollup/plugin-alias";
 import vue from "rollup-plugin-vue";
 import typescript from "rollup-plugin-typescript2";
 import postcss from "rollup-plugin-postcss";
@@ -8,9 +10,12 @@ import dts from "rollup-plugin-dts";
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 
+const srcRoot = path.resolve(process.cwd(), "src");
+const distRoot = path.resolve(process.cwd(), "dist");
+
 export default [
   {
-    input: "src/plugin/index.ts",
+    input: "src/index.ts",
     output: [
       {
         format: "esm",
@@ -34,13 +39,21 @@ export default [
     ],
     external: ['vue'],
     plugins: [
+      alias({
+        entries: [
+          { find: /^@\/(.*)/, replacement: `${srcRoot}${path.sep}$1` },
+        ],
+      }),
       vue(),
       peerDepsExternal(),
       typescript({
         check: false,
+        useTsconfigDeclarationDir: true,
         tsconfigOverride: {
           compilerOptions: {
             declaration: true,
+            declarationDir: "dist",
+            rootDir: "src",
             sourceMap: true,
             declarationMap: true,
           },
@@ -56,6 +69,14 @@ export default [
     input: "dist/index.d.ts",
     output: [{ file: "dist/index.d.ts", format: "esm" }],
     plugins: [
+      alias({
+        entries: [
+          {
+            find: /^@\/(.*)/,
+            replacement: `${distRoot}${path.sep}$1`,
+          },
+        ],
+      }),
       dts(),
       del({
         hook: "buildEnd",

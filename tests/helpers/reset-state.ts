@@ -1,6 +1,6 @@
-import state, { libraryState } from "../../src/plugin/state";
-import config from "../../src/plugin/config";
-import type { Google } from "../../src/plugin/types";
+import state, { libraryState } from "@/state";
+import config from "@/config";
+import type { Google } from "@/types";
 
 export function resetPluginAndLibraryState(): void {
   libraryState.apiLoaded = false;

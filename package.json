@@ -1,6 +1,6 @@
 {
   "name": "vue3-google-login",
-  "version": "2.0.43",
+  "version": "2.1.0",
   "description": "Add a Login with Google feature to your Vue 3 application using Google Identity Services",
   "license": "MIT",
   "author": "Ananthakrishnan Baji <ananthakrishnan.b7@gmail.com>",
@@ -13,7 +13,10 @@
     "dist/*"
   ],
   "scripts": {
+    "prepublishOnly": "npm run lint && npm test && npm run build",
     "dev": "vite",
+    "lint": "eslint . --ext .ts,.tsx,.d.ts,.vue,.js,.cjs,.mjs && vue-tsc --noEmit -p tsconfig.typecheck.json",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.typecheck.json",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
@@ -28,11 +31,16 @@
     "vue": "^3.0.3"
   },
   "devDependencies": {
+    "@rollup/plugin-alias": "^3.1.9",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
     "@vitejs/plugin-vue": "^2.3.3",
     "@vitest/coverage-c8": "^0.31.4",
     "@vue/test-utils": "^2.4.6",
+    "eslint": "^8.57.0",
+    "eslint-plugin-vue": "^9.28.0",
     "happy-dom": "^9.20.3",
     "husky": "^9.1.7",
     "lottie-web": "^5.13.0",
@@ -44,13 +52,13 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.31.2",
     "rollup-plugin-vue": "^6.0.0",
-    "typescript": "^4.5.4",
+    "typescript": "^4.9.5",
     "vite": "^2.9.9",
     "vitepress": "^1.6.3",
-    "vitepress-sidebar": "^1.33.1",
     "vitest": "^0.31.4",
     "vue": "^3.2.25",
-    "vue-tsc": "^0.34.7"
+    "vue-eslint-parser": "^9.4.3",
+    "vue-tsc": "^1.8.27"
   },
   "repository": {
     "type": "git",

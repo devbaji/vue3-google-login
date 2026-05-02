@@ -1,73 +1,40 @@
 import { type Ref, watch } from "vue";
-import config from "./config";
-import type * as types from "./types";
-import type * as callbackTypes from "./callbackTypes";
-import state, { libraryState } from "./state";
+import config from "@/config";
+import type * as types from "@/types";
+import type * as callbackTypes from "@/callbackTypes";
+import state, { libraryState } from "@/state";
 
 declare global {
-  interface Window extends types._Window { }
+  interface Window extends types._Window {}
 }
 
-/**
- * For retriving the JWT payload from the credential
- * @param token JWT credential string
- * @returns Decoded payload from the JWT credential string
- */
-export const decodeCredential: types.DecodeCredential = (
-  token: string
-): object => {
-  try {
-    const base64Url = token.split(".")[1];
-    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    const jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split("")
-        .map(function (c) {
-          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        })
-        .join("")
-    );
-    return JSON.parse(jsonPayload);
-  } catch (error) {
-    throw "JWT provided is invalid";
-  }
-};
+export const loadGApi = () =>
+  new Promise<types.Google>((resolve, reject) => {
+    const isRunningInBrowser = typeof window !== "undefined";
+    if (!isRunningInBrowser) {
+      reject(config.ssrError);
+      return;
+    }
 
-export const loadGApi = () => new Promise<types.Google>((resolve, reject) => {
-  // To show errow if tried to rendered on server side
-  const isRunningInBrowser = typeof window !== "undefined";
-  if (!isRunningInBrowser) {
-    reject(config.ssrError)
-    return;
-  }
-
-  if (!libraryState.apiLoadIntitited) {
-    const script = document.createElement("script");
-    libraryState.apiLoadIntitited = true;
-    script.addEventListener("load", () => {
-      libraryState.apiLoaded = true;
-      resolve(window.google);
-    });
-    script.addEventListener("error", () => {
-      reject("Failed to load the Google 3P Authorization JavaScript Library.");
-    });
-    script.src = config.library;
-    script.async = true;
-    script.defer = true;
-    script.nonce = state.buttonConfig.nonce;
-    document.head.appendChild(script);
-  }
-});
-
-export const mergeObjects = (obj1: any, obj2: any): types.Options => {
-  const mergedObj = { ...obj1 };
-  for (const key in obj2) {
-    obj2[key] !== undefined &&
-      obj2[key] !== null &&
-      (mergedObj[key] = obj2[key]);
-  }
-  return mergedObj;
-};
+    if (!libraryState.apiLoadIntitited) {
+      const script = document.createElement("script");
+      libraryState.apiLoadIntitited = true;
+      script.addEventListener("load", () => {
+        libraryState.apiLoaded = true;
+        resolve(window.google);
+      });
+      script.addEventListener("error", () => {
+        reject(
+          "Failed to load the Google 3P Authorization JavaScript Library."
+        );
+      });
+      script.src = config.library;
+      script.async = true;
+      script.defer = true;
+      script.nonce = state.buttonConfig.nonce;
+      document.head.appendChild(script);
+    }
+  });
 
 export const renderLoginButton = (
   idConfiguration: types.IdConfiguration,
@@ -99,11 +66,13 @@ export const renderLoginButton = (
  */
 export const googleSdkLoaded: types.GoogleSdkLoaded = (action) => {
   if (!libraryState.apiLoadIntitited) {
-    loadGApi().then((google) => {
-      action(google);
-    }).catch((error) => {
-      throw error;
-    });
+    loadGApi()
+      .then((google) => {
+        action(google);
+      })
+      .catch((error) => {
+        throw error;
+      });
   } else if (!libraryState.apiLoaded) {
     watch(
       () => libraryState.apiLoaded,
@@ -140,7 +109,7 @@ export const onMount = (
         clientId: options.clientId,
         callback: options.callback as callbackTypes.CredentialCallback,
         error: options.error,
-        autoLogin: options.autoLogin
+        autoLogin: options.autoLogin,
       });
   });
 };

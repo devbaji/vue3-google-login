@@ -1,4 +1,4 @@
-import type * as callbackTypes from "./callbackTypes";
+import type * as callbackTypes from "@/callbackTypes";
 
 export type PopupTypeCode = "CODE";
 export type PopupTypeToken = "TOKEN";
@@ -373,12 +373,12 @@ export interface Google {
         requestCode: () => void;
       };
       hasGrantedAnyScope: (
-        tokenRsponse: callbackTypes.TokenPopupResponse,
+        tokenResponse: callbackTypes.TokenPopupResponse,
         firstScope: string,
         ...restScopes: string[]
       ) => boolean;
       hasGrantedAllScopes: (
-        tokenRsponse: callbackTypes.TokenPopupResponse,
+        tokenResponse: callbackTypes.TokenPopupResponse,
         firstScope: string,
         ...restScopes: string[]
       ) => boolean;

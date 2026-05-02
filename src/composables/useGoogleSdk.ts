@@ -1,5 +1,5 @@
 import { computed } from "vue";
-import { libraryState } from "./state";
+import { libraryState } from "@/state";
 
 /**
  * Composable that exposes reactive Google SDK state.

@@ -1,6 +1,7 @@
 import { vi } from "vitest";
-import type { Google } from "../../src/plugin/types";
-import config from "../../src/plugin/config";
+import type { Google } from "@/types";
+import type { CodePopupResponse, TokenPopupResponse } from "@/callbackTypes";
+import config from "@/config";
 
 export type MockGoogleHandles = {
   google: Google;
@@ -21,37 +22,32 @@ export function createMockGoogle(): MockGoogleHandles {
   const prompt = vi.fn();
   const disableAutoSelect = vi.fn();
 
-  const initCodeClient = vi.fn((cfg: { callback?: (r: { code: string }) => void }) => ({
-    requestCode: vi.fn(() => {
-      cfg.callback?.({
-        code: "test-auth-code",
-        authuser: "0",
-        prompt: "",
-        scope: config.scopes,
-      });
-    }),
-  }));
+  const initCodeClient = vi.fn(
+    (cfg: { callback?: (r: CodePopupResponse) => void }) => ({
+      requestCode: vi.fn(() => {
+        const response: CodePopupResponse = {
+          code: "test-auth-code",
+          authuser: "0",
+          prompt: "",
+          scope: config.scopes,
+        };
+        cfg.callback?.(response);
+      }),
+    })
+  );
 
   const initTokenClient = vi.fn(
-    (cfg: {
-      callback?: (r: {
-        access_token: string;
-        authuser: string;
-        expires_in: number;
-        prompt: string;
-        scope: string;
-        token_type: string;
-      }) => void;
-    }) => ({
+    (cfg: { callback?: (r: TokenPopupResponse) => void }) => ({
       requestAccessToken: vi.fn(() => {
-        cfg.callback?.({
+        const response: TokenPopupResponse = {
           access_token: "test-access-token",
           authuser: "0",
           expires_in: 3600,
           prompt: "",
           scope: config.scopes,
           token_type: "Bearer",
-        });
+        };
+        cfg.callback?.(response);
       }),
     })
   );

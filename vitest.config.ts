@@ -1,8 +1,14 @@
+import path from "path";
 import { defineConfig } from "vitest/config";
 import vue from "@vitejs/plugin-vue";
 
 export default defineConfig({
   plugins: [vue()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src"),
+    },
+  },
   test: {
     environment: "happy-dom",
     include: ["tests/**/*.spec.ts"],
@@ -12,7 +18,7 @@ export default defineConfig({
     coverage: {
       provider: "c8",
       reporter: ["text", "json-summary"],
-      include: ["src/plugin/**/*.{ts,vue}"],
+      include: ["src/**/*.{ts,vue}"],
     },
   },
 });

@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { createApp, nextTick } from "vue";
 import { mount, flushPromises } from "@vue/test-utils";
-import vue3GoogleLogin from "../src/plugin/index";
-import GoogleLogin from "../src/plugin/GoogleLogin.vue";
+import vue3GoogleLogin from "@/index";
+import GoogleLogin from "@/components/GoogleLogin.vue";
 import {
   createMockGoogle,
   installGsiScriptLoadInterceptor,

@@ -1,6 +1,6 @@
 import { reactive } from "vue";
-import type * as types from "./types";
-import config from "./config";
+import type * as types from "@/types";
+import config from "@/config";
 
 const state: types.Options = reactive({
   clientId: null,

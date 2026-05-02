@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
     "target": "esnext",
     "useDefineForClassFields": true,
     "forceConsistentCasingInFileNames": true,
@@ -15,11 +19,9 @@
     "skipLibCheck": true
   },
   "include": [
-    "src/plugin/**/*.ts",
-    "src/plugin/**/*.d.ts",
-    "src/plugin/**/*.tsx",
-    "src/plugin/**/*.vue",
-    "src/env.d.ts",
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "src/**/*.d.ts",
     "tests/**/*.ts",
     "vitest.config.ts"
   ],
