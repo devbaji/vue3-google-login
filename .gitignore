@@ -1,5 +1,6 @@
 node_modules
 dist
+coverage
 documentation/.vuepress/.cache
 documentation/.vuepress/.temp
 documentation/.vitepress/cache

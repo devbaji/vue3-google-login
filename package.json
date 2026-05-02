@@ -14,6 +14,9 @@
   ],
   "scripts": {
     "dev": "vite",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "build": "rollup -c",
     "docs:dev": "vitepress dev documentation",
     "docs:sitemap": "node scripts/generate-sitemap.mjs",
@@ -27,6 +30,9 @@
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@vitejs/plugin-vue": "^2.3.3",
+    "@vitest/coverage-c8": "^0.31.4",
+    "@vue/test-utils": "^2.4.6",
+    "happy-dom": "^9.20.3",
     "lottie-web": "^5.13.0",
     "rollup": "^2.73.0",
     "rollup-plugin-delete": "^2.0.0",
@@ -40,6 +46,7 @@
     "vite": "^2.9.9",
     "vitepress": "^1.6.3",
     "vitepress-sidebar": "^1.33.1",
+    "vitest": "^0.31.4",
     "vue": "^3.2.25",
     "vue-tsc": "^0.34.7"
   },

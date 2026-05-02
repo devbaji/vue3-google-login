@@ -14,6 +14,14 @@
     "lib": ["esnext", "dom"],
     "skipLibCheck": true
   },
-  "include": ["src/plugin/**/*.ts", "src/plugin/**/*.d.ts", "src/plugin/**/*.tsx", "src/plugin/**/*.vue", "src/env.d.ts"],
+  "include": [
+    "src/plugin/**/*.ts",
+    "src/plugin/**/*.d.ts",
+    "src/plugin/**/*.tsx",
+    "src/plugin/**/*.vue",
+    "src/env.d.ts",
+    "tests/**/*.ts",
+    "vitest.config.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
