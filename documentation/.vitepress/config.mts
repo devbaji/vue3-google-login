@@ -6,6 +6,12 @@ const docsOrigin = (process.env.DOCS_SITE_ORIGIN ?? 'https://vue3-google-login.p
   '',
 )
 
+/**
+ * Preferred URLs for indexing (historic GitHub Pages docs). Canonical / og:url use this even when the
+ * site is served from another host (e.g. Cloudflare Pages).
+ */
+const canonicalOrigin = 'https://devbaji.github.io/vue3-google-login'
+
 export default defineConfig({
   lang: 'en-US',
   title: 'Vue 3 Google Login',
@@ -19,7 +25,7 @@ export default defineConfig({
     const normalizedRoute = routePath.startsWith('/') ? routePath : `/${routePath}`
 
     const canonicalUrl =
-      normalizedRoute === '/' ? `${docsOrigin}/` : `${docsOrigin}${normalizedRoute}.html`
+      normalizedRoute === '/' ? `${canonicalOrigin}/` : `${canonicalOrigin}${normalizedRoute}.html`
 
     return [
       ['link', { rel: 'canonical', href: canonicalUrl }],
