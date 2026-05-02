@@ -24,8 +24,8 @@ hero:
       text: Quick Install
       link: /guide/getting-started
     - theme: alt
-      text: View on GitHub
-      link: https://github.com/devbaji/vue3-google-login
+      text: View on npm
+      link: https://www.npmjs.com/package/vue3-google-login
 
 features:
   - icon:
