@@ -9,8 +9,10 @@ const repoRoot = join(__dirname, '..')
 const docsRoot = join(repoRoot, 'documentation')
 const docsPublic = join(docsRoot, 'public')
 const sitemapPath = join(docsPublic, 'sitemap.xml')
+const robotsPath = join(docsPublic, 'robots.txt')
 const vitepressConfigPath = join(docsRoot, '.vitepress', 'config.mts')
-const siteBase = 'https://devbaji.github.io/vue3-google-login/'
+/** Trailing slash. Override with DOCS_SITE_ORIGIN in CI (same as VitePress config). */
+const siteBase = `${(process.env.DOCS_SITE_ORIGIN ?? 'https://devbaji.github.io/vue3-google-login').replace(/\/$/, '')}/`
 
 function collectMarkdownFiles(dir, acc = []) {
   const entries = readdirSync(dir, { withFileTypes: true })
@@ -140,3 +142,11 @@ ${urlsXml}
 
 writeFileSync(sitemapPath, xml, 'utf8')
 console.log(`Generated sitemap with ${markdownFiles.length} URLs: ${sitemapPath}`)
+
+const robotsTxt = `User-agent: *
+Allow: /
+
+Sitemap: ${siteBase}sitemap.xml
+`
+writeFileSync(robotsPath, robotsTxt, 'utf8')
+console.log(`Wrote robots.txt: ${robotsPath}`)
