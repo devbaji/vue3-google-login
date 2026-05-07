@@ -46,7 +46,7 @@ function toRoutePath(filePath) {
   return `/${withoutIndex}`
 }
 
-/** Matches canonical clean URLs with trailing slash (e.g. guide/overview/). */
+/** Matches canonical clean URLs without trailing slash (e.g. guide/overview). */
 function toSitemapLoc(filePath) {
   const rel = relative(docsRoot, filePath).replace(/\\/g, '/')
 
@@ -57,10 +57,10 @@ function toSitemapLoc(filePath) {
   const withoutMd = rel.replace(/\.md$/, '')
   if (withoutMd.endsWith('/index')) {
     const prefix = withoutMd.slice(0, -'/index'.length)
-    return `${siteBase}${prefix}/`
+    return `${siteBase}${prefix}`
   }
 
-  return `${siteBase}${withoutMd}/`
+  return `${siteBase}${withoutMd}`
 }
 
 function getGitLastModified(filePath) {

@@ -14,16 +14,14 @@ export default defineConfig({
       .replace(/(^|\/)index\.md$/, '/')
       .replace(/\.md$/, '')
     const normalizedRoute = routePath.startsWith('/') ? routePath : `/${routePath}`
-    const canonicalPath = normalizedRoute === '/'
-      ? base
-      : `${base}${normalizedRoute.replace(/^\//, '').replace(/\/?$/, '/')}`
-    const canonicalUrl = `${site}${canonicalPath}`
+    const pagePath =
+      normalizedRoute === '/' ? base : `${base}${normalizedRoute.replace(/^\//, '')}`
+    const pageUrl = `${site}${pagePath}`
 
-    return [['meta', { property: 'og:url', content: canonicalUrl }]]
+    return [['meta', { property: 'og:url', content: pageUrl }]]
   },
 
   head: [
-    ['link', { rel: 'canonical', href: 'https://devbaji.github.io/vue3-google-login/' }],
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/vue3-google-login/images/favicon.svg' }],
     ['link', { rel: 'icon', href: '/vue3-google-login/images/favicon.ico', sizes: 'any' }],
     ['meta', { name: 'description', content: 'Vue 3 Google Login plugin for integrating Google Sign-In, One Tap, and OAuth2 flows using Google Identity Services in Vue 3 applications.' }],
@@ -55,21 +53,21 @@ export default defineConfig({
         text: 'Guide',
         collapsed: false,
         items: [
-          { text: 'Overview', link: '/guide/overview/' },
-          { text: 'Getting Started', link: '/guide/getting-started/' },
-          { text: 'Custom Login Button', link: '/guide/custom-button/' },
-          { text: 'Using Google SDK', link: '/guide/using-google-sdk/' },
-          { text: 'Nuxt 3 / Nuxt 4', link: '/guide/nuxt/' },
-          { text: 'No SSR Support', link: '/guide/no-ssr/' },
+          { text: 'Overview', link: '/guide/overview' },
+          { text: 'Getting Started', link: '/guide/getting-started' },
+          { text: 'Custom Login Button', link: '/guide/custom-button' },
+          { text: 'Using Google SDK', link: '/guide/using-google-sdk' },
+          { text: 'Nuxt 3 / Nuxt 4', link: '/guide/nuxt' },
+          { text: 'No SSR Support', link: '/guide/no-ssr' },
         ],
       },
       {
         text: 'Reference',
         collapsed: false,
         items: [
-          { text: 'TypeScript', link: '/reference/typescript/' },
-          { text: 'Server-side Validation', link: '/reference/server-side-validation/' },
-          { text: 'Options', link: '/reference/options/' },
+          { text: 'TypeScript', link: '/reference/typescript' },
+          { text: 'Server-side Validation', link: '/reference/server-side-validation' },
+          { text: 'Options', link: '/reference/options' },
         ],
       },
     ],
