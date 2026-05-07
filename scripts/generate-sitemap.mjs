@@ -90,7 +90,9 @@ function getSidebarRouteOrder() {
     let match
 
     while ((match = linkPattern.exec(configText)) !== null) {
-      const route = match[1].startsWith('/') ? match[1] : `/${match[1]}`
+      const raw = match[1].startsWith('/') ? match[1] : `/${match[1]}`
+      // Normalize to match toRoutePath output (no trailing slash, except root).
+      const route = raw === '/' ? '/' : raw.replace(/\/$/, '')
       if (!seen.has(route)) {
         seen.add(route)
         order.push(route)
