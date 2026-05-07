@@ -5,6 +5,7 @@ export default defineConfig({
   title: 'Vue 3 Google Login',
   description: 'Vue 3 Google Login plugin for Google Sign-In, One Tap, and OAuth2 flows. Learn how to integrate Google login in Vue 3 apps with production-ready examples.',
   base: '/vue3-google-login/',
+  cleanUrls: true,
   transformHead: ({ pageData }) => {
     const site = 'https://devbaji.github.io'
     const base = '/vue3-google-login/'
@@ -13,8 +14,9 @@ export default defineConfig({
       .replace(/(^|\/)index\.md$/, '/')
       .replace(/\.md$/, '')
     const normalizedRoute = routePath.startsWith('/') ? routePath : `/${routePath}`
-    const canonicalPath =
-      normalizedRoute === '/' ? base : `${base}${normalizedRoute.replace(/^\//, '')}`
+    const canonicalPath = normalizedRoute === '/'
+      ? base
+      : `${base}${normalizedRoute.replace(/^\//, '').replace(/\/?$/, '/')}`
     const canonicalUrl = `${site}${canonicalPath}`
 
     return [['meta', { property: 'og:url', content: canonicalUrl }]]
@@ -24,6 +26,7 @@ export default defineConfig({
     ['link', { rel: 'canonical', href: 'https://devbaji.github.io/vue3-google-login/' }],
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/vue3-google-login/images/favicon.svg' }],
     ['link', { rel: 'icon', href: '/vue3-google-login/images/favicon.ico', sizes: 'any' }],
+    ['script', {}, `(() => {const { pathname, search, hash } = window.location;if (!pathname.endsWith('.html')) return;const cleanPath = pathname.replace(/\\/index\\.html$/, '/').replace(/\\.html$/, '/');if (cleanPath !== pathname) window.location.replace(\`\${cleanPath}\${search}\${hash}\`);})();`],
     ['meta', { name: 'description', content: 'Vue 3 Google Login plugin for integrating Google Sign-In, One Tap, and OAuth2 flows using Google Identity Services in Vue 3 applications.' }],
     ['meta', { name: 'keywords', content: 'vue3 google login, vue 3 google login, integrate google login in vue3, how to integrate google login in vue3, google sign in vue3, google identity services vue' }],
     ['meta', { name: 'robots', content: 'index, follow' }],
