@@ -34,15 +34,15 @@ const toggleAppearance = () => {
           <span v-if="isMounted">{{ isDark ? '☀' : '🌙' }}</span>
         </button>
         <a href="https://github.com/devbaji/vue3-google-login" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-          <img :src="withBase('/images/github.svg')" alt="GitHub" class="action-icon github-icon">
+          <img :src="withBase('/images/github.svg')" alt="GitHub" class="action-icon github-icon" width="31" height="30">
         </a>
         <a href="https://www.buymeacoffee.com/developerbaji" target="_blank" rel="noopener noreferrer">
-          <img :src="withBase('/images/buyme-coffee.webp')" alt="Buy Me A Coffee" class="action-icon buy-me-coffee desktop-only">
-          <img :src="withBase('/images/buyme-coffee-small.webp')" alt="Buy Me A Coffee" class="action-icon buy-me-coffee mobile-only">
+          <img :src="withBase('/images/buyme-coffee.webp')" alt="Buy Me A Coffee" class="action-icon buy-me-coffee desktop-only" width="545" height="153">
+          <img :src="withBase('/images/buyme-coffee-small.webp')" alt="Buy Me A Coffee" class="action-icon buy-me-coffee mobile-only" width="122" height="122">
         </a>
         <a href="https://paypal.me/devbaji" target="_blank" rel="noopener noreferrer">
-          <img :src="withBase('/images/paypal.png')" alt="Paypal" class="action-icon paypal desktop-only">
-          <img :src="withBase('/images/paypal-small.png')" alt="Paypal" class="action-icon paypal mobile-only">
+          <img :src="withBase('/images/paypal.png')" alt="Paypal" class="action-icon paypal desktop-only" width="300" height="115">
+          <img :src="withBase('/images/paypal-small.png')" alt="Paypal" class="action-icon paypal mobile-only" width="77" height="77">
         </a>
       </div>
     </template>
