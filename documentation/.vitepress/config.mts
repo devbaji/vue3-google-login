@@ -2,18 +2,15 @@ import { defineConfig } from 'vitepress'
 
 /** No trailing slash. Host-only DOCS_SITE_ORIGIN in CI gets https:// prepended (valid absolute URLs). */
 const rawDocsOrigin =
-  (process.env.DOCS_SITE_ORIGIN ?? '').trim() || 'https://vue3-google-login.pages.dev'
+  (process.env.DOCS_SITE_ORIGIN ?? '').trim() || 'https://vue3googlelogin.devbaji.com'
 const docsOrigin = (
   rawDocsOrigin.startsWith('http://') || rawDocsOrigin.startsWith('https://')
     ? rawDocsOrigin
     : `https://${rawDocsOrigin}`
 ).replace(/\/$/, '')
 
-/**
- * Preferred URLs for indexing (historic GitHub Pages docs). Canonical / og:url use this even when the
- * site is served from another host (e.g. Cloudflare Pages).
- */
-const canonicalOrigin = 'https://devbaji.github.io/vue3-google-login'
+/** Canonical origin used for og:url. */
+const canonicalOrigin = 'https://vue3googlelogin.devbaji.com'
 
 export default defineConfig({
   /** Extensionless links; aligns with Cloudflare Pages (see https://developers.cloudflare.com/pages/configuration/serving-pages/). */
@@ -28,19 +25,14 @@ export default defineConfig({
       .replace(/(^|\/)index\.md$/, '/')
       .replace(/\.md$/, '')
     const normalizedRoute = routePath.startsWith('/') ? routePath : `/${routePath}`
+    const pageUrl = `${canonicalOrigin}${normalizedRoute}`
 
-    const canonicalUrl =
-      normalizedRoute === '/' ? `${canonicalOrigin}/` : `${canonicalOrigin}${normalizedRoute}.html`
-
-    return [
-      ['link', { rel: 'canonical', href: canonicalUrl }],
-      ['meta', { property: 'og:url', content: canonicalUrl }],
-    ]
+    return [['meta', { property: 'og:url', content: pageUrl }]]
   },
 
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/images/favicon.svg' }],
-    ['link', { rel: 'icon', href: '/favicon.ico', sizes: 'any' }],
+    ['link', { rel: 'icon', href: '/images/favicon.ico', sizes: 'any' }],
     ['meta', { name: 'description', content: 'Vue 3 Google Login plugin for integrating Google Sign-In, One Tap, and OAuth2 flows using Google Identity Services in Vue 3 applications.' }],
     ['meta', { name: 'keywords', content: 'vue3 google login, vue 3 google login, integrate google login in vue3, how to integrate google login in vue3, google sign in vue3, google identity services vue' }],
     ['meta', { name: 'robots', content: 'index, follow' }],

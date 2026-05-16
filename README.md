@@ -1,7 +1,7 @@
 <h1 align="center">Vue 3 Google Login</h1>
 <p align="center">
   <img 
-    src="https://vue3-google-login.pages.dev/images/vue-google-login.gif"
+    src="https://vue3googlelogin.devbaji.com/images/vue-google-login.gif"
     width="150"
     alt="Vue 3 Google Login - Automatic Google Sign In Demo"
   >
@@ -45,7 +45,7 @@ Perfect for Vue 3 developers looking for a simple solution to add Google login, 
 
 ## Documentation
 
-📚 **Full documentation available at:** https://vue3-google-login.pages.dev/
+📚 **Full documentation available at:** https://vue3googlelogin.devbaji.com/
 
 ## Quick Start - Vue 3 Google Login Setup
 
@@ -88,7 +88,7 @@ app.use(vue3GoogleLogin, {
 app.mount('#app')
 ```
 
-> 💡 **Tip:** If you don't want to initialize and register the `GoogleLogin` component globally, you can directly import it from `vue3-google-login` package and use the `client-id` prop. Some functions also accept a `clientId` option to avoid initializing the plugin. See the [full documentation](https://vue3-google-login.pages.dev/#options) for more details.
+> 💡 **Tip:** If you don't want to initialize and register the `GoogleLogin` component globally, you can directly import it from `vue3-google-login` package and use the `client-id` prop. Some functions also accept a `clientId` option to avoid initializing the plugin. See the [full documentation](https://vue3googlelogin.devbaji.com/reference/options) for more details.
 
 ### Using the GoogleLogin Component
 
@@ -121,7 +121,7 @@ This Vue 3 Google Login plugin supports many advanced features:
 - **Nuxt 3 Support** - Works seamlessly with Nuxt 3 applications
 - **TypeScript** - Full TypeScript support with type definitions
 
-> 📖 **For complete documentation, examples, and advanced usage, visit:** [https://vue3-google-login.pages.dev/](https://vue3-google-login.pages.dev/)
+> 📖 **For complete documentation, examples, and advanced usage, visit:** [https://vue3googlelogin.devbaji.com/](https://vue3googlelogin.devbaji.com/)
 
 ## Why Choose vue3-google-login?
 

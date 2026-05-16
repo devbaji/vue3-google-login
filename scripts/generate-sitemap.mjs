@@ -13,7 +13,7 @@ const robotsPath = join(docsPublic, 'robots.txt')
 const vitepressConfigPath = join(docsRoot, '.vitepress', 'config.mts')
 
 const rawDocsOrigin =
-  (process.env.DOCS_SITE_ORIGIN ?? '').trim() || 'https://vue3-google-login.pages.dev'
+  (process.env.DOCS_SITE_ORIGIN ?? '').trim() || 'https://vue3googlelogin.devbaji.com'
 const docsOriginNoSlash = (
   rawDocsOrigin.startsWith('http://') || rawDocsOrigin.startsWith('https://')
     ? rawDocsOrigin
@@ -57,7 +57,7 @@ function toRoutePath(filePath) {
   return `/${withoutIndex}`
 }
 
-/** Extensionless paths when using VitePress cleanUrls (same URLs Cloudflare Pages uses after build). */
+/** Matches canonical clean URLs without trailing slash (e.g. guide/overview). */
 function toSitemapLoc(filePath) {
   const rel = relative(docsRoot, filePath).replace(/\\/g, '/')
 
@@ -68,7 +68,7 @@ function toSitemapLoc(filePath) {
   const withoutMd = rel.replace(/\.md$/, '')
   if (withoutMd.endsWith('/index')) {
     const prefix = withoutMd.slice(0, -'/index'.length)
-    return `${siteBase}${prefix}/`
+    return `${siteBase}${prefix}`
   }
 
   return `${siteBase}${withoutMd}`
@@ -101,7 +101,9 @@ function getSidebarRouteOrder() {
     let match
 
     while ((match = linkPattern.exec(configText)) !== null) {
-      const route = match[1].startsWith('/') ? match[1] : `/${match[1]}`
+      const raw = match[1].startsWith('/') ? match[1] : `/${match[1]}`
+      // Normalize to match toRoutePath output (no trailing slash, except root).
+      const route = raw === '/' ? '/' : raw.replace(/\/$/, '')
       if (!seen.has(route)) {
         seen.add(route)
         order.push(route)

@@ -24,7 +24,7 @@
     "docs:dev": "vitepress dev documentation",
     "docs:sitemap": "node scripts/generate-sitemap.mjs",
     "docs:build": "npm run docs:sitemap && vitepress build documentation",
-    "docs:preview": "vitepress preview documentation",
+    "docs:preview": "npm run docs:build && vitepress preview documentation",
     "prepare": "husky"
   },
   "peerDependencies": {
@@ -65,7 +65,7 @@
     "type": "git",
     "url": "https://github.com/devbaji/vue3-google-login"
   },
-  "homepage": "https://vue3-google-login.pages.dev/",
+  "homepage": "https://vue3googlelogin.devbaji.com/",
   "keywords": [
     "vue3-google-login",
     "vue3 google login",
